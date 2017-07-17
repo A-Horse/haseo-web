@@ -12,7 +12,11 @@ module.exports = {
     port: 9000,
     proxy: {
       // NOTITE: // order is important
-      '/api': 'http://localhost:8075'
+      '/api': 'http://localhost:8075',
+      '/ws': {
+        target: 'ws://localhost:8075',
+        ws: true
+      }
     }
   },
   entry: ['babel-polyfill', './index'],
