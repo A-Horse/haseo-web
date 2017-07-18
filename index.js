@@ -8,7 +8,7 @@ import { applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
 import App from './component/App';
-import DashBoardPage from './page/DashBoard';
+import DashBoardPage from './page/DashBoard/';
 
 import { combineEpics, createEpicMiddleware } from 'redux-observable';
 import * as reducers from './reducer';

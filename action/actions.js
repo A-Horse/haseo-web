@@ -1,10 +1,13 @@
-const actionNames = ['GET_PROJECT'];
+const actionNames = ['GET_PROJECTS'];
 
 const actions = actionNames.reduce((result, actionNames) => {
-  const REQUEST_SYMBOL = new Symbol();
-  const SUCCESS_SYMBOL = new Symbol();
-  const FAILURE_SYMBOL = new Symbol();
+  const REQUEST_SYMBOL = Symbol();
+  const SUCCESS_SYMBOL = Symbol();
+  const FAILURE_SYMBOL = Symbol();
   result[actionNames] = {
+    REQUEST: REQUEST_SYMBOL,
+    SUCCESS: SUCCESS_SYMBOL,
+    FAILURE: FAILURE_SYMBOL,
     request: (playload, meta) => ({
       type: FAILURE_SYMBOL,
       playload,
@@ -22,6 +25,7 @@ const actions = actionNames.reduce((result, actionNames) => {
       meta
     })
   };
+  return result;
 }, {});
 
 export default actions;

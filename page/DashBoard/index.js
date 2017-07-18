@@ -4,13 +4,24 @@ import R from 'ramda';
 import { createSelector } from 'reselect';
 import { withRouter } from 'react-router-dom';
 
+import Project from './Project';
+import './index.scss';
+
 const mapStateToProps = (state, props) => {
-  return {};
+  return {
+    projects: state.projects.items
+  };
 };
 
 class DashBoard extends Component {
   render() {
-    return <div>hi</div>;
+    return (
+      <div className="dashboard">
+        {this.props.projects.map(project =>
+          <Project key={project.name} project={project} />
+        )}
+      </div>
+    );
   }
 }
 

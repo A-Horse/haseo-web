@@ -1,0 +1,17 @@
+.dashboard {
+  .project {
+    display: flex;
+    align-items: center;
+  }
+
+  .project-flow {
+    display: flex;
+
+    .flow-unit {
+       padding: 8px 12px;
+       border-radius: 5px;
+       background-color: #d8d8d8;
+       margin: 0 4px;
+     }
+   }
+ }

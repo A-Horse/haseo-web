@@ -57,8 +57,7 @@ module.exports = {
           {
             loader: 'autoprefixer-loader'
           }
-        ],
-        include: [path.resolve(__dirname, './style')]
+        ]
       },
       {
         test: /\.css$/,
