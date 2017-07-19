@@ -18,3 +18,5 @@ export const toJS = WrappedComponent => wrappedComponentProps => {
 
   return <WrappedComponent {...propsJS} />;
 };
+
+export default toJS;

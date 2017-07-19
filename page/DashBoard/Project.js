@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import R from 'ramda';
-import { withRouter } from 'react-router-dom';
+
+import Status from './Status';
 import ProjectFlow from './ProjectFlow';
 
 export default class Project extends Component {
@@ -13,6 +14,7 @@ export default class Project extends Component {
     const { project } = this.props;
     return (
       <div className="project">
+        <Status status={project.status} />
         <span>
           {project.name}
         </span>

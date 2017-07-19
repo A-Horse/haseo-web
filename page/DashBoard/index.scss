@@ -8,10 +8,24 @@
     display: flex;
 
     .flow-unit {
-       padding: 8px 12px;
-       border-radius: 5px;
-       background-color: #d8d8d8;
-       margin: 0 4px;
+      color: #fff;
+      padding: 8px 12px;
+      border-radius: 5px;
+      background-color: #d8d8d8;
+      margin: 0 4px;
+
+      &.running {
+        opacity: 0.3;
+      }
+
+      &.success {
+        background-color: #86d74f;
+      }
+
+      &.failure {
+        background-color: #e5262a;
+      }
+
      }
-   }
+  }
  }

@@ -14,7 +14,6 @@ export default function listenWS(store) {
 
   ws.onmessage = function(revent) {
     const event = JSON.parse(revent.data);
-    console.log(event);
 
     switch (event.type) {
       case 'PROJECTS':

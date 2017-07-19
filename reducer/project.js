@@ -1,12 +1,8 @@
 import Actions from '../action/actions';
 import R from 'ramda';
+import { Map, List, fromJS } from 'immutable';
 
-function projects(
-  state = {
-    items: []
-  },
-  action
-) {
+function projects(state = Map({ items: List() }), action) {
   switch (action.type) {
     case Actions.GET_PROJECTS.SUCCESS:
       const items = action.playload.map(item => {
@@ -17,16 +13,20 @@ function projects(
               R.keys(flow),
               R.values(flow)
             ]);
+
             return {
-              name: flowName
+              name: flowName,
+              isRunning: item.status.isRunning
+                ? item.status.currentFlowName === flowName
+                : false,
+              isSuccess: item.status.successedFlow.indexOf(flowName) >= 0,
+              isFailure: item.status.flowErrorName === flowName
             };
           })
         };
       });
-      return {
-        ...state,
-        items
-      };
+
+      return state.set('items', fromJS(items));
       break;
     default:
       return state;

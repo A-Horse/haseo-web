@@ -3,13 +3,14 @@ import { connect } from 'react-redux';
 import R from 'ramda';
 import { createSelector } from 'reselect';
 import { withRouter } from 'react-router-dom';
+import toJS from '../../util/immutable-to-js';
 
 import Project from './Project';
 import './index.scss';
 
 const mapStateToProps = (state, props) => {
   return {
-    projects: state.projects.items
+    projects: state.projects.get('items')
   };
 };
 
@@ -25,4 +26,4 @@ class DashBoard extends Component {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(DashBoard));
+export default withRouter(connect(mapStateToProps)(toJS(DashBoard)));
