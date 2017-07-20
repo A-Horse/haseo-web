@@ -5,6 +5,8 @@ import { Map, List, fromJS } from 'immutable';
 function projects(state = Map({ items: List() }), action) {
   switch (action.type) {
     case Actions.GET_PROJECTS.SUCCESS:
+      console.log(action.playload);
+
       const items = action.playload.map(item => {
         return {
           ...item,
