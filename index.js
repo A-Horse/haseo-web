@@ -2,42 +2,40 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
-import { Router, Route } from 'react-router';
+import { Router, Route, Switch } from 'react-router';
 import createBrowserHistory from 'history/createBrowserHistory';
 import { applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
 import App from './component/App';
 import DashBoardPage from './page/DashBoard/';
+import ProjectDetail from './page/ProjectDetail/';
 
-import { combineEpics, createEpicMiddleware } from 'redux-observable';
 import * as reducers from './reducer';
 
-import listenWS from './server/ws.js';
+import { listenWS, wsMiddleware } from './server/ws.js';
 
-// import rootEpic from './epic';
-// const epicMiddleware = createEpicMiddleware(rootEpic);
+import './style/index.scss';
 
 const reducer = combineReducers({
   ...reducers
 });
 
-const store = createStore(
-  reducer,
-  applyMiddleware(thunkMiddleware /* epicMiddleware*/)
-);
-
+const store = createStore(reducer, applyMiddleware(thunkMiddleware, wsMiddleware));
 listenWS(store);
 
 const history = createBrowserHistory();
 
 ReactDOM.render(
   <Provider store={store}>
-    <App>
-      <Router history={history}>
-        <Route path="/" component={DashBoardPage} />
-      </Router>
-    </App>
+    <Router history={history}>
+      <App>
+        <Switch>
+          <Route exact path="/" component={DashBoardPage} />
+          <Route path="/project/:projectName" component={ProjectDetail} />
+        </Switch>
+      </App>
+    </Router>
   </Provider>,
   document.getElementById('root')
 );

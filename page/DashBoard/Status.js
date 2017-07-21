@@ -11,7 +11,7 @@ export default class Status extends Component {
     const { status } = this.props;
     let statusName;
     if (status.isRunning) {
-      statusName = 'Runing';
+      statusName = 'Running';
     } else if (status.isSuccess) {
       statusName = 'Success';
     } else {

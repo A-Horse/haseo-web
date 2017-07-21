@@ -2,33 +2,34 @@ import Actions from '../action/actions';
 import R from 'ramda';
 import { Map, List, fromJS } from 'immutable';
 
+function transformProject(project) {
+  return {
+    ...project,
+    flows: project.flows.map(flow => {
+      const [flowName, flowCommand] = R.flatten([R.keys(flow), R.values(flow)]);
+      return {
+        name: flowName,
+        isRunning: project.status.isRunning ? project.status.currentFlowName === flowName : false,
+        isSuccess: project.status.successedFlow.indexOf(flowName) >= 0,
+        isFailure: project.status.flowErrorName === flowName
+      };
+    })
+  };
+}
+
 function projects(state = Map({ items: List() }), action) {
   switch (action.type) {
     case Actions.GET_PROJECTS.SUCCESS:
-      console.log(action.playload);
-
-      const items = action.playload.map(item => {
-        return {
-          ...item,
-          flows: item.flows.map(flow => {
-            const [flowName, flowCommand] = R.flatten([
-              R.keys(flow),
-              R.values(flow)
-            ]);
-
-            return {
-              name: flowName,
-              isRunning: item.status.isRunning
-                ? item.status.currentFlowName === flowName
-                : false,
-              isSuccess: item.status.successedFlow.indexOf(flowName) >= 0,
-              isFailure: item.status.flowErrorName === flowName
-            };
-          })
-        };
-      });
-
+      const items = action.playload.reduce((result, item) => {
+        result[item.name] = transformProject(item);
+        return result;
+      }, {});
       return state.set('items', fromJS(items));
+      break;
+    case Actions.RECEIVED_PROJECT.SUCCESS:
+      return state.updateIn(['items', action.playload.name], () =>
+        fromJS(transformProject(action.playload))
+      );
       break;
     default:
       return state;
