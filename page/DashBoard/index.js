@@ -33,9 +33,11 @@ class DashBoard extends Component {
 
     return (
       <div className="dashboard">
-        {projects.map(project =>
-          <Project actions={this.props.actions} key={project.name} project={project} />
-        )}
+        <div className="project-list">
+          {projects.map(project =>
+            <Project actions={this.props.actions} key={project.name} project={project} />
+          )}
+        </div>
       </div>
     );
   }

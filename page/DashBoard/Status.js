@@ -9,18 +9,18 @@ export default class Status extends Component {
 
   render() {
     const { status } = this.props;
-    let statusName;
+    let statusDom;
     if (status.isRunning) {
-      statusName = 'Running';
+      statusDom = <i className="fa fa-check-square" aria-hidden="true" />;
     } else if (status.isSuccess) {
-      statusName = 'Success';
+      statusDom = <i className="fa fa-check-square" aria-hidden="true" />;
     } else {
-      statusName = 'Failure';
+      statusDom = <i className="fa fa-exclamation-triangle" aria-hidden="true" />;
     }
 
     return (
-      <div>
-        {statusName}
+      <div className="project-status">
+        {statusDom}
       </div>
     );
   }

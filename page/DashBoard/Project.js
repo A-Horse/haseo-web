@@ -14,9 +14,9 @@ export default class Project extends Component {
   render() {
     const { project } = this.props;
     return (
-      <div className="project">
+      <div className={`project${project.status.isRunning ? ' running' : ''}`}>
         <Status status={project.status} />
-        <Link to={`/project/${project.name}`}>
+        <Link className="name" to={`/project/${project.name}`}>
           {project.name}
         </Link>
         <ProjectFlow flows={project.flows} />
@@ -24,7 +24,7 @@ export default class Project extends Component {
           className="project-start-button"
           onClick={this.props.actions.startBuild({ name: project.name })}
         >
-          <i className="fa fa-play" aria-hidden="true" />
+          <i className="fa fa-play-circle-o" aria-hidden="true" />
         </button>
       </div>
     );
