@@ -10,8 +10,10 @@ export default class Status extends Component {
   render() {
     const { status } = this.props;
     let statusDom;
-    if (status.isRunning) {
-      statusDom = <i className="fa fa-check-square" aria-hidden="true" />;
+    if (status.isWaitting) {
+      statusDom = <i className="fa fa-clock-o" aria-hidden="true" />;
+    } else if (status.isRunning) {
+      statusDom = <i className="fa fa-spinner" aria-hidden="true" />;
     } else if (status.isSuccess) {
       statusDom = <i className="fa fa-check-square" aria-hidden="true" />;
     } else {
