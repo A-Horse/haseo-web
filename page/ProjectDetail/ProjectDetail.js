@@ -31,7 +31,7 @@ class ProjectDetail extends Component {
               <div className="flows-output--unit" key={i}>
                 <span>{flowOutputUnit.flowName}:</span>
                 &nbsp;&nbsp;
-                <span>{R.merge({}, ...project.flows)[flowOutputUnit.flowName]}</span>
+                <span>{R.mergeAll(project.flows)[flowOutputUnit.flowName]}</span>
                 <hr />
                 <div>
                   {flowOutputUnit.output.map((ouputFragment, i) =>
