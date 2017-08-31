@@ -17,7 +17,7 @@ function transformProject(project) {
   };
 }
 
-function projects(state = Map({ items: List() }), action) {
+export function projects(state = Map({ items: List() }), action) {
   switch (action.type) {
     case Actions.GET_PROJECTS.SUCCESS:
       const items = action.playload.reduce((result, item) => {
@@ -35,5 +35,3 @@ function projects(state = Map({ items: List() }), action) {
       return state;
   }
 }
-
-export default projects;

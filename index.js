@@ -9,9 +9,9 @@ import thunkMiddleware from 'redux-thunk';
 
 import App from './component/App';
 import DashBoardPage from './page/DashBoard/';
-import ProjectDetail from './page/ProjectDetail/';
+import ProjectDetail from './page/ProjectDetail/ProjectDetail';
 
-import * as reducers from './reducer';
+import reducers from './reducer';
 
 import { listenWS, wsMiddleware } from './server/ws.js';
 
