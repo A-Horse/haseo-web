@@ -1,4 +1,9 @@
-const actionNames = ['GET_PROJECTS', 'START_PROJECT_FLOW', 'RECEIVED_PROJECT'];
+const actionNames = [
+  'GET_PROJECTS',
+  'START_PROJECT_FLOW',
+  'PROJECT_UPDATE',
+  'PROJECT_UNIT_FRAGMENT_UPDATE'
+];
 
 const actions = actionNames.reduce((result, actionName) => {
   const REQUEST_SYMBOL = actionName + '_REQUEST';

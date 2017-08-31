@@ -5,7 +5,7 @@ import { Map, List, fromJS } from 'immutable';
 function transformProject(project) {
   return {
     ...project,
-    flows: project.flows.map(flow => {
+    flowState: project.flows.map(flow => {
       const [flowName, flowCommand] = R.flatten([R.keys(flow), R.values(flow)]);
       return {
         name: flowName,
@@ -26,9 +26,28 @@ export function projects(state = Map({ items: List() }), action) {
       }, {});
       return state.set('items', fromJS(items));
       break;
-    case Actions.RECEIVED_PROJECT.SUCCESS:
+    case Actions.PROJECT_UPDATE.SUCCESS:
       return state.updateIn(['items', action.playload.name], () =>
         fromJS(transformProject(action.playload))
+      );
+
+      break;
+    case Actions.PROJECT_UNIT_FRAGMENT_UPDATE.SUCCESS:
+      return state.updateIn(
+        ['items', action.playload.name, 'status', 'flowsOutput'],
+        flowsOutput => {
+          if ((flowsOutput.last() || Map({})).get('flowName') === action.playload.flowName) {
+            return flowsOutput.set(
+              -1,
+              flowsOutput
+                .last()
+                .update('output', fragments => fragments.push(action.playload.fragment))
+            );
+          }
+          return flowsOutput.push(
+            Map({ flowName: action.playload.flowName, output: List([action.playload.fragment]) })
+          );
+        }
       );
       break;
     default:

@@ -29,7 +29,6 @@ const mapDispatchToProps = dispatch => {
 class DashBoard extends Component {
   render() {
     const { projects } = this.props;
-    console.log('projects', projects);
 
     return (
       <div className="dashboard">

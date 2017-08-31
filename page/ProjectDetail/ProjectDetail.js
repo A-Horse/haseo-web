@@ -18,7 +18,6 @@ const mapStateToProps = (state, props) => {
 class ProjectDetail extends Component {
   render() {
     const { project } = this.props;
-    console.log(project);
 
     if (project) {
       return (
@@ -30,9 +29,9 @@ class ProjectDetail extends Component {
           <div className="flows-output">
             {project.status.flowsOutput.map((flowOutputUnit, i) =>
               <div className="flows-output--unit" key={i}>
-                <span>
-                  {flowOutputUnit.flowName}:
-                </span>
+                <span>{flowOutputUnit.flowName}:</span>
+                &nbsp;&nbsp;
+                <span>{R.merge({}, ...project.flows)[flowOutputUnit.flowName]}</span>
                 <hr />
                 <div>
                   {flowOutputUnit.output.map((ouputFragment, i) =>

@@ -19,7 +19,7 @@ export default class Project extends Component {
         <Link className="name" to={`/project/${project.name}`}>
           {project.name}
         </Link>
-        <ProjectFlow flows={project.flows} />
+        <ProjectFlow flows={project.flowState} />
         <button
           className="project-start-button"
           onClick={this.props.actions.startBuild({ name: project.name })}

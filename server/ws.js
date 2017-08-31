@@ -14,14 +14,15 @@ export const listenWS = store => {
 
   ws.onmessage = function(revent) {
     const event = JSON.parse(revent.data);
-    console.log(event);
-
     switch (event.type) {
       case 'PROJECTS':
         dispatch(Actions.GET_PROJECTS.success(event.playload));
         break;
-      case 'PROEJCT_UPDATE':
-        dispatch(Actions.RECEIVED_PROJECT.success(event.playload));
+      case 'PROJECT_UPDATE':
+        dispatch(Actions.PROJECT_UPDATE.success(event.playload));
+        break;
+      case 'PROJECT_UNIT_FRAGMENT_UPDATE':
+        dispatch(Actions.PROJECT_UNIT_FRAGMENT_UPDATE.success(event.playload));
         break;
       default:
         break;
