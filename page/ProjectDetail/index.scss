@@ -6,5 +6,17 @@
       margin-top: 10px;
       white-space: pre;
     }
+
+    &--fragment {
+      white-space: pre;
+
+      &.stdout {
+
+      }
+      &.stderr {
+        color: #db6762;
+      }
+    }
+
   }
 }
