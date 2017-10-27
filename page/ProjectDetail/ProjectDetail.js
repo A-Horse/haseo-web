@@ -22,16 +22,19 @@ class ProjectDetail extends Component {
     if (project) {
       return (
         <div className="project-detail">
-          <div>
+          <h1>
             {project.name}
-          </div>
+          </h1>
 
           <div className="flows-output">
             {project.status.flowsOutput.map((flowOutputUnit, i) =>
               <div className="flows-output--unit" key={i}>
-                <span>{flowOutputUnit.flowName}:</span>
-                &nbsp;&nbsp;
-                <span>{R.mergeAll(project.flows)[flowOutputUnit.flowName]}</span>
+                <h3>
+                  <span>{flowOutputUnit.flowName}:</span>
+                  &nbsp;&nbsp;
+                  <span>{R.mergeAll(project.flows)[flowOutputUnit.flowName]}</span>
+                </h3>
+
                 <hr />
                 <div>
                   {flowOutputUnit.output.map((ouputFragment, i) =>
