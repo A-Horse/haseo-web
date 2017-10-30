@@ -1,12 +1,14 @@
 import R from 'ramda';
 import Actions from '../action/actions';
 
-import { ws } from '../util/ws';
+import { ws, getOnOpenListeners } from '../util/ws';
 
 export const listenWS = store => {
   const { dispatch } = store;
 
   ws.onopen = function() {
+    getOnOpenListeners().forEach(fn => fn());
+
     ws.sendJSON({
       type: 'WS_AUTH_REQUEST',
       playload: window.localStorage.getItem('jwt')
