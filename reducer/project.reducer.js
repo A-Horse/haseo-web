@@ -19,20 +19,22 @@ function transformProject(project) {
 
 export function projects(state = Map({ items: List() }), action) {
   switch (action.type) {
-    case Actions.GET_PROJECTS.SUCCESS:
+    case Actions.WS_GET_PROJECTS.SUCCESS:
       const items = action.playload.reduce((result, item) => {
         result[item.name] = transformProject(item);
         return result;
       }, {});
       return state.set('items', fromJS(items));
       break;
-    case Actions.PROJECT_UPDATE.SUCCESS:
+
+    case Actions.WS_PROJECT_UPDATE.SUCCESS:
       return state.updateIn(['items', action.playload.name], () =>
         fromJS(transformProject(action.playload))
       );
 
       break;
-    case Actions.PROJECT_UNIT_FRAGMENT_UPDATE.SUCCESS:
+
+    case Actions.WS_PROJECT_UNIT_FRAGMENT_UPDATE.SUCCESS:
       return state.updateIn(
         ['items', action.playload.name, 'status', 'flowsOutput'],
         flowsOutput => {
@@ -50,6 +52,7 @@ export function projects(state = Map({ items: List() }), action) {
         }
       );
       break;
+
     default:
       return state;
   }

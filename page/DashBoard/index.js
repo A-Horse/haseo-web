@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import Actions from '../../action/actions';
 import toJS from '../../util/immutable-to-js';
 import Project from './Project';
+import { makeActionRequestCollection } from '../../action/actions';
 import './index.scss';
 
 const mapStateToProps = (state, props) => {
@@ -17,25 +18,24 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: {
-      startBuild: playload => () => {
-        dispatch(Actions.START_PROJECT_FLOW.request(playload));
-      }
-    },
-    dispatch
+    actions: bindActionCreators(makeActionRequestCollection(), dispatch)
   };
 };
 
 class DashBoard extends Component {
+  componentWillMount() {
+    this.props.actions.WS_GET_PROJECTS_REQUEST();
+  }
+
   render() {
     const { projects } = this.props;
 
     return (
       <div className="dashboard">
         <div className="project-list">
-          {projects.map(project =>
+          {projects.map(project => (
             <Project actions={this.props.actions} key={project.name} project={project} />
-          )}
+          ))}
         </div>
       </div>
     );

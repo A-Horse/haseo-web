@@ -22,7 +22,7 @@ export default class Project extends Component {
         <ProjectFlow flows={project.flowState} />
         <button
           className="project-start-button"
-          onClick={this.props.actions.startBuild({ name: project.name })}
+          onClick={this.props.actions.WS_START_PROJECT_FLOW_REQUEST({ name: project.name })}
         >
           <i className="fa fa-play-circle-o" aria-hidden="true" />
         </button>

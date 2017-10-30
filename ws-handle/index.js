@@ -1,3 +1,4 @@
+import R from 'ramda';
 import Actions from '../action/actions';
 
 import { ws } from '../util/ws';
@@ -7,28 +8,20 @@ export const listenWS = store => {
 
   ws.onopen = function() {
     ws.sendJSON({
-      type: 'AUTH',
+      type: 'WS_AUTH_REQUEST',
       playload: window.localStorage.getItem('jwt')
-    });
-    ws.sendJSON({
-      type: 'GET_PROJECTS'
     });
   };
 
   ws.onmessage = function(revent) {
     const event = JSON.parse(revent.data);
-    switch (event.type) {
-      case 'PROJECTS':
-        dispatch(Actions.GET_PROJECTS.success(event.playload));
-        break;
-      case 'PROJECT_UPDATE':
-        dispatch(Actions.PROJECT_UPDATE.success(event.playload));
-        break;
-      case 'PROJECT_UNIT_FRAGMENT_UPDATE':
-        dispatch(Actions.PROJECT_UNIT_FRAGMENT_UPDATE.success(event.playload));
-        break;
-      default:
-        break;
+    const [actionName, status] = R.compose(R.map(R.join('_')), R.splitAt(-1), R.split('_'))(
+      event.type
+    );
+    const actionAdapter = Actions[actionName];
+    if (!actionAdapter) {
+      throw new Error(`Can not found action "${actionName}" adapter`);
     }
+    dispatch(actionAdapter[status.toLowerCase()](event.playload));
   };
 };

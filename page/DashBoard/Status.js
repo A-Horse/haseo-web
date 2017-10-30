@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Icon } from 'antd';
 import PropTypes from 'prop-types';
 import R from 'ramda';
 
@@ -17,13 +18,9 @@ export default class Status extends Component {
     } else if (status.isSuccess) {
       statusDom = <i className="fa fa-check-square" aria-hidden="true" />;
     } else {
-      statusDom = <i className="fa fa-exclamation-triangle" aria-hidden="true" />;
+      statusDom = <Icon type="close-circle" />;
     }
 
-    return (
-      <div className="project-status">
-        {statusDom}
-      </div>
-    );
+    return <div className="project-status">{statusDom}</div>;
   }
 }

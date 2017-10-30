@@ -55,16 +55,20 @@
 
     .project-status {
       width: 30px;
-      .fa {
+
+      .anticon {
         font-size: 21px;
         vertical-align: middle;
       }
+
       .fa-check-square {
         color: #3bb230;
       }
-      .fa-exclamation-triangle {
+
+      .anticon-close-circle {
         color: #e63819;
       }
+
       .fa-spinner {
         color: #fecd50;
         animation-name: rotate;

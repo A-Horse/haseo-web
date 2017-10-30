@@ -15,7 +15,7 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-class ProjectDetail extends Component {
+class ProjectOuput extends Component {
   render() {
     const { project } = this.props;
 
@@ -53,4 +53,4 @@ class ProjectDetail extends Component {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(toJS(ProjectDetail)));
+export default withRouter(connect(mapStateToProps)(toJS(ProjectOuput)));

@@ -9,7 +9,7 @@ import thunkMiddleware from 'redux-thunk';
 
 import App from './component/App';
 import DashBoardPage from './page/DashBoard/';
-import ProjectDetail from './page/ProjectDetail/ProjectDetail';
+import ProjectOutput from './page/ProjectOutput/ProjectOutput';
 import LoginPage from './page/Login/Login.container';
 
 import reducers from './reducer';
@@ -39,7 +39,7 @@ ReactDOM.render(
         <Switch>
           <Route exact path="/dashboard" component={DashBoardPage} />
           <Route exact path="/login" component={LoginPage} />
-          <Route path="/project/:projectName" component={ProjectDetail} />
+          <Route path="/project/:projectName/:projectReportId/output" component={ProjectOutput} />
           <Route component={() => <Redirect to={'/dashboard'} />} />
         </Switch>
       </App>
