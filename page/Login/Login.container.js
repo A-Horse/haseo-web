@@ -13,19 +13,19 @@ import LoginFrom from './LoginForm';
 
 const mapStateToProps = (state, props) => {
   return {
+    isLoginSuccess: state.auth.get('isLoginSuccess'),
+    loginError: state.auth.get('loginError')
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: bindActionCreators(makeActionRequestCollection(), dispatch),
+    actions: bindActionCreators(makeActionRequestCollection(), dispatch)
   };
 };
 
 class Login extends Component {
-
   render() {
-    console.log(this);
     return (
       <div className="login-page">
         <div className="logo">
@@ -33,7 +33,11 @@ class Login extends Component {
         </div>
 
         <div>
-          <LoginFrom login={this.props.actions.LOGIN_REQUEST} />
+          <LoginFrom
+            loginError={this.props.loginError}
+            isLoginSuccess={this.props.isLoginSuccess}
+            login={this.props.actions.LOGIN_REQUEST}
+          />
         </div>
       </div>
     );

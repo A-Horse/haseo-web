@@ -1,12 +1,28 @@
 import React, { Component } from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import Text from '../../componet/Text/Text';
 
 class LoginForm extends Component {
+  state = {
+    errorMessage: ''
+  };
+
+  componentWillReceiveProps(newProps) {
+    console.log(newProps);
+    if (!newProps.isLoginSuccess && newProps.loginError) {
+      if (newProps.loginError.type === 'AuthError') {
+        return this.setState({ errorMessage: 'Username or Password not match.' });
+      }
+      return this.setState({ errorMessage: 'Unknown Error' });
+    }
+    return this.state.errorMessage && this.setState({ errorMessage: '' });
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values);
+        this.props.login(this.props.form.getFieldsValue());
       }
     });
   };
@@ -16,8 +32,8 @@ class LoginForm extends Component {
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
         <Form.Item>
-          {getFieldDecorator('userName', {
-            rules: [{ required: true, message: 'Please input your username!' }]
+          {getFieldDecorator('username', {
+             rules: [{ required: true, message: 'Please input your username!' }]
           })(
             <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Username" />
           )}
@@ -26,7 +42,7 @@ class LoginForm extends Component {
           {getFieldDecorator('password', {
             rules: [{ required: true, message: 'Please input your Password!' }]
           })(
-             <Input
+            <Input
               prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
               type="password"
               placeholder="Password"
@@ -34,13 +50,12 @@ class LoginForm extends Component {
           )}
         </Form.Item>
         <Form.Item>
-          <a className="login-form-forgot" href="">
-            Forgot password
-          </a>
+          <div>
+            <Text>{this.state.errorMessage}</Text>
+          </div>
           <Button type="primary" htmlType="submit" className="login-form-button">
             Log in
           </Button>
-          Or <a href="">register now!</a>
         </Form.Item>
       </Form>
     );

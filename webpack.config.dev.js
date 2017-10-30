@@ -10,6 +10,7 @@ module.exports = {
   devtool: 'source-map',
   devServer: {
     port: 9000,
+    publicPath: '/assets/',
     proxy: {
       // NOTITE: // order is important
       '/api': 'http://localhost:8075',
@@ -27,8 +28,7 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.AggressiveMergingPlugin(),
-    new webpack.optimize.ModuleConcatenationPlugin()
+    new webpack.optimize.AggressiveMergingPlugin()
   ],
   module: {
     rules: [

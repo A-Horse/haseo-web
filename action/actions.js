@@ -16,6 +16,7 @@ const actions = actionNames.reduce((result, actionName) => {
   const FAILURE_SYMBOL = actionName + '_FAILURE';
   const FINISH_SYMBOL = actionName + '_FINISH';
   result[actionName] = {
+    name: actionName,
     REQUEST: REQUEST_SYMBOL,
     SUCCESS: SUCCESS_SYMBOL,
     FAILURE: FAILURE_SYMBOL,

@@ -2,8 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
-import { Router, Route, Switch } from 'react-router';
-import createBrowserHistory from 'history/createBrowserHistory';
+import { Router, Route, Switch, Redirect } from 'react-router';
 import { createEpicMiddleware } from 'redux-observable';
 import { applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
@@ -16,7 +15,9 @@ import LoginPage from './page/Login/Login.container';
 import reducers from './reducer';
 import rootEpic from './epic';
 
-import { listenWS, wsMiddleware } from './server/ws.js';
+import history from './util/history';
+
+import { listenWS } from './ws-handle/';
 
 import './style/index.scss';
 
@@ -26,19 +27,20 @@ const reducer = combineReducers({
   ...reducers
 });
 
-const store = createStore(reducer, applyMiddleware(thunkMiddleware, wsMiddleware, epicMiddleware));
+const store = createStore(reducer, applyMiddleware(thunkMiddleware, epicMiddleware));
 listenWS(store);
 
-const history = createBrowserHistory();
+import './util/setup-axios';
 
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <App>
         <Switch>
-          <Route exact path="/" component={DashBoardPage} />
+          <Route exact path="/dashboard" component={DashBoardPage} />
           <Route exact path="/login" component={LoginPage} />
           <Route path="/project/:projectName" component={ProjectDetail} />
+          <Route component={() => <Redirect to={'/dashboard'} />} />
         </Switch>
       </App>
     </Router>
