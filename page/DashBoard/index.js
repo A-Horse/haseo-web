@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import Actions from '../../action/actions';
 import toJS from '../../util/immutable-to-js';
 import Project from './Project';
+import { Row, Col } from 'antd';
 import { makeActionRequestCollection } from '../../action/actions';
 import './index.scss';
 

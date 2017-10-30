@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import R from 'ramda';
+import { Row, Col } from 'antd';
 
 import FlowUnit from './FlowUnit';
 
@@ -13,9 +14,15 @@ export default class ProjectFlow extends Component {
     const { flows } = this.props;
     return (
       <div className="project-flow">
-        {flows.map(flow => {
-          return <FlowUnit key={flow.name} flow={flow} />;
-        })}
+        <Row type="flex" justify="center" align="top">
+          {flows.map(flow => {
+            return (
+              <Col key={flow.name}>
+                <FlowUnit key={flow.name} flow={flow} />
+              </Col>
+            );
+          })}
+        </Row>
       </div>
     );
   }

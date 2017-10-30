@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import R from 'ramda';
 import { Link } from 'react-router-dom';
+import { Row, Col } from 'antd';
 
 import Status from './Status';
 import ProjectFlow from './ProjectFlow';
