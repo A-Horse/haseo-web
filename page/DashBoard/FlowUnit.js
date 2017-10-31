@@ -10,18 +10,16 @@ export default class FlowUnit extends Component {
   render() {
     const { flow } = this.props;
     let className;
-    if (flow.isFailure) {
-      className = 'failure';
+    if (flow.isRunning) {
+      className = 'running'
+    } else if (flow.isWaitting) {
+      className = 'waitting';
     } else if (flow.isSuccess) {
       className = 'success';
-    } else if (flow.isRunning) {
-      className = 'running';
+    } else {
+      className = 'failure';
     }
 
-    return (
-      <div className={`flow-unit ${className}`}>
-        {flow.name}
-      </div>
-    );
+    return <div className={`flow-unit ${className}`}>{flow.name}</div>;
   }
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import R from 'ramda';
 import { Link } from 'react-router-dom';
-import { Row, Col } from 'antd';
+import { Row, Col, Icon } from 'antd';
 
 import Status from './Status';
 import ProjectFlow from './ProjectFlow';
@@ -25,7 +25,7 @@ export default class Project extends Component {
           className="project-start-button"
           onClick={() => this.props.actions.WS_START_PROJECT_FLOW_REQUEST({ name: project.name })}
         >
-          <i className="fa fa-play-circle-o" aria-hidden="true" />
+          <Icon type="play-circle" />
         </button>
       </div>
     );

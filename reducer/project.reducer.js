@@ -3,15 +3,30 @@ import R from 'ramda';
 import { Map, List, fromJS } from 'immutable';
 
 function transformProject(project) {
+  const flowsNameSeq = [];
   return {
     ...project,
     flowState: project.flows.map(flow => {
       const [flowName, flowCommand] = R.flatten([R.keys(flow), R.values(flow)]);
+      flowsNameSeq.push(flowName);
+
+      const isRunning = project.status.isRunning
+        ? project.status.currentFlowName === flowName
+        : false;
+      const isWaitting =
+        !isRunning &&
+        flowsNameSeq.indexOf(project.status.currentFlowName) < flowsNameSeq.indexOf(flowName) &&
+        flowsNameSeq.indexOf(project.status.currentFlowName) > -1;
       return {
         name: flowName,
-        isRunning: project.status.isRunning ? project.status.currentFlowName === flowName : false,
-        isSuccess: project.status.successedFlow.indexOf(flowName) >= 0,
-        isFailure: project.status.flowErrorName === flowName
+        isRunning,
+        isWaitting,
+        isSuccess: isRunning
+          ? false
+          : project.report.flowErrorName !== flowName &&
+            flowsNameSeq.indexOf(flowName) >= 0 &&
+            flowsNameSeq.indexOf(project.status.currentFlowName) <= 0
+        // isFailure: project.status.flowErrorName === flowName
       };
     })
   };
