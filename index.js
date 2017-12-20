@@ -8,8 +8,9 @@ import { applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
 import App from './component/App';
-import DashBoardPage from './page/DashBoard/';
-import ProjectOutput from './page/ProjectOutput/ProjectOutput';
+import DashBoardPage from './page/DashBoard/DashBoard';
+import ProjectDetailPage from './page/ProjectDetail/ProjectDetail.container';
+import ProjectOutputPage from './page/ProjectOutput/ProjectOutput';
 import LoginPage from './page/Login/Login.container';
 
 import reducers from './reducer';
@@ -39,7 +40,11 @@ ReactDOM.render(
         <Switch>
           <Route exact path="/dashboard" component={DashBoardPage} />
           <Route exact path="/login" component={LoginPage} />
-          <Route path="/project/:projectName/:projectReportId/output" component={ProjectOutput} />
+          <Route path="/project/:projectName" component={ProjectDetailPage} />
+          <Route
+            path="/project/:projectName/:projectReportId/output"
+            component={ProjectOutputPage}
+          />
           <Route component={() => <Redirect to={'/dashboard'} />} />
         </Switch>
       </App>

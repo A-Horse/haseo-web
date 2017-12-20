@@ -1,9 +1,11 @@
+import Actions from '../action/actions';
+import history from '../util/history';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/ignoreElements';
 import R from 'ramda';
 
-import { ws, onWsOpen } from '../util/ws';
+import { ws, onWsOpen, getOnOpenListeners } from '../util/ws';
 
 export const PROXY_ACTION_TO_WS = action$ =>
   action$
@@ -16,5 +18,21 @@ export const PROXY_ACTION_TO_WS = action$ =>
           ws.sendJSON(action);
         });
       }
+    })
+    .ignoreElements();
+
+export const flushRequestWhenAuthed = action$ =>
+  action$
+    .ofType(Actions.WS_AUTH.SUCCESS)
+    .do(() => {
+      getOnOpenListeners().forEach(fn => fn());
+    })
+    .ignoreElements();
+
+export const goLoginWhenAuthedFail = action$ =>
+  action$
+    .ofType(Actions.WS_AUTH.FAILURE)
+    .do(() => {
+      history.push('/login');
     })
     .ignoreElements();

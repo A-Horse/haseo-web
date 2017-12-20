@@ -6,13 +6,12 @@ import { ws, getOnOpenListeners } from '../util/ws';
 export const listenWS = store => {
   const { dispatch } = store;
 
+  // TODO 这里要确保其它请求要在auth之后，逻辑尽量放在前端做
   ws.onopen = function() {
     ws.sendJSON({
       type: 'WS_AUTH_REQUEST',
       playload: window.localStorage.getItem('jwt')
     });
-
-    getOnOpenListeners().forEach(fn => fn());
   };
 
   ws.onmessage = function(revent) {

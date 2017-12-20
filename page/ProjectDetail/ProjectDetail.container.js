@@ -6,15 +6,20 @@ import R from 'ramda';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { makeActionRequestCollection } from '../../action/actions';
+import toJS from '../../util/immutable-to-js';
 
-import './index.scss';
+import './ProjectDetail.scss';
 
 const mapStateToProps = (state, props) => {
   const { projectName } = props.match.params;
+  const project = state.projects
+    .get('items')
+    .toList()
+    .find(project => project.get('name') === projectName);
+  const reportHistoryList = project ? project.get('buildReportHistory') : [];
   return {
-    project: R.find(project => project.get('name') === projectName)(
-      state.projects.get('items').toList()
-    )
+    project,
+    reportHistoryList
   };
 };
 
@@ -23,33 +28,37 @@ const mapDispatchToProps = dispatch => {
     actions: bindActionCreators(makeActionRequestCollection(), dispatch)
   };
 };
-
 class ProjectDetail extends Component {
   componentWillMount() {
     const { projectName } = this.props.match.params;
-    this.props.actions.GET_PROJECT({ projectName });
+    this.props.actions.WS_GET_PROJECT_DETAIL_REQUEST({ name: projectName });
   }
 
   render() {
     const { project } = this.props;
-
-    if (project) {
-      return (
-        <div>
-          <Layout>
-            <Sider />
-
-            <Layout>
-              <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-                Content
-              </Content>
-            </Layout>
-          </Layout>
-        </div>
-      );
+    if (!project) {
+      return <div>loading...</div>;
     }
-    return <div>loading........</div>;
+    return (
+      <div>
+        <Layout>
+          <Sider>
+            <ul>
+              {this.props.reportHistoryList.map(reportHistroy => {
+                return <li key={reportHistroy.id}>{reportHistroy.id}</li>;
+              })}
+            </ul>
+          </Sider>
+
+          <Layout>
+            <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
+              Content
+            </Content>
+          </Layout>
+        </Layout>
+      </div>
+    );
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ProjectDetail));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(toJS(ProjectDetail)));

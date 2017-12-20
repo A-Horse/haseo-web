@@ -4,6 +4,7 @@ import { Map, List, fromJS } from 'immutable';
 
 function transformProject(project) {
   const flowsNameSeq = [];
+  console.log(project);
   return {
     ...project,
     flowState: project.flows.map(flow => {
@@ -14,9 +15,13 @@ function transformProject(project) {
         ? project.status.currentFlowName === flowName
         : false;
       const isWaitting =
-        !isRunning &&
-        flowsNameSeq.indexOf(project.status.currentFlowName) < flowsNameSeq.indexOf(flowName) &&
-        flowsNameSeq.indexOf(project.status.currentFlowName) > -1;
+        (project.status.isWaitting && !project.report.startDate) || // 在进行中的状态
+        (!isRunning &&
+          flowsNameSeq.indexOf(project.status.currentFlowName) < flowsNameSeq.indexOf(flowName) &&
+          flowsNameSeq.indexOf(project.status.currentFlowName) > -1) || // 在进行中的状态
+        (flowsNameSeq.indexOf(flowName) > flowsNameSeq.indexOf(project.report.flowErrorName) > 0 &&
+          flowsNameSeq.indexOf(project.report.flowErrorName) > -1); // 如果是完成的状态，用 flowErrorName 来判断
+
       return {
         name: flowName,
         isRunning,
@@ -24,15 +29,18 @@ function transformProject(project) {
         isSuccess: isRunning
           ? false
           : project.report.flowErrorName !== flowName &&
-            flowsNameSeq.indexOf(flowName) >= 0 &&
-            flowsNameSeq.indexOf(project.status.currentFlowName) <= 0
-        // isFailure: project.status.flowErrorName === flowName
+            // flowsNameSeq.indexOf(flowName) >= 0 &&
+            // flowsNameSeq.indexOf(project.status.currentFlowName) <= 0 &&
+            (flowsNameSeq.indexOf(project.report.flowErrorName) < 0
+              ? true
+              : flowsNameSeq.indexOf(project.report.flowErrorName) >=
+                flowsNameSeq.indexOf(flowName))
       };
     })
   };
 }
 
-export function projects(state = Map({ items: List() }), action) {
+export function projects(state = Map({ items: Map() }), action) {
   switch (action.type) {
     case Actions.WS_GET_PROJECTS.SUCCESS:
       const items = action.playload.reduce((result, item) => {
@@ -46,9 +54,16 @@ export function projects(state = Map({ items: List() }), action) {
       return state.updateIn(['items', action.playload.name], () =>
         fromJS(transformProject(action.playload))
       );
-
       break;
 
+    case Actions.WS_GET_PROJECT_DETAIL.SUCCESS:
+      console.log('action', action);
+      return state.updateIn(['items', action.playload.name], () =>
+        fromJS(transformProject(action.playload))
+      );
+      break;
+
+    // TODO 这个要改的
     case Actions.WS_PROJECT_UNIT_FRAGMENT_UPDATE.SUCCESS:
       return state.updateIn(
         ['items', action.playload.name, 'status', 'flowsOutput'],

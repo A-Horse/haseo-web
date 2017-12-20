@@ -25,6 +25,7 @@ const mapDispatchToProps = dispatch => {
 
 class DashBoard extends Component {
   componentWillMount() {
+    this.props.actions.WS_LISTEN_PROJECTS_UPDATE_REQUEST();
     this.props.actions.WS_GET_PROJECTS_REQUEST();
   }
 

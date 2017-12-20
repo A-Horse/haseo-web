@@ -12,11 +12,11 @@ export default class Status extends Component {
     const { status } = this.props;
     let statusDom;
     if (status.isWaitting) {
-      statusDom = <i className="fa fa-clock-o" aria-hidden="true" />;
+      statusDom = <Icon type="clock-circle" />;
     } else if (status.isRunning) {
-      statusDom = <i className="fa fa-spinner" aria-hidden="true" />;
+      statusDom = <Icon type="loading" />
     } else if (status.isSuccess) {
-      statusDom = <i className="fa fa-check-square" aria-hidden="true" />;
+      statusDom = <Icon type="check-circle" />;
     } else {
       statusDom = <Icon type="close-circle" />;
     }
