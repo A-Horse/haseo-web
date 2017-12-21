@@ -9,7 +9,7 @@ import axios from 'axios';
 export const LOGIN_REQUEST = action$ => {
   return action$.ofType(Actions.LOGIN.REQUEST).mergeMap(action => {
     return axios
-      .post('/api/signin', action.playload)
+      .post('/api/signin', action.payload)
       .then(response => {
         window.localStorage.setItem('jwt', response.headers.jwt);
         axios.defaults.headers.common['jwt'] = response.headers.jwt;

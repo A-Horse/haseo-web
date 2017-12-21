@@ -43,7 +43,7 @@ function transformProject(project) {
 export function projects(state = Map({ items: Map() }), action) {
   switch (action.type) {
     case Actions.WS_GET_PROJECTS.SUCCESS:
-      const items = action.playload.reduce((result, item) => {
+      const items = action.payload.reduce((result, item) => {
         result[item.name] = transformProject(item);
         return result;
       }, {});
@@ -51,33 +51,33 @@ export function projects(state = Map({ items: Map() }), action) {
       break;
 
     case Actions.WS_PROJECT_UPDATE.SUCCESS:
-      return state.updateIn(['items', action.playload.name], () =>
-        fromJS(transformProject(action.playload))
+      return state.updateIn(['items', action.payload.name], () =>
+        fromJS(transformProject(action.payload))
       );
       break;
 
     case Actions.WS_GET_PROJECT_DETAIL.SUCCESS:
       console.log('action', action);
-      return state.updateIn(['items', action.playload.name], () =>
-        fromJS(transformProject(action.playload))
+      return state.updateIn(['items', action.payload.name], () =>
+        fromJS(transformProject(action.payload))
       );
       break;
 
     // TODO 这个要改的
     case Actions.WS_PROJECT_UNIT_FRAGMENT_UPDATE.SUCCESS:
       return state.updateIn(
-        ['items', action.playload.name, 'status', 'flowsOutput'],
+        ['items', action.payload.name, 'status', 'flowsOutput'],
         flowsOutput => {
-          if ((flowsOutput.last() || Map({})).get('flowName') === action.playload.flowName) {
+          if ((flowsOutput.last() || Map({})).get('flowName') === action.payload.flowName) {
             return flowsOutput.set(
               -1,
               flowsOutput
                 .last()
-                .update('output', fragments => fragments.push(action.playload.fragment))
+                .update('output', fragments => fragments.push(action.payload.fragment))
             );
           }
           return flowsOutput.push(
-            Map({ flowName: action.playload.flowName, output: List([action.playload.fragment]) })
+            Map({ flowName: action.payload.flowName, output: List([action.payload.fragment]) })
           );
         }
       );

@@ -10,7 +10,7 @@ export const listenWS = store => {
   ws.onopen = function() {
     ws.sendJSON({
       type: 'WS_AUTH_REQUEST',
-      playload: window.localStorage.getItem('jwt')
+      payload: window.localStorage.getItem('jwt')
     });
   };
 
@@ -23,6 +23,6 @@ export const listenWS = store => {
     if (!actionAdapter) {
       throw new Error(`Can not found action "${actionName}" adapter`);
     }
-    dispatch(actionAdapter[status.toLowerCase()](event.playload));
+    dispatch(actionAdapter[status.toLowerCase()](event.payload));
   };
 };

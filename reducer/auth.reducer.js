@@ -11,7 +11,7 @@ export function auth(state = Map({ loginSuccess: false }), action) {
       return state.update('isLoginSuccess', R.T);
       break;
     case Actions.LOGIN.FAILURE:
-      return state.update('loginError', () => action.playload);
+      return state.update('loginError', () => action.payload);
       break;
     default:
       return state;
