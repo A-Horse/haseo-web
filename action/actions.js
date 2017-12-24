@@ -44,7 +44,6 @@ const actions = actionNames.reduce((result, actionName) => {
     finish: (payload, meta) => {
       return {
         type: FINISH_SYMBOL,
-
         payload,
         meta
       };
