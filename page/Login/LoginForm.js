@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
-import Text from '../../componet/Text/Text';
 
 class LoginForm extends Component {
   state = {
@@ -51,7 +50,7 @@ class LoginForm extends Component {
         </Form.Item>
         <Form.Item>
           <div>
-            <Text>{this.state.errorMessage}</Text>
+            <div>{this.state.errorMessage}</div>
           </div>
           <Button type="primary" htmlType="submit" className="login-form-button">
             Log in
