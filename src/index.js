@@ -16,7 +16,7 @@ import LoginPage from './page/Login/Login.container';
 import reducers from './reducer';
 import rootEpic from './epic';
 
-import history from './util/history';
+import history from './service/history';
 
 import { listenWS } from './ws-handle/';
 
@@ -31,7 +31,8 @@ const reducer = combineReducers({
 const store = createStore(reducer, applyMiddleware(thunkMiddleware, epicMiddleware));
 listenWS(store);
 
-import './util/setup-axios';
+import { setupAxios } from './util/setup-axios';
+setupAxios();
 
 ReactDOM.render(
   <Provider store={store}>

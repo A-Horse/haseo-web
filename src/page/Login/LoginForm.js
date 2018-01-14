@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Icon, Input, Button } from 'antd';
 
 class LoginForm extends Component {
   state = {
@@ -15,10 +15,10 @@ class LoginForm extends Component {
     }
     return this.state.errorMessage && this.setState({ errorMessage: '' });
   }
-h
+
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFields((err) => {
+    this.props.form.validateFields(err => {
       if (!err) {
         this.props.login(this.props.form.getFieldsValue());
       }

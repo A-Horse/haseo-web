@@ -1,5 +1,5 @@
 import Actions from '../action/actions';
-import history from '../util/history';
+import history from '../service/history';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/ignoreElements';
