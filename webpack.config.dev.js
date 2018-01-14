@@ -20,7 +20,7 @@ module.exports = {
       }
     }
   },
-  entry: ['babel-polyfill', './index'],
+  entry: ['babel-polyfill', './src/index'],
   output: {
     path: path.join(__dirname, 'dist/assets'),
     filename: 'bundle.js',

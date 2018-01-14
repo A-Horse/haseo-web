@@ -11,7 +11,7 @@ module.exports = {
     modules: [path.resolve('.'), 'node_modules']
   },
   devtool: 'source-map',
-  entry: ['babel-polyfill', './index'],
+  entry: ['babel-polyfill', './src/index'],
   output: {
     path: path.join(__dirname, 'dist/assets'),
     filename: 'bundle.js',

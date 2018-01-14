@@ -7,7 +7,6 @@ class LoginForm extends Component {
   };
 
   componentWillReceiveProps(newProps) {
-    console.log(newProps);
     if (!newProps.isLoginSuccess && newProps.loginError) {
       if (newProps.loginError.type === 'AuthError') {
         return this.setState({ errorMessage: 'Username or Password not match.' });
@@ -16,10 +15,10 @@ class LoginForm extends Component {
     }
     return this.state.errorMessage && this.setState({ errorMessage: '' });
   }
-
+h
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields((err) => {
       if (!err) {
         this.props.login(this.props.form.getFieldsValue());
       }
@@ -32,7 +31,7 @@ class LoginForm extends Component {
       <Form onSubmit={this.handleSubmit} className="login-form">
         <Form.Item>
           {getFieldDecorator('username', {
-             rules: [{ required: true, message: 'Please input your username!' }]
+            rules: [{ required: true, message: 'Please input your username!' }]
           })(
             <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Username" />
           )}
