@@ -9,7 +9,7 @@ import 'rxjs/add/operator/ignoreElements';
 
 import Actions from '../action/actions';
 import axios from 'axios';
-import { setupAxios } from '../util/setup-axios';
+import { setupAxios } from '../util/axios-helper';
 
 export const LOGIN_REQUEST = action$ => {
   return action$.ofType(Actions.LOGIN.REQUEST).mergeMap(action => {
@@ -33,6 +33,7 @@ export const LOGIN_SUCCESS = action$ =>
   action$
     .ofType(Actions.LOGIN.SUCCESS)
     .do(() => {
+      // TODO 重新连接 websocket
       history.push('/dashboard');
     })
     .ignoreElements();

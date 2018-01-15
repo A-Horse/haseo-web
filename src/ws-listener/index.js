@@ -1,13 +1,13 @@
 import R from 'ramda';
 import Actions from '../action/actions';
 
-import { ws } from '../util/ws';
+import { ws } from '../service/socket';
 
 export const listenWS = store => {
   const { dispatch } = store;
 
-  // TODO 这里要确保其它请求要在 auth 之后，逻辑尽量放在前端做
   ws.onopen = function() {
+    console.log(window.localStorage.getItem('jwt'));
     ws.sendJSON({
       type: 'WS_AUTH_REQUEST',
       payload: window.localStorage.getItem('jwt')
@@ -19,7 +19,6 @@ export const listenWS = store => {
     const [actionName, status] = R.compose(R.map(R.join('_')), R.splitAt(-1), R.split('_'))(
       event.type
     );
-    console.log(status);
 
     const actionAdapter = Actions[actionName];
 

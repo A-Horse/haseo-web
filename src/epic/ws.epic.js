@@ -5,7 +5,7 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/ignoreElements';
 import R from 'ramda';
 
-import { ws, onWsOpen, getOnOpenListeners } from '../util/ws';
+import { ws, onWsOpen, getOnOpenListeners } from '../service/socket';
 
 export const PROXY_ACTION_TO_WS = action$ =>
   action$
@@ -21,7 +21,7 @@ export const PROXY_ACTION_TO_WS = action$ =>
     })
     .ignoreElements();
 
-export const flushRequestWhenAuthed = action$ =>
+export const WS_AUTH_SUCCESS = action$ =>
   action$
     .ofType(Actions.WS_AUTH.SUCCESS)
     .do(() => {
@@ -29,10 +29,11 @@ export const flushRequestWhenAuthed = action$ =>
     })
     .ignoreElements();
 
-export const goLoginWhenAuthedFail = action$ =>
+export const WS_AUTH_FAILURE = action$ =>
   action$
     .ofType(Actions.WS_AUTH.FAILURE)
     .do(() => {
+      window.localStorage.removeItem('jwt');
       history.push('/login');
     })
     .ignoreElements();

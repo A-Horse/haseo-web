@@ -18,7 +18,7 @@ import rootEpic from './epic';
 
 import history from './service/history';
 
-import { listenWS } from './ws-handle/';
+import { listenWS } from './ws-listener/';
 
 import './style/index.scss';
 
@@ -31,7 +31,7 @@ const reducer = combineReducers({
 const store = createStore(reducer, applyMiddleware(thunkMiddleware, epicMiddleware));
 listenWS(store);
 
-import { setupAxios } from './util/setup-axios';
+import { setupAxios } from './util/axios-helper';
 setupAxios();
 
 ReactDOM.render(
