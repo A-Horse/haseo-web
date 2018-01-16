@@ -5,7 +5,7 @@ import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/ignoreElements';
 import R from 'ramda';
 
-import { ws, onWsOpen, getOnOpenListeners } from '../service/socket';
+import ws from '../service/socket';
 
 export const PROXY_ACTION_TO_WS = action$ =>
   action$
@@ -14,7 +14,7 @@ export const PROXY_ACTION_TO_WS = action$ =>
       if (ws.readyState) {
         ws.sendJSON(action);
       } else {
-        onWsOpen(() => {
+        ws.onWsOpen(() => {
           ws.sendJSON(action);
         });
       }
@@ -25,7 +25,8 @@ export const WS_AUTH_SUCCESS = action$ =>
   action$
     .ofType(Actions.WS_AUTH.SUCCESS)
     .do(() => {
-      getOnOpenListeners().forEach(fn => fn());
+      ws.getOnOpenListeners().forEach(fn => fn());
+      ws.removeAllOnOpenListeners();
     })
     .ignoreElements();
 

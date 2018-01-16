@@ -1,15 +1,53 @@
-export const ws = new WebSocket(`ws://${location.host}/ws`);
+// @flow
+import { Subject } from 'rxjs/Subject';
 
-ws.sendJSON = function(data) {
-  ws.send(JSON.stringify(data));
-};
+class Socket {
+  ws = null;
+  onopenListeners = [];
+  open$ = new Subject();
+  message$ = new Subject();
 
-let onopenListeners = [];
+  constructor() {}
 
-export function onWsOpen(fn) {
-  onopenListeners.push(fn);
+  start() {
+    this.openSocket();
+  }
+
+  openSocket() {
+    const ws = new WebSocket(`ws://${location.host}/ws`);
+    // TODO close and delete old ws
+    this.ws = ws;
+
+    ws.onopen = () => {
+      this.open$.next();
+    };
+    ws.onmessage = revent => {
+      this.message$.next(revent);
+    };
+  }
+
+  sendJSON(data) {
+    if (!this.ws) {
+      throw new Error('WebSocket not initial!');
+    }
+    this.ws.send(JSON.stringify(data));
+  }
+
+  getSocket() {
+    return this.ws;
+  }
+
+  onWsOpen(fn) {
+    this.onopenListeners.push(fn);
+  }
+
+  getOnOpenListeners() {
+    return this.onopenListeners;
+  }
+
+  removeAllOnOpenListeners() {
+    this.onopenListeners = [];
+  }
 }
 
-export function getOnOpenListeners() {
-  return onopenListeners;
-}
+export default new Socket();

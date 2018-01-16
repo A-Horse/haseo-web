@@ -1,20 +1,19 @@
 import R from 'ramda';
 import Actions from '../action/actions';
 
-import { ws } from '../service/socket';
+import ws from '../service/socket';
 
 export const listenWS = store => {
   const { dispatch } = store;
 
-  ws.onopen = function() {
-    console.log(window.localStorage.getItem('jwt'));
+  ws.open$.subscribe(() => {
     ws.sendJSON({
       type: 'WS_AUTH_REQUEST',
       payload: window.localStorage.getItem('jwt')
     });
-  };
+  });
 
-  ws.onmessage = function(revent) {
+  ws.message$.subscribe(revent => {
     const event = JSON.parse(revent.data);
     const [actionName, status] = R.compose(R.map(R.join('_')), R.splitAt(-1), R.split('_'))(
       event.type
@@ -27,5 +26,5 @@ export const listenWS = store => {
     }
 
     dispatch(actionAdapter[status.toLowerCase()](event.payload));
-  };
+  });
 };

@@ -6,6 +6,7 @@ import R from 'ramda';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { makeActionRequestCollection } from '../../action/actions';
+import { Link } from 'react-router-dom';
 import toJS from '../../util/immutable-to-js';
 
 import './ProjectDetail.scss';
@@ -16,10 +17,11 @@ const mapStateToProps = (state, props) => {
     .get('items')
     .toList()
     .find(project => project.get('name') === projectName);
+
   const reportHistoryList = project ? project.get('buildReportHistory') : [];
   return {
     project,
-    reportHistoryList
+    reportHistoryList: reportHistoryList || []
   };
 };
 
@@ -28,6 +30,7 @@ const mapDispatchToProps = dispatch => {
     actions: bindActionCreators(makeActionRequestCollection(), dispatch)
   };
 };
+
 class ProjectDetail extends Component {
   componentWillMount() {
     const { projectName } = this.props.match.params;
@@ -45,7 +48,11 @@ class ProjectDetail extends Component {
           <Sider>
             <ul>
               {this.props.reportHistoryList.map(reportHistroy => {
-                return <li key={reportHistroy.id}>{reportHistroy.id}</li>;
+                return (
+                  <li key={reportHistroy.id}>
+                    <Link to={`./${reportHistroy.id}`}>{reportHistroy.id}</Link>
+                  </li>
+                );
               })}
             </ul>
           </Sider>
