@@ -48,11 +48,11 @@ class ProjectDetail extends Component {
           <Sider>
             <ul>
               {this.props.reportHistoryList.map(reportHistroy => {
-                return (
-                  <li key={reportHistroy.id}>
-                    <Link to={`./${reportHistroy.id}`}>{reportHistroy.id}</Link>
-                  </li>
-                );
+                 return (
+                   <li key={reportHistroy.id}>
+                     <Link to={`./${this.props.match.params.projectName}/${reportHistroy.id}`}>{reportHistroy.id}</Link>
+                   </li>
+                 );
               })}
             </ul>
           </Sider>

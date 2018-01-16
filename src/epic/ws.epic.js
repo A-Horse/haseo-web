@@ -11,7 +11,7 @@ export const PROXY_ACTION_TO_WS = action$ =>
   action$
     .filter(action => R.test(/^WS.+REQUEST$/, action.type))
     .do(action => {
-      if (ws.readyState) {
+      if (ws.getSocket().readyState) {
         ws.sendJSON(action);
       } else {
         ws.onWsOpen(() => {

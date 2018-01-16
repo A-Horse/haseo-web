@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/Subject';
 class Socket {
   ws = null;
   onopenListeners = [];
+
   open$ = new Subject();
   message$ = new Subject();
 
@@ -14,8 +15,9 @@ class Socket {
   }
 
   openSocket() {
+    this.ws && this.ws.close();
+
     const ws = new WebSocket(`ws://${location.host}/ws`);
-    // TODO close and delete old ws
     this.ws = ws;
 
     ws.onopen = () => {
@@ -26,7 +28,7 @@ class Socket {
     };
   }
 
-  sendJSON(data) {
+  sendJSON(data: string) {
     if (!this.ws) {
       throw new Error('WebSocket not initial!');
     }
@@ -37,7 +39,7 @@ class Socket {
     return this.ws;
   }
 
-  onWsOpen(fn) {
+  onWsOpen(fn: Function) {
     this.onopenListeners.push(fn);
   }
 
