@@ -1,3 +1,4 @@
+// @flow
 import React, { Component } from 'react';
 import { Layout } from 'antd';
 import { connect } from 'react-redux';
@@ -29,7 +30,11 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-class ProjectReport extends Component {
+class ProjectReport extends Component<{
+  actions: Object,
+  project: Object,
+  match: Object
+}> {
   componentWillMount() {
     const { projectName, projectReportId } = this.props.match.params;
     this.props.actions.WS_GET_PROJECT_DETAIL_REQUEST({ name: projectName });
