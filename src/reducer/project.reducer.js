@@ -15,12 +15,12 @@ function transformProject(project) {
         ? project.status.currentFlowName === flowName
         : false;
       const isWaitting =
-        (project.status.isWaitting && !project.report.startDate) || // 在进行中的状态
+        (project.status.isWaitting && !project.currentReport.startDate) || // 在进行中的状态
         (!isRunning &&
           flowsNameSeq.indexOf(project.status.currentFlowName) < flowsNameSeq.indexOf(flowName) &&
           flowsNameSeq.indexOf(project.status.currentFlowName) > -1) || // 在进行中的状态
-        (flowsNameSeq.indexOf(flowName) > flowsNameSeq.indexOf(project.report.flowErrorName) > 0 &&
-          flowsNameSeq.indexOf(project.report.flowErrorName) > -1); // 如果是完成的状态，用 flowErrorName 来判断
+        (flowsNameSeq.indexOf(flowName) > flowsNameSeq.indexOf(project.currentReport.flowErrorName) > 0 &&
+          flowsNameSeq.indexOf(project.currentReport.flowErrorName) > -1); // 如果是完成的状态，用 flowErrorName 来判断
 
       return {
         name: flowName,
@@ -28,12 +28,12 @@ function transformProject(project) {
         isWaitting,
         isSuccess: isRunning
           ? false
-          : project.report.flowErrorName !== flowName &&
+          : project.currentReport.flowErrorName !== flowName &&
             // flowsNameSeq.indexOf(flowName) >= 0 &&
             // flowsNameSeq.indexOf(project.status.currentFlowName) <= 0 &&
-            (flowsNameSeq.indexOf(project.report.flowErrorName) < 0
+            (flowsNameSeq.indexOf(project.currentReport.flowErrorName) < 0
               ? true
-              : flowsNameSeq.indexOf(project.report.flowErrorName) >=
+              : flowsNameSeq.indexOf(project.currentReport.flowErrorName) >=
                 flowsNameSeq.indexOf(flowName))
       };
     })
