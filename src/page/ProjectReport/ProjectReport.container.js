@@ -38,7 +38,7 @@ class ProjectReport extends Component<{
   componentWillMount() {
     const { projectName, projectReportId } = this.props.match.params;
     this.props.actions.WS_GET_PROJECT_DETAIL_REQUEST({ name: projectName });
-    this.props.actions.WS_GET_PROJECT_REPORT_REQUEST({ reportId: projectReportId });
+    this.props.actions.WS_GET_PROJECT_REPORT_REQUEST({ name: projectName, reportId: projectReportId });
   }
 
   render() {

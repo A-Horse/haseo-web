@@ -83,6 +83,11 @@ export function projects(state = Map({ items: Map() }), action) {
       );
       break;
 
+    case Actions.WS_GET_PROJECT_REPORT.SUCCESS:
+
+      return state;
+      break;
+
     default:
       return state;
   }
