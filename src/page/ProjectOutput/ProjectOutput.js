@@ -1,7 +1,11 @@
+// @flow
+
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import R from 'ramda';
 import { withRouter } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import { makeActionRequestCollection } from '../../action/actions';
 import toJS from '../../util/immutable-to-js';
 
 import './index.scss';
@@ -15,7 +19,22 @@ const mapStateToProps = (state, props) => {
   };
 };
 
-class ProjectOuput extends Component {
+const mapDispatchToProps = dispatch => {
+  return {
+    actions: bindActionCreators(makeActionRequestCollection(), dispatch)
+  };
+};
+
+class ProjectOuput extends Component<{
+  actions: Object,
+  project: Object,
+  match: Object
+}> {
+  componentWillMount() {
+    const { projectName, projectReportId } = this.props.match.params;
+    this.props.actions.WS_GET_PROJECT_REPORT_REQUEST({ name: projectName, reportId: projectReportId });
+  }
+
   render() {
     const { project } = this.props;
 
@@ -53,4 +72,4 @@ class ProjectOuput extends Component {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(toJS(ProjectOuput)));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(toJS(ProjectOuput)));

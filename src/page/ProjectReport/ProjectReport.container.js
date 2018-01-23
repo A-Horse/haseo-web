@@ -42,6 +42,7 @@ class ProjectReport extends Component<{
   }
 
   render() {
+    console.log(this.props.match);
     const { project } = this.props;
     if (!project) {
       return <div>loading...</div>;
@@ -52,7 +53,7 @@ class ProjectReport extends Component<{
           <Layout>
             <Content>
               <div>
-                <Link to="output">output</Link>
+                <Link to={`${this.props.match.params.projectReportId}/output`}>output</Link>
               </div>
             </Content>
           </Layout>
