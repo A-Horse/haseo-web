@@ -1,24 +1,22 @@
+// @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import R from 'ramda';
 import { Row, Col } from 'antd';
 
 import FlowUnit from './FlowUnit';
 
-export default class ProjectFlow extends Component {
-  static propTypes = {
-    flows: PropTypes.array.isRequired
-  };
+export default class ProjectFlow extends Component<{
+  flowStates: Array<FlowState>
+}> {
 
   render() {
-    const { flows } = this.props;
+    const { flowStates } = this.props;
     return (
       <div className="project-flow">
         <Row type="flex" justify="center" align="top">
-          {flows.map(flow => {
+          {flowStates.map(flowState => {
             return (
-              <Col key={flow.name}>
-                <FlowUnit key={flow.name} flow={flow} />
+              <Col key={flowState.name}>
+                <FlowUnit flowState={flowState} />
               </Col>
             );
           })}

@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { Layout } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import R from 'ramda';
 import { withRouter, Link } from 'react-router-dom';
 import { makeActionRequestCollection } from '../../action/actions';
 import toJS from '../../util/immutable-to-js';
@@ -38,11 +37,13 @@ class ProjectReport extends Component<{
   componentWillMount() {
     const { projectName, projectReportId } = this.props.match.params;
     this.props.actions.WS_GET_PROJECT_DETAIL_REQUEST({ name: projectName });
-    this.props.actions.WS_GET_PROJECT_REPORT_REQUEST({ name: projectName, reportId: projectReportId });
+    this.props.actions.WS_GET_PROJECT_REPORT_REQUEST({
+      name: projectName,
+      reportId: projectReportId
+    });
   }
 
   render() {
-    console.log(this.props.match);
     const { project } = this.props;
     if (!project) {
       return <div>loading...</div>;

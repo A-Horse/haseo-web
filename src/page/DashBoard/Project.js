@@ -1,16 +1,15 @@
+// @flow
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import R from 'ramda';
 import { Link } from 'react-router-dom';
 import { Row, Col, Icon } from 'antd';
 
 import Status from './Status';
 import ProjectFlow from './ProjectFlow';
 
-export default class Project extends Component {
-  static propTypes = {
-    project: PropTypes.any.isRequired
-  };
+export default class DashBoardProjectItem extends Component<{
+  project: Project,
+  actions: Object
+}> {
 
   render() {
     const { project } = this.props;
@@ -20,7 +19,7 @@ export default class Project extends Component {
         <Link className="name" to={`/project/${project.name}`}>
           {project.name}
         </Link>
-        <ProjectFlow flows={project.flowState} />
+        <ProjectFlow flowStates={project.flowStates} />
         <button
           className="project-start-button"
           onClick={() => this.props.actions.WS_START_PROJECT_FLOW_REQUEST({ name: project.name })}

@@ -3,27 +3,11 @@ import Actions from '../action/actions';
 import R from 'ramda';
 import { Map, List, fromJS } from 'immutable';
 
-function isFlowWaitting(project, flowsNameSeq): boolean {
-  
-  if (project.status.isWaitting) {
-    return true;
-  }
-  if ()
-  
-  (project.status.isWaitting && !project.report.startDate) || // 在进行中的状态
-        (!isRunning &&
-          flowsNameSeq.indexOf(project.status.currentFlowName) < flowsNameSeq.indexOf(flowName) &&
-          flowsNameSeq.indexOf(project.status.currentFlowName) > -1) || // 在进行中的状态
-        (flowsNameSeq.indexOf(flowName) > flowsNameSeq.indexOf(project.report.flowErrorName) > 0 &&
-         flowsNameSeq.indexOf(project.report.flowErrorName) > -1); // 如果是完成的状态，用 flowErrorName 来判断
-}
-
-function transformProject(project) {
+function transformProject(project: ProjectData): Project {
   const flowsNameSeq = [];
-  console.log(project);
   return {
     ...project,
-    flowState: project.flows.map(flow => {
+    flowStates: project.flows.map(flow => {
       const [flowName, flowCommand] = R.flatten([R.keys(flow), R.values(flow)]);
       flowsNameSeq.push(flowName);
 
@@ -31,28 +15,27 @@ function transformProject(project) {
         ? project.status.currentFlowName === flowName
         : false;
 
-      const 
       const isWaitting =
         (project.status.isWaitting && !project.report.startDate) || // 在进行中的状态
         (!isRunning &&
           flowsNameSeq.indexOf(project.status.currentFlowName) < flowsNameSeq.indexOf(flowName) &&
-          flowsNameSeq.indexOf(project.status.currentFlowName) > -1) || // 在进行中的状态
-        (flowsNameSeq.indexOf(flowName) > flowsNameSeq.indexOf(project.report.flowErrorName) > 0 &&
-         flowsNameSeq.indexOf(project.report.flowErrorName) > -1); // 如果是完成的状态，用 flowErrorName 来判断
+          flowsNameSeq.indexOf(project.status.currentFlowName) > -1) || // 进行完了之后状态
+        flowsNameSeq.indexOf(flowName) > flowsNameSeq.indexOf(project.report.flowErrorName); // 错误 flow 之后
+
+      const isSuccess = isRunning
+        ? false
+        : project.report.flowErrorName !== flowName &&
+          (flowsNameSeq.indexOf(project.report.flowErrorName) < 0
+            ? true
+            : flowsNameSeq.indexOf(project.report.flowErrorName) >= flowsNameSeq.indexOf(flowName));
+
+      const status = isRunning
+        ? 'RUNNING'
+        : isWaitting ? 'WAITTING' : isSuccess ? 'SUCCESS' : 'FAILURE';
 
       return {
         name: flowName,
-        isRunning,
-        isWaitting,
-        isSuccess: isRunning
-          ? false
-          : project.report.flowErrorName !== flowName &&
-            // flowsNameSeq.indexOf(flowName) >= 0 &&
-            // flowsNameSeq.indexOf(project.status.currentFlowName) <= 0 &&
-            (flowsNameSeq.indexOf(project.report.flowErrorName) < 0
-              ? true
-              : flowsNameSeq.indexOf(project.report.flowErrorName) >=
-                flowsNameSeq.indexOf(flowName))
+        status: status
       };
     })
   };

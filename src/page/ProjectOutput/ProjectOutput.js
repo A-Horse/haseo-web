@@ -1,5 +1,4 @@
 // @flow
-
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import R from 'ramda';
@@ -32,7 +31,10 @@ class ProjectOuput extends Component<{
 }> {
   componentWillMount() {
     const { projectName, projectReportId } = this.props.match.params;
-    this.props.actions.WS_GET_PROJECT_REPORT_REQUEST({ name: projectName, reportId: projectReportId });
+    this.props.actions.WS_GET_PROJECT_REPORT_REQUEST({
+      name: projectName,
+      reportId: projectReportId
+    });
   }
 
   render() {
@@ -41,12 +43,10 @@ class ProjectOuput extends Component<{
     if (project) {
       return (
         <div className="project-detail">
-          <h1>
-            {project.name}
-          </h1>
+          <h1>{project.name}</h1>
 
           <div className="flows-output">
-            {project.status.flowsOutput.map((flowOutputUnit, i) =>
+            {project.status.flowsOutput.map((flowOutputUnit, i) => (
               <div className="flows-output--unit" key={i}>
                 <h3>
                   <span>{flowOutputUnit.flowName}:</span>
@@ -56,14 +56,14 @@ class ProjectOuput extends Component<{
 
                 <hr />
                 <div>
-                  {flowOutputUnit.output.map((ouputFragment, i) =>
+                  {flowOutputUnit.output.map((ouputFragment, i) => (
                     <span className={`flows-output--fragment ${ouputFragment.type}`} key={i}>
                       {ouputFragment.text}
                     </span>
-                  )}
+                  ))}
                 </div>
               </div>
-            )}
+            ))}
           </div>
         </div>
       );
