@@ -1,8 +1,9 @@
+// @flow
+
 import React, { Component } from 'react';
 import { Layout } from 'antd';
-const { Header, Content, Sider } = Layout;
+const { Content, Sider } = Layout;
 import { connect } from 'react-redux';
-import R from 'ramda';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { makeActionRequestCollection } from '../../action/actions';
@@ -31,10 +32,20 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-class ProjectDetail extends Component {
+class ProjectDetail extends Component<{
+  actions: any,
+  project: any,
+  match: any,
+  reportHistoryList: any
+}> {
   componentWillMount() {
     const { projectName } = this.props.match.params;
-    this.props.actions.WS_GET_PROJECT_DETAIL_REQUEST({ name: projectName });
+    this.props.actions.WS_GET_PROJECT_INFOMATION_REQUEST({ name: projectName });
+    this.props.actions.WS_GET_PROJECT_REPORT_HISTORY_REQUEST({
+      name: projectName,
+      offset: 0,
+      limit: 10
+    });
   }
 
   render() {
@@ -45,21 +56,21 @@ class ProjectDetail extends Component {
     return (
       <div>
         <Layout>
-          <Sider>
-            <ul>
-              {this.props.reportHistoryList.map(reportHistroy => {
-                 return (
-                   <li key={reportHistroy.id}>
-                     <Link to={`./${this.props.match.params.projectName}/${reportHistroy.id}`}>{reportHistroy.id}</Link>
-                   </li>
-                 );
-              })}
-            </ul>
-          </Sider>
+          <Sider>Sider</Sider>
 
           <Layout>
-            <Content style={{ background: '#fff', padding: 24, margin: 0, minHeight: 280 }}>
-              Content
+            <Content>
+              <ul>
+                {this.props.reportHistoryList.map(reportHistroy => {
+                  return (
+                    <li key={reportHistroy.id}>
+                      <Link to={`./${this.props.match.params.projectName}/${reportHistroy.id}`}>
+                        {reportHistroy.id}
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
             </Content>
           </Layout>
         </Layout>

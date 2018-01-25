@@ -2,14 +2,20 @@
 
 declare interface FlowState {
   name: string;
-  status: 'RUNNING' | 'WAITTING' | 'SUCCESS' | 'FAILURE'
+  status: 'RUNNING' | 'WAITTING' | 'SUCCESS' | 'FAILURE';
 }
 
 declare interface ProjectData {
-  flows: Array<{[string]: string}>;
+  flows: Array<{ [string]: string }>;
   name: string;
-  status: any;
+  status: ProjectStatus;
   report: ProjectReport;
+}
+
+declare interface ProjectStatus {
+  currentFlowName?: string;
+  isRunning: boolean;
+  isSuccess: boolean;
 }
 
 declare interface Project extends ProjectData {

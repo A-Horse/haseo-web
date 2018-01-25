@@ -28,7 +28,7 @@ class Socket {
     };
   }
 
-  sendJSON(data: string) {
+  sendJSON(data: any) {
     if (!this.ws) {
       throw new Error('WebSocket not initial!');
     }

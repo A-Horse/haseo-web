@@ -1,9 +1,9 @@
+// @flow
 import R from 'ramda';
 import Actions from '../action/actions';
-
 import ws from '../service/socket';
 
-export const listenWS = store => {
+export const listenWS = (store: any) => {
   const { dispatch } = store;
 
   ws.open$.subscribe(() => {
@@ -14,17 +14,20 @@ export const listenWS = store => {
   });
 
   ws.message$.subscribe(revent => {
-    const event = JSON.parse(revent.data);
-    const [actionName, status] = R.compose(R.map(R.join('_')), R.splitAt(-1), R.split('_'))(
-      event.type
-    );
+    const event: FSAction = JSON.parse(revent.data);
+    const [actionName, status: ActionType] = R.compose(
+      R.map(R.join('_')),
+      R.splitAt(-1),
+      R.split('_')
+    )(event.type);
 
-    const actionAdapter = Actions[actionName];
+    const actionAdapter: ActionAdapter = Actions[actionName];
 
     if (!actionAdapter) {
       throw new Error(`Can not found action "${actionName}" adapter`);
     }
 
-    dispatch(actionAdapter[status.toLowerCase()](event.payload));
+    // $flow-ignore
+    dispatch(actionAdapter[status.toLowerCase()](event.payload, event.meta));
   });
 };

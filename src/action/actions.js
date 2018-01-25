@@ -4,7 +4,8 @@ const actionNames = [
   'WS_GET_PROJECTS',
   'WS_LISTEN_PROJECTS_UPDATE',
   'WS_UNLISTEN_PROJECTS_UPDATE',
-  'WS_GET_PROJECT_DETAIL',
+  'WS_GET_PROJECT_INFOMATION',
+  'WS_GET_PROJECT_REPORT_HISTORY',
   'WS_START_PROJECT_FLOW',
   'WS_PROJECT_UPDATE',
   'WS_PROJECT_UNIT_FRAGMENT_UPDATE',
@@ -12,11 +13,10 @@ const actionNames = [
 
   'WS_AUTH',
 
-  // AUTH
   'LOGIN'
 ];
 
-const actions = actionNames.reduce((result, actionName) => {
+export const actions = actionNames.reduce((result, actionName) => {
   const REQUEST_SYMBOL = actionName + '_REQUEST';
   const SUCCESS_SYMBOL = actionName + '_SUCCESS';
   const FAILURE_SYMBOL = actionName + '_FAILURE';
@@ -52,7 +52,7 @@ const actions = actionNames.reduce((result, actionName) => {
     }
   };
   return result;
-}, {});
+}, ({}: { [string]: ActionAdapter }));
 
 export function makeActionRequestCollection() {
   return R.values(actions).reduce((result, actionFactor) => {
