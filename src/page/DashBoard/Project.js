@@ -1,16 +1,15 @@
 // @flow
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Row, Col, Icon } from 'antd';
+import { Icon } from 'antd';
 
 import Status from './Status';
 import ProjectFlow from './ProjectFlow';
 
 export default class DashBoardProjectItem extends Component<{
-  project: Project,
+  project: ProjectWithFlowStates,
   actions: Object
 }> {
-
   render() {
     const { project } = this.props;
     return (

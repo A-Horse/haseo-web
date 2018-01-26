@@ -2,8 +2,9 @@
 import R from 'ramda';
 import Actions from '../action/actions';
 import ws from '../service/socket';
+import { Store } from 'redux';
 
-export const listenWS = (store: any) => {
+export const listenWS = (store: Store) => {
   const { dispatch } = store;
 
   ws.open$.subscribe(() => {
@@ -28,6 +29,8 @@ export const listenWS = (store: any) => {
     }
 
     // $flow-ignore
-    dispatch(actionAdapter[status.toLowerCase()](event.payload, event.meta));
+    const actionFn = actionAdapter[status.toLowerCase()];
+
+    dispatch(actionFn(event.payload, event.meta));
   });
 };

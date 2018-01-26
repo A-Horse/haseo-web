@@ -1,31 +1,34 @@
 // @flow
 import { Map, List, fromJS } from 'immutable';
 import Actions from '../action/actions';
-import { transformProject } from '../util/project-helpers';
+import {
+  generateFlowStatesToProject,
+  makeFlowStatesByProjectAndReport
+} from '../util/project-helpers';
 
 export function projects(state: Map<string, *> = Map({ items: Map() }), action: FSAction) {
   switch (action.type) {
     case Actions.WS_GET_PROJECTS.SUCCESS:
-      const items: { [string]: Project } = action.payload.reduce((result, item): {
-        [string]: Project
+      const items: { [string]: ProjectWithFlowStates } = action.payload.reduce((result, item): {
+        [string]: ProjectWithFlowStates
       } => {
-        result[item.name] = transformProject(item);
+        /* result[item.name] = generateFlowStatesToProject(item);*/
+        result[item.name] = item;
         return result;
       }, {});
       return state.set('items', fromJS(items));
 
     case Actions.WS_PROJECT_UPDATE.SUCCESS:
       return state.updateIn(['items', action.payload.name], () =>
-        fromJS(transformProject(action.payload))
+        fromJS(generateFlowStatesToProject(action.payload))
       );
 
     case Actions.WS_GET_PROJECT_INFOMATION.SUCCESS:
       return state.updateIn(['items', action.payload.name], () =>
-        fromJS(transformProject(action.payload))
+        fromJS(generateFlowStatesToProject(action.payload))
       );
 
     case Actions.WS_GET_PROJECT_REPORT_HISTORY.SUCCESS:
-      console.log(action);
       return state;
 
     case Actions.WS_PROJECT_UNIT_FRAGMENT_UPDATE.SUCCESS:
@@ -48,7 +51,7 @@ export function projects(state: Map<string, *> = Map({ items: Map() }), action: 
 
     case Actions.WS_GET_PROJECT_REPORT.SUCCESS:
       console.log(action);
-      console.log(transformProject(action.payload));
+      console.log(generateFlowStatesToProject(action.payload));
       return state;
 
     default:

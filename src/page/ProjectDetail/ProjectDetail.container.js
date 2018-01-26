@@ -34,7 +34,7 @@ const mapDispatchToProps = dispatch => {
 
 class ProjectDetail extends Component<{
   actions: any,
-  project: any,
+  project: ProjectWithFlowStates,
   match: any,
   reportHistoryList: any
 }> {
@@ -60,6 +60,7 @@ class ProjectDetail extends Component<{
 
           <Layout>
             <Content>
+              <div>project.name</div>
               <ul>
                 {this.props.reportHistoryList.map(reportHistroy => {
                   return (

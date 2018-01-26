@@ -2,18 +2,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import R from 'ramda';
-import { createSelector } from 'reselect';
 import { withRouter } from 'react-router-dom';
-import Actions from '../../action/actions';
 import toJS from '../../util/immutable-to-js';
 import DashBoardProjectItem from './Project';
-import { Row, Col } from 'antd';
 import { makeActionRequestCollection } from '../../action/actions';
 
 import './index.scss';
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = state => {
   return {
     projects: state.projects.get('items').toList()
   };
@@ -27,7 +23,7 @@ const mapDispatchToProps = dispatch => {
 
 class DashBoard extends Component<{
   actions: Object,
-  projects: Array<Project>
+  projects: Array<ProjectWithFlowStates>
 }> {
   componentWillMount() {
     this.props.actions.WS_LISTEN_PROJECTS_UPDATE_REQUEST();
@@ -41,7 +37,11 @@ class DashBoard extends Component<{
       <div className="dashboard">
         <div className="project-list">
           {projects.map(project => (
-            <DashBoardProjectItem actions={this.props.actions} key={project.name} project={project} />
+            <DashBoardProjectItem
+              actions={this.props.actions}
+              key={project.name}
+              project={project}
+            />
           ))}
         </div>
       </div>

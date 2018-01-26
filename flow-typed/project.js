@@ -1,8 +1,10 @@
 // @flow
 
+declare type FlowStatus = 'RUNNING' | 'WAITTING' | 'SUCCESS' | 'FAILURE';
+
 declare interface FlowState {
   name: string;
-  status: 'RUNNING' | 'WAITTING' | 'SUCCESS' | 'FAILURE';
+  status: FlowStatus;
 }
 
 declare interface ProjectData {
@@ -18,7 +20,7 @@ declare interface ProjectStatus {
   isSuccess: boolean;
 }
 
-declare interface Project extends ProjectData {
+declare interface ProjectWithFlowStates extends ProjectData {
   flowStates: Array<FlowState>;
 }
 

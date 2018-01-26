@@ -16,7 +16,7 @@ const actionNames = [
   'LOGIN'
 ];
 
-export const actions = actionNames.reduce((result, actionName) => {
+export const actions = actionNames.reduce((result, actionName): { [string]: ActionAdapter } => {
   const REQUEST_SYMBOL = actionName + '_REQUEST';
   const SUCCESS_SYMBOL = actionName + '_SUCCESS';
   const FAILURE_SYMBOL = actionName + '_FAILURE';
@@ -52,7 +52,7 @@ export const actions = actionNames.reduce((result, actionName) => {
     }
   };
   return result;
-}, ({}: { [string]: ActionAdapter }));
+}, {});
 
 export function makeActionRequestCollection() {
   return R.values(actions).reduce((result, actionFactor) => {
