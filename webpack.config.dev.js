@@ -2,9 +2,12 @@ var fs = require('fs');
 var path = require('path');
 var webpack = require('webpack');
 
+const pkgPath = path.join(__dirname, 'package.json');
+const pkg = fs.existsSync(pkgPath) ? require(pkgPath) : {};
+
 module.exports = {
   resolve: {
-    extensions: ['.js', '.jsx', '.scss', '.css'],
+    extensions: ['.js', '.jsx', '.scss', '.css', '.less'],
     modules: [path.resolve('.'), 'node_modules']
   },
   devtool: 'source-map',
@@ -56,6 +59,20 @@ module.exports = {
           },
           {
             loader: 'autoprefixer-loader'
+          }
+        ]
+      },
+      {
+        test: /.less$/,
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader'
+          },
+          {
+            loader: 'less-loader'
           }
         ]
       },

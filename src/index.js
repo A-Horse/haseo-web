@@ -26,6 +26,7 @@ import { listenWS } from './ws-listener/';
 import { setupAxiosInterceptor, setupAxiosJwtHeader } from './util/axios-helper';
 
 import './style/index.scss';
+import './style/antd.less';
 
 const epicMiddleware = createEpicMiddleware(rootEpic);
 
