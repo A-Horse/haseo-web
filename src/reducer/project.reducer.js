@@ -6,17 +6,16 @@ import {
   makeFlowStatesByProjectAndReport
 } from '../util/project-helpers';
 
-export function projects(state: Map<string, *> = Map({ items: Map() }), action: FSAction) {
+export function projects(state: Map<string, *> = Map({ projects: List() }), action: FSAction) {
   switch (action.type) {
     case Actions.WS_GET_PROJECTS.SUCCESS:
-      const items: { [string]: ProjectWithFlowStates } = action.payload.reduce((result, item): {
-        [string]: ProjectWithFlowStates
-      } => {
-        /* result[item.name] = generateFlowStatesToProject(item);*/
-        result[item.name] = item;
-        return result;
-      }, {});
-      return state.set('items', fromJS(items));
+      /* const items: { [string]: ProjectWithFlowStates } = action.payload.reduce((result, item): {
+       *   [string]: ProjectWithFlowStates
+       * } => {
+       *   result[item.name] = item;
+       *   return result;
+       * }, {});*/
+      return state.set('projects', fromJS(action.payload));
 
     case Actions.WS_PROJECT_UPDATE.SUCCESS:
       return state.updateIn(['items', action.payload.name], () =>

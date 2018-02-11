@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore, combineReducers } from 'redux';
@@ -7,7 +8,7 @@ import { createEpicMiddleware } from 'redux-observable';
 import { applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
-import App from './component/App';
+import App from './page/App';
 import DashBoardPage from './page/DashBoard/DashBoard';
 import ProjectDetailPage from './page/ProjectDetail/ProjectDetail.container';
 import ProjectReport from './page/ProjectReport/ProjectReport.container';
@@ -22,7 +23,7 @@ import history from './service/history';
 import ws from './service/socket';
 import { listenWS } from './ws-listener/';
 
-import { setupAxios } from './util/axios-helper';
+import { setupAxiosInterceptor, setupAxiosJwtHeader } from './util/axios-helper';
 
 import './style/index.scss';
 
@@ -37,7 +38,8 @@ const store = createStore(reducer, applyMiddleware(thunkMiddleware, epicMiddlewa
 ws.start();
 listenWS(store);
 
-setupAxios();
+setupAxiosInterceptor();
+setupAxiosJwtHeader(window.localStorage.getItem('jwt'));
 
 ReactDOM.render(
   <Provider store={store}>
@@ -57,5 +59,5 @@ ReactDOM.render(
       </App>
     </Router>
   </Provider>,
-  document.getElementById('root')
+  window.document.getElementById('root')
 );

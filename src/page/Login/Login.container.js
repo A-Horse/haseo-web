@@ -1,20 +1,20 @@
+// @flow
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import R from 'ramda';
-import { createSelector } from 'reselect';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
+import { Logo } from '../../component/Logo/Logo';
 import { makeActionRequestCollection } from '../../action/actions';
 import toJS from '../../util/immutable-to-js';
 
-import autobind from 'autobind-decorator';
-
 import LoginFrom from './LoginForm';
 
-const mapStateToProps = (state, props) => {
+import './Login.scss';
+
+const mapStateToProps = state => {
   return {
     isLoginSuccess: state.auth.get('isLoginSuccess'),
-    loginError: state.auth.get('loginError')
+    loginErrorMessage: state.auth.get('loginErrorMessage')
   };
 };
 
@@ -24,19 +24,27 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-class Login extends Component {
+class Login extends Component<{
+  actions: Object,
+  loginErrorMessage: string,
+  isLoginSuccess: boolean
+}> {
   render() {
     return (
-      <div className="login-page">
+      <div className="login-container">
         <div className="logo">
-          <img alt="" src="" />
+          <Logo />
         </div>
 
         <div>
+          <div className="login-text">
+            <span>❱❱</span>
+            Login:
+          </div>
           <LoginFrom
-            loginError={this.props.loginError}
+            loginErrorMessage={this.props.loginErrorMessage}
             isLoginSuccess={this.props.isLoginSuccess}
-            login={this.props.actions.LOGIN_REQUEST}
+            loginFn={this.props.actions.LOGIN_REQUEST}
           />
         </div>
       </div>

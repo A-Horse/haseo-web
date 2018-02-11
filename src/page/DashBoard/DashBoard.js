@@ -10,8 +10,9 @@ import { makeActionRequestCollection } from '../../action/actions';
 import './index.scss';
 
 const mapStateToProps = state => {
+  const projects = state.projects.get('projects');
   return {
-    projects: state.projects.get('items').toList()
+    /* projects: */
   };
 };
 
@@ -23,7 +24,7 @@ const mapDispatchToProps = dispatch => {
 
 class DashBoard extends Component<{
   actions: Object,
-  projects: Array<ProjectWithFlowStates>
+  projects: Array<ProjectData>
 }> {
   componentWillMount() {
     this.props.actions.WS_LISTEN_PROJECTS_UPDATE_REQUEST();
@@ -32,7 +33,7 @@ class DashBoard extends Component<{
 
   render() {
     const { projects } = this.props;
-
+    console.log(projects);
     return (
       <div className="dashboard">
         <div className="project-list">

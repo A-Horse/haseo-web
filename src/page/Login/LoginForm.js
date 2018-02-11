@@ -1,26 +1,18 @@
+// @flow
 import React, { Component } from 'react';
 import { Form, Icon, Input, Button } from 'antd';
 
-class LoginForm extends Component {
-  state = {
-    errorMessage: ''
-  };
-
-  componentWillReceiveProps(newProps) {
-    if (!newProps.isLoginSuccess && newProps.loginError) {
-      if (newProps.loginError.type === 'AuthError') {
-        return this.setState({ errorMessage: 'Username or Password not match.' });
-      }
-      return this.setState({ errorMessage: 'Unknown Error' });
-    }
-    return this.state.errorMessage && this.setState({ errorMessage: '' });
-  }
-
+class LoginForm extends Component<{
+  loginErrorMessage: string,
+  isLoginSuccess: boolean,
+  loginFn: Function,
+  form: any
+}> {
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields(err => {
       if (!err) {
-        this.props.login(this.props.form.getFieldsValue());
+        this.props.loginFn(this.props.form.getFieldsValue());
       }
     });
   };
@@ -49,10 +41,10 @@ class LoginForm extends Component {
         </Form.Item>
         <Form.Item>
           <div>
-            <div>{this.state.errorMessage}</div>
+            <div>{this.props.loginErrorMessage}</div>
           </div>
           <Button type="primary" htmlType="submit" className="login-form-button">
-            Log in
+            Login
           </Button>
         </Form.Item>
       </Form>
