@@ -3,13 +3,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
-import { Logo } from '../../component/Logo/Logo';
 import { makeActionRequestCollection } from '../../action/actions';
 import toJS from '../../util/immutable-to-js';
 
 import LoginFrom from './LoginForm';
 
-import './Login.scss';
+import './Login.less';
 
 const mapStateToProps = state => {
   return {
@@ -32,21 +31,15 @@ class Login extends Component<{
   render() {
     return (
       <div className="login-container">
-        <div className="logo">
-          <Logo />
-        </div>
-
-        <div>
-          <div className="login-text">
-            <span>❱❱</span>
-            Login:
-          </div>
-          <LoginFrom
-            loginErrorMessage={this.props.loginErrorMessage}
-            isLoginSuccess={this.props.isLoginSuccess}
-            loginFn={this.props.actions.LOGIN_REQUEST}
-          />
-        </div>
+        <h2 className="login-text">
+          <span style={{ color: '#9b663c' }}>❱❱</span>
+          Login:
+        </h2>
+        <LoginFrom
+          loginErrorMessage={this.props.loginErrorMessage}
+          isLoginSuccess={this.props.isLoginSuccess}
+          loginFn={this.props.actions.LOGIN_REQUEST}
+        />
       </div>
     );
   }

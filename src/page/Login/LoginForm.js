@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react';
 import { Form, Icon, Input, Button } from 'antd';
+import { ErrorText } from '../../component/feedback/ErrorText/ErrorText';
 
 class LoginForm extends Component<{
   loginErrorMessage: string,
@@ -19,30 +20,21 @@ class LoginForm extends Component<{
 
   render() {
     const { getFieldDecorator } = this.props.form;
+
     return (
       <Form onSubmit={this.handleSubmit} className="login-form">
         <Form.Item>
           {getFieldDecorator('username', {
             rules: [{ required: true, message: 'Please input your username!' }]
-          })(
-            <Input prefix={<Icon type="user" style={{ fontSize: 13 }} />} placeholder="Username" />
-          )}
+          })(<Input prefix={<Icon type="user" />} placeholder="Username" />)}
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('password', {
             rules: [{ required: true, message: 'Please input your Password!' }]
-          })(
-            <Input
-              prefix={<Icon type="lock" style={{ fontSize: 13 }} />}
-              type="password"
-              placeholder="Password"
-            />
-          )}
+          })(<Input prefix={<Icon type="lock" />} type="password" placeholder="Password" />)}
         </Form.Item>
         <Form.Item>
-          <div>
-            <div>{this.props.loginErrorMessage}</div>
-          </div>
+          {this.props.loginErrorMessage && <ErrorText>{this.props.loginErrorMessage}</ErrorText>}
           <Button type="primary" htmlType="submit" className="login-form-button">
             Login
           </Button>
