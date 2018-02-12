@@ -8,6 +8,11 @@ import { createEpicMiddleware } from 'redux-observable';
 import { applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 
+import DI from './service/di';
+import { AuthService } from './service/auth.service';
+
+DI.inject(new AuthService());
+
 import App from './page/App';
 import DashBoardPage from './page/DashBoard/DashBoard';
 import ProjectDetailPage from './page/ProjectDetail/ProjectDetail.container';
@@ -21,14 +26,24 @@ import rootEpic from './epic';
 import history from './service/history';
 
 import ws from './service/socket';
-import { listenWS } from './ws-listener/';
+import { createSocketDispatcher } from './ws-listener/';
 
 import { setupAxiosInterceptor, setupAxiosJwtHeader } from './util/axios-helper';
 
 import './style/index.scss';
 import './style/antd.less';
 
-const epicMiddleware = createEpicMiddleware(rootEpic);
+import { Observable } from 'rxjs/Observable';
+
+import 'rxjs/add/observable/dom/webSocket';
+
+const socket$ = Observable.webSocket(`ws://${location.host}/ws`);
+socket$.subscribe();
+
+// TODO 注入 ws 进去 epic，取消 ws 单例模式
+const epicMiddleware = createEpicMiddleware(rootEpic, {
+  dependencies: socket$
+});
 
 const reducer = combineReducers({
   ...reducers
@@ -37,7 +52,7 @@ const reducer = combineReducers({
 const store = createStore(reducer, applyMiddleware(thunkMiddleware, epicMiddleware));
 
 ws.start();
-listenWS(store);
+createSocketDispatcher(store, ws);
 
 setupAxiosInterceptor();
 setupAxiosJwtHeader(window.localStorage.getItem('jwt'));

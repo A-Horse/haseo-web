@@ -1,21 +1,16 @@
 // @flow
+
 import R from 'ramda';
 import Actions from '../action/actions';
-import ws from '../service/socket';
 import { Store } from 'redux';
 
-export const listenWS = (store: Store) => {
+export const createSocketDispatcher = (store: Store, webSocket: any) => {
   const { dispatch } = store;
 
-  ws.open$.subscribe(() => {
-    ws.sendJSON({
-      type: 'WS_AUTH_REQUEST',
-      payload: window.localStorage.getItem('jwt')
-    });
-  });
-
-  ws.message$.subscribe(revent => {
+  webSocket.message$.subscribe((revent): void => {
     const event: FSAction = JSON.parse(revent.data);
+
+    // $flow-ignore
     const [actionName, status: ActionType] = R.compose(
       R.map(R.join('_')),
       R.splitAt(-1),

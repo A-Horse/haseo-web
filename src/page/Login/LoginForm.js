@@ -34,10 +34,10 @@ class LoginForm extends Component<{
           })(<Input prefix={<Icon type="lock" />} type="password" placeholder="Password" />)}
         </Form.Item>
         <Form.Item>
-          {this.props.loginErrorMessage && <ErrorText>{this.props.loginErrorMessage}</ErrorText>}
           <Button type="primary" htmlType="submit" className="login-form-button">
             Login
           </Button>
+          {this.props.loginErrorMessage && <ErrorText>{this.props.loginErrorMessage}</ErrorText>}
         </Form.Item>
       </Form>
     );

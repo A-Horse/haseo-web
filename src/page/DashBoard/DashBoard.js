@@ -12,7 +12,7 @@ import './index.scss';
 const mapStateToProps = state => {
   const projects = state.projects.get('projects');
   return {
-    /* projects: */
+    projects
   };
 };
 
