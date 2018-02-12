@@ -1,6 +1,5 @@
 // @flow
 import axios from 'axios';
-import { Observable } from 'rxjs/Observable';
 import { setupAxiosInterceptor, setupAxiosJwtHeader } from '../util/axios-helper';
 import Actions from '../action/actions';
 import history from '../service/history';
@@ -10,6 +9,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/ignoreElements';
+import 'rxjs/add/operator/throttleTime';
 
 import DI from '../service/di';
 import { AuthService } from '../service/auth.service';
@@ -22,7 +22,6 @@ export const LOGIN_REQUEST = (action$: ActionsObservable<FSAction>) => {
       .post('/api/signin', action.payload)
       .then(response => {
         const authService: AuthService = DI.get(AuthService);
-
         const jwt = response.headers.jwt;
 
         setupAxiosInterceptor();
@@ -42,10 +41,16 @@ export const LOGIN_REQUEST = (action$: ActionsObservable<FSAction>) => {
 };
 
 export const LOGIN_SUCCESS = (action$: ActionsObservable<FSAction>) =>
+  action$.ofType(Actions.LOGIN.SUCCESS).do(() => {
+    history.push('/dashboard');
+  });
+
+export const WS_AUTH_FAILURE = (action$: ActionsObservable<FSAction>) =>
   action$
-    .ofType(Actions.LOGIN.SUCCESS)
+    .ofType(Actions.WS_AUTH.FAILURE)
+    .throttleTime(1000)
     .do(() => {
-      // TODO 重新连接 websocket
-      history.push('/dashboard');
-    })
-    .ignoreElements();
+      const authService: AuthService = DI.get(AuthService);
+      authService.cleanJwt();
+      history.push('/login');
+    });

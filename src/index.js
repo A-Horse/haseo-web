@@ -10,7 +10,6 @@ import thunkMiddleware from 'redux-thunk';
 
 import DI from './service/di';
 import { AuthService } from './service/auth.service';
-
 DI.inject(new AuthService());
 
 import App from './page/App';
@@ -25,7 +24,6 @@ import rootEpic from './epic';
 
 import history from './service/history';
 
-import ws from './service/socket';
 import { createSocketDispatcher } from './ws-listener/';
 
 import { setupAxiosInterceptor, setupAxiosJwtHeader } from './util/axios-helper';
@@ -34,13 +32,11 @@ import './style/index.scss';
 import './style/antd.less';
 
 import { Observable } from 'rxjs/Observable';
-
+import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 import 'rxjs/add/observable/dom/webSocket';
 
-const socket$ = Observable.webSocket(`ws://${location.host}/ws`);
-socket$.subscribe();
+const socket$: WebSocketSubject = Observable.webSocket(`ws://${location.host}/ws`);
 
-// TODO 注入 ws 进去 epic，取消 ws 单例模式
 const epicMiddleware = createEpicMiddleware(rootEpic, {
   dependencies: socket$
 });
@@ -51,8 +47,7 @@ const reducer = combineReducers({
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware, epicMiddleware));
 
-ws.start();
-createSocketDispatcher(store, ws);
+createSocketDispatcher(store, socket$);
 
 setupAxiosInterceptor();
 setupAxiosJwtHeader(window.localStorage.getItem('jwt'));

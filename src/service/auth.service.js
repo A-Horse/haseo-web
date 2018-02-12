@@ -18,4 +18,8 @@ export class AuthService {
   getJwt(): string {
     return this.jwt;
   }
+
+  cleanJwt(): void {
+    window.localStorage.removeItem('jwt');
+  }
 }

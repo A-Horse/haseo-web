@@ -2,20 +2,19 @@
 
 import R from 'ramda';
 import Actions from '../action/actions';
-import { Store } from 'redux';
+import type { Store } from 'redux';
+import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 
-export const createSocketDispatcher = (store: Store, webSocket: any) => {
+export const createSocketDispatcher = (store: Store<*, *>, socket$: WebSocketSubject<FSAction>) => {
   const { dispatch } = store;
 
-  webSocket.message$.subscribe((revent): void => {
-    const event: FSAction = JSON.parse(revent.data);
-
+  socket$.subscribe((wsAction: FSAction): void => {
     // $flow-ignore
     const [actionName, status: ActionType] = R.compose(
       R.map(R.join('_')),
       R.splitAt(-1),
       R.split('_')
-    )(event.type);
+    )(wsAction.type);
 
     const actionAdapter: ActionAdapter = Actions[actionName];
 
@@ -26,6 +25,7 @@ export const createSocketDispatcher = (store: Store, webSocket: any) => {
     // $flow-ignore
     const actionFn = actionAdapter[status.toLowerCase()];
 
-    dispatch(actionFn(event.payload, event.meta));
+    console.log(actionFn(wsAction.payload, wsAction.meta));
+    dispatch(actionFn(wsAction.payload, wsAction.meta));
   });
 };
