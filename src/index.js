@@ -10,7 +10,8 @@ import thunkMiddleware from 'redux-thunk';
 
 import DI from './service/di';
 import { AuthService } from './service/auth.service';
-DI.inject(new AuthService());
+import { EpicAdapterService } from './service/epic-adapter.service';
+DI.inject([new AuthService(), new EpicAdapterService()]);
 
 import App from './page/App';
 import DashBoardPage from './page/DashBoard/DashBoard';
@@ -38,7 +39,8 @@ import 'rxjs/add/observable/dom/webSocket';
 const socket$: WebSocketSubject = Observable.webSocket(`ws://${location.host}/ws`);
 
 const epicMiddleware = createEpicMiddleware(rootEpic, {
-  dependencies: socket$
+  dependencies: socket$,
+  adapter: DI.get(EpicAdapterService)
 });
 
 const reducer = combineReducers({

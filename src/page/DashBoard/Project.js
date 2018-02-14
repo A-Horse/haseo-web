@@ -2,13 +2,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Icon } from 'antd';
+import R from 'ramda';
 
 import Status from './Status';
 import ProjectFlow from './ProjectFlow';
 
 export default class DashBoardProjectItem extends Component<{
-  project: ProjectWithFlowStates,
-  actions: Object
+  actions: Object,
+  project: Project
 }> {
   render() {
     const { project } = this.props;

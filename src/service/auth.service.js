@@ -11,8 +11,13 @@ export class AuthService {
     this.jwt = window.localStorage.getItem('jwt');
   }
 
+  saveJwtToLoaclStorage(jwt: string): void {
+    window.localStorage.setItem('jwt', jwt);
+  }
+
   setJwt(jwt: string): void {
     this.jwt = jwt;
+    this.saveJwtToLoaclStorage(jwt);
   }
 
   getJwt(): string {

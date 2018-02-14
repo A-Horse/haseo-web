@@ -7,11 +7,14 @@ declare interface FlowState {
   status: FlowStatus;
 }
 
-declare interface ProjectData {
+declare interface Project {
   flows: Array<{ [string]: string }>;
   name: string;
-  status: ProjectStatus;
-  report: ProjectReport;
+}
+
+declare interface ProjectBase {
+  flows: Array<{ [string]: string }>;
+  name: string;
 }
 
 declare interface ProjectStatus {
@@ -20,16 +23,11 @@ declare interface ProjectStatus {
   isSuccess: boolean;
 }
 
-declare interface ProjectWithFlowStates extends ProjectData {
-  flowStates: Array<FlowState>;
-}
-
 declare interface ProjectReport {
-  id?: number;
+  id: number;
+  commitHash: string;
   projectName: string;
-  flowErrorName: string;
-  flowsOutput: Array<any>;
-  isSuccess: boolean;
-  newCommitDate: string;
-  startDate: number;
+  repoPullOutput: string;
+  startDate: Date;
+  result: string;
 }

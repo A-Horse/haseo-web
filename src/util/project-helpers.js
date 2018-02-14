@@ -2,6 +2,7 @@
 import R from 'ramda';
 
 function getKVfromFlowDescriptionMap(flow): [string, string] {
+  // $flow-ignore
   return R.flatten([R.keys(flow), R.values(flow)]);
 }
 

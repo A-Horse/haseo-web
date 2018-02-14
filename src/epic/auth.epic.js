@@ -41,9 +41,12 @@ export const LOGIN_REQUEST = (action$: ActionsObservable<FSAction>) => {
 };
 
 export const LOGIN_SUCCESS = (action$: ActionsObservable<FSAction>) =>
-  action$.ofType(Actions.LOGIN.SUCCESS).do(() => {
-    history.push('/dashboard');
-  });
+  action$
+    .ofType(Actions.LOGIN.SUCCESS)
+    .do(() => {
+      history.push('/dashboard');
+    })
+    .ignoreElements();
 
 export const WS_AUTH_FAILURE = (action$: ActionsObservable<FSAction>) =>
   action$
@@ -53,4 +56,5 @@ export const WS_AUTH_FAILURE = (action$: ActionsObservable<FSAction>) =>
       const authService: AuthService = DI.get(AuthService);
       authService.cleanJwt();
       history.push('/login');
-    });
+    })
+    .ignoreElements();
