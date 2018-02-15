@@ -2,21 +2,22 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'antd';
 
-import FlowUnit from './FlowUnit';
+import { FlowUnit } from './FlowUnit/FlowUnit';
 
-export default class ProjectFlow extends Component<{
-  flowStates: Array<FlowState>
+import './projectFlows.less';
+
+export class ProjectFlows extends Component<{
+  flows: Array<Flow>
 }> {
-
   render() {
-    const { flowStates } = this.props;
+    const { flows } = this.props;
     return (
       <div className="project-flow">
         <Row type="flex" justify="center" align="top">
-          {flowStates.map(flowState => {
+          {flows.map((flow: Flow) => {
             return (
-              <Col key={flowState.name}>
-                <FlowUnit flowState={flowState} />
+              <Col key={flow.name}>
+                <FlowUnit flow={flow} />
               </Col>
             );
           })}

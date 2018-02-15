@@ -1,0 +1,23 @@
+
+.flow-unit {
+  color: #fff;
+  padding: 8px;
+  border-radius: 5px;
+  background-color: #d8d8d8;
+  margin: 0 4px;
+
+  &.running {
+    animation-name: running;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-fill-mode: both;
+  }
+
+  &.success {
+    background-color: #86d74f;
+  }
+
+  &.failure {
+    background-color: #e5262a;
+  }
+}

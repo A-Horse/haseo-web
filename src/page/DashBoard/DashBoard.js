@@ -4,17 +4,19 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import toJS from '../../util/immutable-to-js';
-import DashBoardProjectItem from './Project';
 import { makeActionRequestCollection } from '../../action/actions';
 import Actions from '../../action/actions';
 import type { Dispatch } from 'redux';
+import { Divider } from 'antd';
 
 import 'rxjs/add/operator/take';
 
-import './index.scss';
+import './DashBoard.less';
 
 import DI from '../../service/di';
 import { EpicAdapterService } from '../../service/epic-adapter.service';
+
+import { DashBoardProject } from './DashBoardProject/DashBoardProject';
 
 const mapStateToProps = state => {
   const projects = state.projects.get('projects');
@@ -31,7 +33,7 @@ const mapDispatchToProps = (dispatch: Dispatch<*>) => {
 
 class DashBoard extends Component<{
   actions: Object,
-  projects: Array<any>
+  projects: Project[]
 }> {
   componentWillMount() {
     const epicApterService: EpicAdapterService = DI.get(EpicAdapterService);
@@ -53,15 +55,14 @@ class DashBoard extends Component<{
     const { projects } = this.props;
     return (
       <div className="dashboard">
-        {/* <div className="project-list">
-            {projects.map(project => (
-            <DashBoardProjectItem
-            actions={this.props.actions}
-            key={project.name}
-            project={project}
-            />
-            ))}
-            </div> */}
+        <div className="project-list">
+          {projects.map((project: Project) => (
+            <div key={project.name}>
+              <DashBoardProject actions={this.props.actions} project={project} />
+              <Divider />
+            </div>
+          ))}
+        </div>
       </div>
     );
   }

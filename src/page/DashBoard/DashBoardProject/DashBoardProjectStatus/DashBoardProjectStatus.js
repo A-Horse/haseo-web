@@ -1,10 +1,8 @@
 // @flow
 import React, { Component } from 'react';
 import { Icon } from 'antd';
-import PropTypes from 'prop-types';
-import R from 'ramda';
 
-export default class Status extends Component<{
+export class DashBoardProjectStatus extends Component<{
   status: any
 }> {
   render() {

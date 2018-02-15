@@ -1,0 +1,29 @@
+@keyframes running {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.dashboard {
+  display: flex;
+  justify-content: center;
+
+  .ant-divider-horizontal {
+    margin: 16px 0;
+  }
+}

@@ -1,26 +1,28 @@
 // @flow
 
-declare type FlowStatus = 'RUNNING' | 'WAITTING' | 'SUCCESS' | 'FAILURE';
+declare type FlowStatus = 'INITAL' | 'RUNNING' | 'WAITTING' | 'SUCCESS' | 'FAILURE';
 
-declare interface FlowState {
+declare type ProjectStatus = 'INITAL' | 'RUNNING' | 'WAITTING' | 'SUCCESS' | 'FAILURE'
+
+declare interface FlowDescription {
+  [string]: string;
+}
+
+declare interface Flow {
   name: string;
+  command: string;
   status: FlowStatus;
 }
 
 declare interface Project {
-  flows: Array<{ [string]: string }>;
   name: string;
+  flows: Flow[];
+  status: ProjectStatus;
 }
 
 declare interface ProjectBase {
   flows: Array<{ [string]: string }>;
   name: string;
-}
-
-declare interface ProjectStatus {
-  currentFlowName?: string;
-  isRunning: boolean;
-  isSuccess: boolean;
 }
 
 declare interface ProjectReport {
