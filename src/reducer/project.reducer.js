@@ -17,11 +17,10 @@ export function projects(
       const projectBases: ProjectBase[] = action.payload;
       const projects: Project[] = projectBases.map((project: ProjectBase): Project => {
         const flows: Flow[] = project.flows.map(transformFlowDescriptionMap);
-        const status: ProjectStatus = 'INITAL';
         return {
           name: project.name,
-          flows,
-          status
+          status: 'INITAL',
+          flows
         };
       });
       return state.set('projects', fromJS(projects));
@@ -32,14 +31,27 @@ export function projects(
       if (!report) {
         return state;
       }
-      const projectKey = state
+
+      const projectKey: number = state
         .get('projects')
         .findKey((project: Map<Project>): boolean => project.get('name') === report.projectName);
 
-      const projectStatus: ProjectStatus = !report.result ? 'RUNNING' : 'INITAL';
+      if (R.empty(projectKey)) {
+        return state;
+      }
 
       return state.updateIn(['projects', projectKey], (project: Map<Project>) =>
-        project.update('projectStatus', () => projectStatus)
+        project
+          .update('projectStatus', () => report.status)
+          .update('flows', (flows: List<Flow>) =>
+            flows.map((flow: Map<Flow>, index: number) =>
+              flow.update(
+                'status',
+                (status: string) =>
+                  index < report.result.length ? report.result[index].status : status
+              )
+            )
+          )
       );
 
     case Actions.WS_GET_PROJECT_REPORT_HISTORY.SUCCESS:
