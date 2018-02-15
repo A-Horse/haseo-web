@@ -4,6 +4,7 @@ import R from 'ramda';
 
 class DI {
   services = [];
+
   constructor() {}
 
   inject(services: any | Array<any>) {
