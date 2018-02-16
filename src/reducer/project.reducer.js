@@ -48,7 +48,9 @@ export function projects(
               flow.update(
                 'status',
                 (status: string) =>
-                  index < report.result.length ? report.result[index].status : status
+                  index < (report.result && report.result.length)
+                    ? report.result[index].status
+                    : status
               )
             )
           )

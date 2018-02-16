@@ -1,5 +1,4 @@
 // @flow
-
 import React, { Component } from 'react';
 import { Layout } from 'antd';
 const { Content, Sider } = Layout;
@@ -10,20 +9,12 @@ import { makeActionRequestCollection } from '../../action/actions';
 import { Link } from 'react-router-dom';
 import toJS from '../../util/immutable-to-js';
 
-import './ProjectDetail.scss';
+import './ProjectDetail.less';
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state, props: { match: { params: { projectName: string } } }) => {
   const { projectName } = props.match.params;
-  const project = state.projects
-    .get('items')
-    .toList()
-    .find(project => project.get('name') === projectName);
 
-  const reportHistoryList = project ? project.get('buildReportHistory') : [];
-  return {
-    project,
-    reportHistoryList: reportHistoryList || []
-  };
+  return {};
 };
 
 const mapDispatchToProps = dispatch => {
@@ -33,14 +24,13 @@ const mapDispatchToProps = dispatch => {
 };
 
 class ProjectDetail extends Component<{
-  actions: any,
-  project: ProjectWithFlowStates,
+  actions: { [string]: Function },
+  project: Project,
   match: any,
   reportHistoryList: any
 }> {
   componentWillMount() {
     const { projectName } = this.props.match.params;
-    this.props.actions.WS_GET_PROJECT_INFOMATION_REQUEST({ name: projectName });
     this.props.actions.WS_GET_PROJECT_REPORT_HISTORY_REQUEST({
       name: projectName,
       offset: 0,
