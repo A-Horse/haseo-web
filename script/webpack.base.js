@@ -9,7 +9,7 @@ module.exports = {
     modules: [path.resolve('.'), 'node_modules']
   },
   entry: {
-    main: ['babel-polyfill', './src/index.js'],
+    main: ['./src/index.js'],
     react: [
       'react',
       'react-dom',
