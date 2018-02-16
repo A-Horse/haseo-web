@@ -1,12 +1,13 @@
-import { createStore, combineReducers } from 'redux';
+import { combineReducers } from 'redux';
 
 import { createEpicMiddleware } from 'redux-observable';
 import { applyMiddleware } from 'redux';
-import { Observable } from 'rxjs/Observable';
 import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 
 import reducers from '../reducer';
 import rootEpic from '../epic';
+
+import { createSocket$ } from '../socket/socket';
 
 import DI from '../service/di';
 import { EpicAdapterService } from '../service/epic-adapter.service';
@@ -16,7 +17,7 @@ import configureStore from './configureStore';
 
 import 'rxjs/add/observable/dom/webSocket';
 
-const socket$: WebSocketSubject = Observable.webSocket(`ws://${location.host}/ws`);
+const socket$: WebSocketSubject<FSAction> = createSocket$();
 
 const epicMiddleware = createEpicMiddleware(rootEpic, {
   dependencies: socket$,

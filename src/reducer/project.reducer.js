@@ -93,7 +93,8 @@ export function projects(
                 if (
                   index === flowKey + 1 &&
                   payload.project.status !== 'SUCCESS' &&
-                  payload.project.status !== 'FAILURE'
+                  payload.project.status !== 'FAILURE' &&
+                  payload.flowResult.status !== 'FAILURE'
                 ) {
                   return 'RUNNING';
                 }
