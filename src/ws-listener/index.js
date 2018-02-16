@@ -21,13 +21,14 @@ export const createSocketDispatcher = (store: Store<*, *>, socket$: WebSocketSub
     const actionAdapter: ActionAdapter = Actions[actionName];
 
     if (!actionAdapter) {
-      throw new Error(`Can not found action "${actionName}" adapter`);
+      console.warn(`Can not found action "${actionName}" adapter.`);
+      return;
     }
 
     // $flow-ignore
     const actionFn = actionAdapter[status.toLowerCase()];
 
-    console.log(actionFn(wsAction.payload, wsAction.meta));
+    process.env.NODE_ENV !== 'production' && console.log(actionFn(wsAction.payload, wsAction.meta));
     dispatch(actionFn(wsAction.payload, wsAction.meta));
   });
 };

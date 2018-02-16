@@ -13,7 +13,7 @@ export function projects(
   action: FSAction
 ) {
   switch (action.type) {
-    case Actions.WS_GET_PROJECTS.SUCCESS:
+    case Actions.WS_GET_PROJECTS.SUCCESS: {
       const projectBases: ProjectBase[] = action.payload;
       const projects: Project[] = projectBases.map((project: ProjectBase): Project => {
         const flows: Flow[] = project.flows.map(transformFlowDescriptionMap);
@@ -24,9 +24,9 @@ export function projects(
         };
       });
       return state.set('projects', fromJS(projects));
+    }
 
-    case Actions.WS_GET_PROJECT_LAST_REPORT.SUCCESS:
-      /* const report*/
+    case Actions.WS_GET_PROJECT_LAST_REPORT.SUCCESS: {
       const report: ProjectReport = action.payload;
       if (!report) {
         return state;
@@ -53,6 +53,56 @@ export function projects(
             )
           )
       );
+    }
+
+    case Actions.WS_TASK_PROJECT_FLOW_UNIT_UPDATE.SUCCESS: {
+      const payload: {
+        project: { name: string, status: ProjectStatus },
+        flowResult: {
+          status: FlowStatus,
+          flowName: string,
+          result: FlowOutputUnit[]
+        }
+      } =
+        action.payload;
+
+      const projectKey: number = state
+        .get('projects')
+        .findKey((project: Map<Project>): boolean => project.get('name') === payload.project.name);
+
+      const flowKey: number = state
+        .getIn(['projects', projectKey, 'flows'])
+        .findKey((flow: Map<Flow>) => flow.get('name') === payload.flowResult.flowName);
+
+      if (R.empty(projectKey)) {
+        return state;
+      }
+
+      return state.updateIn(['projects', projectKey], (project: Map<Project>): Map<Project> =>
+        project
+          .update('status', (): ProjectStatus => payload.project.status)
+          .update('flows', (flows: List<Flow>): List<Flow> =>
+            flows.map((flow: Map<Flow>, index: number): Map<Flow> =>
+              flow.update('status', () => {
+                if (index < flowKey) {
+                  return 'SUCCESS';
+                }
+                if (index === flowKey) {
+                  return payload.flowResult.status;
+                }
+                if (
+                  index === flowKey + 1 &&
+                  payload.project.status !== 'SUCCESS' &&
+                  payload.project.status !== 'FAILURE'
+                ) {
+                  return 'RUNNING';
+                }
+                return 'INITAL';
+              })
+            )
+          )
+      );
+    }
 
     case Actions.WS_GET_PROJECT_REPORT_HISTORY.SUCCESS:
       return state;
