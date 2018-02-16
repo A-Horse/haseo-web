@@ -7,7 +7,7 @@ const { Header, Content } = Layout;
 
 import { AppHeader } from './Header/Header';
 
-export default class App extends Component<{
+export class App extends Component<{
   children: Node
 }> {
   render() {

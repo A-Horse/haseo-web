@@ -1,8 +1,10 @@
 // @flow
 
 import R from 'ramda';
+import { AuthService } from './auth.service';
+import { EpicAdapterService } from './epic-adapter.service';
 
-class DI {
+class DIContainer {
   services = [];
 
   constructor() {}
@@ -29,4 +31,8 @@ class DI {
   }
 }
 
-export default new DI();
+const DI = new DIContainer();
+
+DI.inject([new AuthService(), new EpicAdapterService()]);
+
+export default DI;

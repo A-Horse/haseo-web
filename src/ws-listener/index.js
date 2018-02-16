@@ -1,14 +1,16 @@
 // @flow
-
 import R from 'ramda';
 import Actions from '../action/actions';
 import type { Store } from 'redux';
 import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 
+import 'rxjs/add/operator/retryWhen';
+import 'rxjs/add/operator/delay';
+
 export const createSocketDispatcher = (store: Store<*, *>, socket$: WebSocketSubject<FSAction>) => {
   const { dispatch } = store;
 
-  socket$.subscribe((wsAction: FSAction): void => {
+  socket$.retryWhen(error => error.delay(1000)).subscribe((wsAction: FSAction): void => {
     // $flow-ignore
     const [actionName, status: ActionType] = R.compose(
       R.map(R.join('_')),

@@ -18,6 +18,9 @@ module.exports = Merge(BaseConfig, {
     }
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify('development')
+    }),
     new webpack.NamedModulesPlugin(),
     new webpack.SourceMapDevToolPlugin({
       filename: '[name]-[id].bundle.js.map',
