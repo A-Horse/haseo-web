@@ -19,7 +19,7 @@ import { EpicAdapterService } from '../../service/epic-adapter.service';
 import { DashBoardProject } from './DashBoardProject/DashBoardProject';
 
 const mapStateToProps = state => {
-  const projects = state.projects.get('projects');
+  const projects = state.project.get('projects');
   return {
     projects
   };

@@ -8,11 +8,31 @@ import {
   makeFlowStatesByProjectAndReport
 } from '../util/project-helpers';
 
-export function projects(
+export function project(
   state: Map<{ projects: Project[] }> = Map({ projects: List() }),
   action: FSAction
 ) {
   switch (action.type) {
+    case Actions.WS_GET_PROJECT.SUCCESS: {
+      const projectBase: ProjectBase = action.payload;
+      const flows: Flow[] = projectBase.flows.map(transformFlowDescriptionMap);
+
+      const projectKey: number = state
+        .get('projects')
+        .findKey((project: Map<Project>): boolean => project.get('name') === projectBase.name);
+
+      const project: Project = {
+        name: projectBase.name,
+        status: 'INITAL',
+        flows
+      };
+
+      return state.update(
+        'projects',
+        (projects: List<Project>) => (projectKey > -1 ? projects : projects.push(fromJS(project)))
+      );
+    }
+
     case Actions.WS_GET_PROJECTS.SUCCESS: {
       const projectBases: ProjectBase[] = action.payload;
       const projects: Project[] = projectBases.map((project: ProjectBase): Project => {
@@ -36,7 +56,7 @@ export function projects(
         .get('projects')
         .findKey((project: Map<Project>): boolean => project.get('name') === report.projectName);
 
-      if (R.empty(projectKey)) {
+      if (!(projectKey > -1)) {
         return state;
       }
 
@@ -76,7 +96,7 @@ export function projects(
         .getIn(['projects', projectKey, 'flows'])
         .findKey((flow: Map<Flow>) => flow.get('name') === payload.flowResult.flowName);
 
-      if (R.empty(projectKey)) {
+      if (!(projectKey > -1)) {
         return state;
       }
 
@@ -111,7 +131,6 @@ export function projects(
       return state;
 
     case Actions.WS_GET_PROJECT_REPORT.SUCCESS:
-      console.log(generateFlowStatesToProject(action.payload));
       return state;
 
     default:
