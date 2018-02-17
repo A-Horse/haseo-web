@@ -7,9 +7,13 @@ import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { makeActionRequestCollection } from '../../action/actions';
 import { Link } from 'react-router-dom';
+import Actions from '../../action/actions';
 import toJS from '../../util/immutable-to-js';
 
 import './ProjectDetail.less';
+
+import DI from '../../service/di';
+import { EpicAdapterService } from '../../service/epic-adapter.service';
 
 const mapStateToProps = (state, props: { match: { params: { projectName: string } } }) => {
   const { projectName } = props.match.params;
@@ -31,11 +35,21 @@ class ProjectDetail extends Component<{
 }> {
   componentWillMount() {
     const { projectName } = this.props.match.params;
-    this.props.actions.WS_GET_PROJECT_REPORT_HISTORY_REQUEST({
-      name: projectName,
-      offset: 0,
-      limit: 10
-    });
+
+    const epicApterService: EpicAdapterService = DI.get(EpicAdapterService);
+
+    epicApterService.input$
+      .ofType(Actions.WS_GET_PROJECT.SUCCESS)
+      .take(1)
+      .subscribe(() => {
+        this.props.actions.WS_GET_PROJECT_REPORT_HISTORY_REQUEST({
+          name: projectName,
+          offset: 0,
+          limit: 10
+        });
+      });
+
+    this.props.actions.WS_GET_PROJECT_REQUEST({ name: projectName });
   }
 
   render() {

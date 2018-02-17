@@ -1,6 +1,7 @@
 import R from 'ramda';
 
 const actionNames = [
+  'WS_GET_PROJECT',
   'WS_GET_PROJECTS',
   'WS_GET_PROJECT_LAST_REPORT',
   'WS_GET_PROJECT_REPORT',
