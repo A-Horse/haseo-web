@@ -7,24 +7,25 @@ import R from 'ramda';
 import { DashBoardProjectStatus } from './DashBoardProjectStatus/DashBoardProjectStatus';
 import { ProjectFlows } from '../../../component/ProjectFlow/ProjectFlows';
 
-import './DashBoardProject.less';
+import './DashBoardFlowLine.less';
 
-export class DashBoardProject extends Component<{
+export class DashBoardFlowLine extends Component<{
   actions: Object,
-  project: Project
+  flowLine: FlowLine
 }> {
   render() {
-    const { project } = this.props;
+    const { flowLine } = this.props;
     return (
       <div className="dashboard-project">
         {/* <Status status={project.status} /> */}
-        <Link className="name" to={`/project/${project.name}`}>
-          {project.name}
+        <Link className="name" to={`/project/${flowLine.project.name}`}>
+          {flowLine.project.name}
         </Link>
-        <ProjectFlows flows={project.flows} />
+        <ProjectFlows flows={flowLine.flows} />
         <button
           className="project-start-button"
-          onClick={() => this.props.actions.WS_START_PROJECT_FLOW_REQUEST({ name: project.name })}
+          onClick={() =>
+            this.props.actions.WS_START_PROJECT_FLOW_REQUEST({ name: flowLine.project.name })}
         >
           <Icon type="right-circle-o" />
         </button>

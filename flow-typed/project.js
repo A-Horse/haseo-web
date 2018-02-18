@@ -2,8 +2,6 @@
 
 declare type FlowStatus = 'INITAL' | 'RUNNING' | 'WAITTING' | 'SUCCESS' | 'FAILURE';
 
-declare type ProjectStatus = 'INITAL' | 'RUNNING' | 'WAITTING' | 'SUCCESS' | 'FAILURE';
-
 declare interface FlowDescription {
   [string]: string;
 }
@@ -17,7 +15,6 @@ declare interface Flow {
 declare interface Project {
   name: string;
   flows: Flow[];
-  status: ProjectStatus;
 }
 
 declare interface ProjectBase {
@@ -44,4 +41,10 @@ declare interface ProjectReport {
   startDate: Date;
   status: string;
   result: FlowResult[];
+}
+
+declare interface FlowLine {
+  project: Project;
+  report: ProjectReport;
+  flows: Flow[];
 }

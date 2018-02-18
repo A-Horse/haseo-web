@@ -23,7 +23,6 @@ export function project(
 
       const project: Project = {
         name: projectBase.name,
-        status: 'INITAL',
         flows
       };
 
@@ -48,7 +47,7 @@ export function project(
 
     case Actions.WS_TASK_PROJECT_FLOW_UNIT_UPDATE.SUCCESS: {
       const payload: {
-        project: { name: string, status: ProjectStatus },
+        project: { name: string },
         flowResult: {
           status: FlowStatus,
           flowName: string,

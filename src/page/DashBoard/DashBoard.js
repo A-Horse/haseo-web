@@ -8,6 +8,7 @@ import { makeActionRequestCollection } from '../../action/actions';
 import Actions from '../../action/actions';
 import type { Dispatch } from 'redux';
 import { Divider } from 'antd';
+import { Map, List } from 'immutable';
 
 import 'rxjs/add/operator/take';
 
@@ -15,13 +16,45 @@ import './DashBoard.less';
 
 import DI from '../../service/di';
 import { EpicAdapterService } from '../../service/epic-adapter.service';
-
-import { DashBoardProject } from './DashBoardProject/DashBoardProject';
+import { DashBoardFlowLine } from './DashBoardFlowLine/DashBoardFlowLine';
 
 const mapStateToProps = state => {
   const projects = state.project.get('projects');
+
+  const flowLines = projects.map((project: Map<Project>): Map<FlowLine> => {
+    const report: Map<ProjectReport> = state.report
+      .get(project.get('name'), List())
+      .sort(
+        (r1: Map<ProjectReport>, r2: Map<ProjectReport>) =>
+          r1.get('startDate') > r2.get('startDate')
+      )
+      .filter((report: Map<ProjectReport>): boolean => report.get('status') !== 'WAITTING')
+      .first();
+
+    const flows: Map<Flow> = project
+      .get('flows')
+      .map(
+        (flow: Map<Flow>, index: number): Map<Flow> =>
+          report
+            ? flow.update(
+                'status',
+                (status: string) =>
+                  index < (report.get('result') && report.get('result').size)
+                    ? report.getIn(['result', index, 'status'])
+                    : status
+              )
+            : flow
+      );
+
+    return Map({
+      project,
+      report,
+      flows
+    });
+  });
+
   return {
-    projects
+    flowLines
   };
 };
 
@@ -33,7 +66,7 @@ const mapDispatchToProps = (dispatch: Dispatch<*>) => {
 
 class DashBoard extends Component<{
   actions: Object,
-  projects: Project[]
+  flowLines: FlowLine[]
 }> {
   componentWillMount() {
     const epicApterService: EpicAdapterService = DI.get(EpicAdapterService);
@@ -52,13 +85,14 @@ class DashBoard extends Component<{
   }
 
   render() {
-    const { projects } = this.props;
+    const { flowLines } = this.props;
+    console.log(flowLines);
     return (
       <div className="dashboard">
         <div className="project-list">
-          {projects.map((project: Project) => (
-            <div key={project.name}>
-              <DashBoardProject actions={this.props.actions} project={project} />
+          {flowLines.map((flowLine: FlowLine) => (
+            <div key={flowLine.project.name}>
+              <DashBoardFlowLine actions={this.props.actions} flowLine={flowLine} />
               <Divider />
             </div>
           ))}
