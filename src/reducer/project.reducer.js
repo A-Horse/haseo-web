@@ -46,37 +46,6 @@ export function project(
       return state.set('projects', fromJS(projects));
     }
 
-    case Actions.WS_GET_PROJECT_LAST_REPORT.SUCCESS: {
-      const report: ProjectReport = action.payload;
-      if (!report) {
-        return state;
-      }
-
-      const projectKey: number = state
-        .get('projects')
-        .findKey((project: Map<Project>): boolean => project.get('name') === report.projectName);
-
-      if (!(projectKey > -1)) {
-        return state;
-      }
-
-      return state.updateIn(['projects', projectKey], (project: Map<Project>) =>
-        project
-          .update('projectStatus', () => report.status)
-          .update('flows', (flows: List<Flow>) =>
-            flows.map((flow: Map<Flow>, index: number) =>
-              flow.update(
-                'status',
-                (status: string) =>
-                  index < (report.result && report.result.length)
-                    ? report.result[index].status
-                    : status
-              )
-            )
-          )
-      );
-    }
-
     case Actions.WS_TASK_PROJECT_FLOW_UNIT_UPDATE.SUCCESS: {
       const payload: {
         project: { name: string, status: ProjectStatus },
@@ -126,12 +95,6 @@ export function project(
           )
       );
     }
-
-    case Actions.WS_GET_PROJECT_REPORT_HISTORY.SUCCESS:
-      return state;
-
-    case Actions.WS_GET_PROJECT_REPORT.SUCCESS:
-      return state;
 
     default:
       return state;
