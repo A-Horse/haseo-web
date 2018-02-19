@@ -20,7 +20,7 @@ export function report(state: Map<string, *> = Map({}), action: FSAction) {
           list.findKey(
             (report: Map<ProjectReport>) => report.get('projectName') === report.projectName
           ),
-          fromJS(report)
+          () => fromJS(report)
         );
       });
     }
