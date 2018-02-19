@@ -9,6 +9,7 @@ import Actions from '../../action/actions';
 import type { Dispatch } from 'redux';
 import { Divider } from 'antd';
 import { Map, List } from 'immutable';
+import { generateFlowLine } from '../../util/flow.util';
 
 import 'rxjs/add/operator/take';
 
@@ -26,31 +27,12 @@ const mapStateToProps = state => {
       .get(project.get('name'), List())
       .sort(
         (r1: Map<ProjectReport>, r2: Map<ProjectReport>) =>
-          r1.get('startDate') > r2.get('startDate')
+          r1.get('startDate') < r2.get('startDate')
       )
       .filter((report: Map<ProjectReport>): boolean => report.get('status') !== 'WAITTING')
       .first();
 
-    const flows: Map<Flow> = project
-      .get('flows')
-      .map(
-        (flow: Map<Flow>, index: number): Map<Flow> =>
-          report
-            ? flow.update(
-                'status',
-                (status: string) =>
-                  index < (report.get('result') && report.get('result').size)
-                    ? report.getIn(['result', index, 'status'])
-                    : status
-              )
-            : flow
-      );
-
-    return Map({
-      project,
-      report,
-      flows
-    });
+    return generateFlowLine(project, report);
   });
 
   return {
@@ -86,7 +68,6 @@ class DashBoard extends Component<{
 
   render() {
     const { flowLines } = this.props;
-    console.log(flowLines);
     return (
       <div className="dashboard">
         <div className="project-list">

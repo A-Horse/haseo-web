@@ -18,6 +18,7 @@ export class DashBoardFlowLine extends Component<{
     return (
       <div className="dashboard-project">
         {/* <Status status={project.status} /> */}
+        {flowLine.report && flowLine.report.id}
         <Link className="name" to={`/project/${flowLine.project.name}`}>
           {flowLine.project.name}
         </Link>
