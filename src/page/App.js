@@ -7,6 +7,8 @@ const { Header, Content } = Layout;
 
 import { AppHeader } from './Header/Header';
 
+import './App.less';
+
 export class App extends Component<{
   children: Node
 }> {
@@ -16,7 +18,7 @@ export class App extends Component<{
         <Header>
           <AppHeader />
         </Header>
-        <Content>{this.props.children}</Content>
+        <Content className="app-content">{this.props.children}</Content>
       </Layout>
     );
   }

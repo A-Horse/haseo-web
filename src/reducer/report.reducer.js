@@ -40,7 +40,7 @@ export function report(state: Map<string, *> = Map({}), action: FSAction) {
         if (!list) {
           return List([fromJS(report)]);
         }
-        return list.push(fromJS(report));
+        return list.unshift(fromJS(report));
       });
     }
 
@@ -82,7 +82,10 @@ export function report(state: Map<string, *> = Map({}), action: FSAction) {
               ? fromJS(payload.report.flowResult)
               : fromJS({
                   flowName: flow.get('name'),
-                  status: index < recievedFlowIndex ? 'SUCCESS' : 'WAITTING',
+                  status:
+                    index < recievedFlowIndex
+                      ? 'SUCCESS'
+                      : index === recievedFlowIndex + 1 ? 'RUNNING' : 'WAITTING',
                   mock: true
                 });
         });

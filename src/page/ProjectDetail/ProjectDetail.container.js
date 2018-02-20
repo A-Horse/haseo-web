@@ -12,6 +12,7 @@ import toJS from '../../util/immutable-to-js';
 import { Map, List } from 'immutable';
 import { ProjectFlows } from '../../component/ProjectFlow/ProjectFlows';
 import { generateFlowLine } from '../../util/flow.util';
+import { List as AntList } from 'antd';
 
 import './ProjectDetail.less';
 
@@ -67,7 +68,7 @@ class ProjectDetail extends Component<{
   }
 
   render() {
-    const { flowLines } = this.props;
+    const { flowLines }: { flowLines: FlowLine[] } = this.props;
     return (
       <div>
         <Layout>
@@ -75,9 +76,23 @@ class ProjectDetail extends Component<{
 
           <Layout>
             <Content>
-              {flowLines.map(flowLine => (
-                <ProjectFlows key={flowLine.report.id} flows={flowLine.flows} />
-              ))}
+              <div className="project-detail--history-list-container">
+                <AntList
+                  header={<div>History:</div>}
+                  bordered
+                  dataSource={flowLines}
+                  renderItem={flowLine => (
+                    <AntList.Item>
+                      <div>
+                        <Link to={`/project/${flowLine.project.name}/${flowLine.report.id}`}>
+                          {flowLine.report.id}
+                        </Link>
+                      </div>
+                      <ProjectFlows key={flowLine.report.id} flows={flowLine.flows} />
+                    </AntList.Item>
+                  )}
+                />
+              </div>
             </Content>
           </Layout>
         </Layout>

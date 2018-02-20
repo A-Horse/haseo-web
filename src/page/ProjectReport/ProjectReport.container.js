@@ -13,14 +13,8 @@ const { Header, Content, Sider } = Layout;
 
 const mapStateToProps = (state, props) => {
   const { projectName } = props.match.params;
-  const project = state.projects
-    .get('items')
-    .toList()
-    .find(project => project.get('name') === projectName);
 
-  return {
-    project
-  };
+  return {};
 };
 
 const mapDispatchToProps = dispatch => {
@@ -35,28 +29,19 @@ class ProjectReport extends Component<{
   match: Object
 }> {
   componentWillMount() {
-    const { projectName, projectReportId } = this.props.match.params;
-    this.props.actions.WS_GET_PROJECT_DETAIL_REQUEST({ name: projectName });
+    const { projectName, reportId } = this.props.match.params;
     this.props.actions.WS_GET_PROJECT_REPORT_REQUEST({
-      name: projectName,
-      reportId: projectReportId
+      id: reportId
     });
   }
 
   render() {
     const { project } = this.props;
-    if (!project) {
-      return <div>loading...</div>;
-    }
     return (
       <div>
         <Layout>
           <Layout>
-            <Content>
-              <div>
-                <Link to={`${this.props.match.params.projectReportId}/output`}>output</Link>
-              </div>
-            </Content>
+            <Content>hi</Content>
           </Layout>
         </Layout>
       </div>

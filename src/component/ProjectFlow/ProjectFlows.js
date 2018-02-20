@@ -13,7 +13,7 @@ export class ProjectFlows extends Component<{
     const { flows } = this.props;
     return (
       <div className="project-flow">
-        <Row type="flex" justify="center" align="top">
+        <Row type="flex" justify="left" align="top">
           {flows.map((flow: Flow) => {
             return (
               <Col key={flow.name}>
