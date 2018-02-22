@@ -3,12 +3,16 @@ import React, { Component } from 'react';
 import { Layout } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import R from 'ramda';
 import { withRouter, Link } from 'react-router-dom';
 import { makeActionRequestCollection } from '../../action/actions';
 import { Map, List } from 'immutable';
+import { Collapse } from 'antd';
 import toJS from '../../util/immutable-to-js';
 
-import './ProjectReport.scss';
+const Panel = Collapse.Panel;
+
+import './ProjectReport.less';
 
 const { Header, Content, Sider } = Layout;
 
@@ -21,7 +25,6 @@ const mapStateToProps = (state, props) => {
   const report: Map<ProjectReport> = state.report
     .getIn([projectName], List())
     .find(report => report.get('id').toString() === reportId);
-  console.log(project, report);
 
   return { project, report };
 };
@@ -32,7 +35,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-class ProjectReport extends Component<{
+class ProjectReportPage extends Component<{
   actions: { [string]: Function },
   project: Project,
   report: ProjectReport,
@@ -54,16 +57,30 @@ class ProjectReport extends Component<{
           <Layout>
             <Content>
               <section>
+                <dl>
+                  <dt>Project Name</dt>
+                  <dd>{project && project.name}</dd>
+                </dl>
+
+                <dl>
+                  <dt>Run Date</dt>
+                  <dd>{report && report.startDate}</dd>
+                </dl>
+              </section>
+
+              <section>
+                <h3>Console Output</h3>
                 {report && (
-                  <div>
+                  <Collapse>
                     {report.result.map((flowResult: FlowResult, index: number) => (
-                      <div key={index}>
+                      <Panel header={flowResult.flowName} key={index}>
+                        <div className="flow-result--output-panel" />
                         {flowResult.result.map((flowOutputUnit: FlowOutputUnit, index: number) => (
                           <span key={index}>{flowOutputUnit.data}</span>
                         ))}
-                      </div>
+                      </Panel>
                     ))}
-                  </div>
+                  </Collapse>
                 )}
               </section>
             </Content>
@@ -74,4 +91,4 @@ class ProjectReport extends Component<{
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(toJS(ProjectReport)));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(toJS(ProjectReportPage)));
