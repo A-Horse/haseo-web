@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter, Link } from 'react-router-dom';
 import { makeActionRequestCollection } from '../../action/actions';
+import { Map, List } from 'immutable';
 import toJS from '../../util/immutable-to-js';
 
 import './ProjectReport.scss';
@@ -12,9 +13,17 @@ import './ProjectReport.scss';
 const { Header, Content, Sider } = Layout;
 
 const mapStateToProps = (state, props) => {
-  const { projectName } = props.match.params;
+  const { projectName, reportId } = props.match.params;
+  const project: Map<Project> = state.project
+    .getIn(['projects'])
+    .find(project => project.get('name') === projectName);
 
-  return {};
+  const report: Map<ProjectReport> = state.report
+    .getIn([projectName], List())
+    .find(report => report.get('id').toString() === reportId);
+  console.log(project, report);
+
+  return { project, report };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -24,8 +33,9 @@ const mapDispatchToProps = dispatch => {
 };
 
 class ProjectReport extends Component<{
-  actions: Object,
-  project: Object,
+  actions: { [string]: Function },
+  project: Project,
+  report: ProjectReport,
   match: Object
 }> {
   componentWillMount() {
@@ -33,15 +43,30 @@ class ProjectReport extends Component<{
     this.props.actions.WS_GET_PROJECT_REPORT_REQUEST({
       id: reportId
     });
+    this.props.actions.WS_GET_PROJECT_REQUEST({ name: projectName });
   }
 
   render() {
-    const { project } = this.props;
+    const { project, report } = this.props;
     return (
       <div>
         <Layout>
           <Layout>
-            <Content>hi</Content>
+            <Content>
+              <section>
+                {report && (
+                  <div>
+                    {report.result.map((flowResult: FlowResult, index: number) => (
+                      <div key={index}>
+                        {flowResult.result.map((flowOutputUnit: FlowOutputUnit, index: number) => (
+                          <span key={index}>{flowOutputUnit.data}</span>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </section>
+            </Content>
           </Layout>
         </Layout>
       </div>

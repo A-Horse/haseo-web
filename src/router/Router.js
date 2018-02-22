@@ -20,11 +20,7 @@ export class AppRouter extends Component<{}> {
             <Route exact path="/dashboard" component={DashBoardPage} />
             <Route exact path="/login" component={LoginPage} />
             <Route exact path="/project/:projectName" component={ProjectDetailPage} />
-            <Route exact path="/project/:projectName/:projectReportId" component={ProjectReport} />
-            <Route
-              path="/project/:projectName/:projectReportId/output"
-              component={ProjectOutputPage}
-            />
+            <Route exact path="/project/:projectName/:reportId" component={ProjectReport} />
             <Route component={() => <Redirect to={'/dashboard'} />} />
           </Switch>
         </App>
