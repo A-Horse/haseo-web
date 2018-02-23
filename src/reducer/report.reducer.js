@@ -17,10 +17,18 @@ export function report(state: Map<string, *> = Map({}), action: FSAction) {
           return List([fromJS(report)]);
         }
         return list.update(
-          list.findKey(
-            (report: Map<ProjectReport>) => report.get('projectName') === report.projectName
-          ),
+          list.findKey((report: Map<ProjectReport>) => report.get('id') === action.meta.reportId),
           () => fromJS(report)
+        );
+      });
+    }
+
+    case Actions.WS_GET_PROEJCT_COMMIT_MESSAGE.SUCCESS: {
+      return state.updateIn([action.meta.projectName], (list: List<ProjectReport>) => {
+        console.log(list, action);
+        return list.update(
+          list.findKey((report: Map<ProjectReport>) => report.get('id') === action.meta.reportId),
+          report => report.update('commitMessage', () => action.payload)
         );
       });
     }

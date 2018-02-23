@@ -7,8 +7,10 @@ import R from 'ramda';
 import { withRouter, Link } from 'react-router-dom';
 import { makeActionRequestCollection } from '../../action/actions';
 import { Map, List } from 'immutable';
-import { Collapse } from 'antd';
+import { Collapse, Tag } from 'antd';
+import { format } from 'date-fns';
 import toJS from '../../util/immutable-to-js';
+import { MappingService } from '../../service/mapping.service';
 
 const Panel = Collapse.Panel;
 
@@ -49,6 +51,20 @@ class ProjectReportPage extends Component<{
     this.props.actions.WS_GET_PROJECT_REQUEST({ name: projectName });
   }
 
+  componentWillReceiveProps(newProps) {
+    const { projectName, reportId } = this.props.match.params;
+    if (
+      !R.path(['report', 'commitMessage'], newProps) &&
+      R.path(['report', 'commitHash'], newProps)
+    ) {
+      this.props.actions.WS_GET_PROEJCT_COMMIT_MESSAGE_REQUEST({
+        name: projectName,
+        commitHash: newProps.report.commitHash,
+        reportId
+      });
+    }
+  }
+
   render() {
     const { project, report } = this.props;
     return (
@@ -57,6 +73,7 @@ class ProjectReportPage extends Component<{
           <Layout>
             <Content>
               <section>
+                <h3>Report Infomation</h3>
                 <dl>
                   <dt>Project Name</dt>
                   <dd>{project && project.name}</dd>
@@ -64,7 +81,22 @@ class ProjectReportPage extends Component<{
 
                 <dl>
                   <dt>Run Date</dt>
-                  <dd>{report && report.startDate}</dd>
+                  <dd>{report && format(report.startDate, 'YYYY-MM-DD: HH:mm:ss')}</dd>
+                </dl>
+
+                <dl>
+                  <dt>Commit</dt>
+                  <dd>{report && report.commitHash}</dd>
+                </dl>
+
+                <dl>
+                  <dt>Commit Message</dt>
+                  <dd>{report && report.commitMessage}</dd>
+                </dl>
+
+                <dl>
+                  <dt>Status</dt>
+                  <dd>{report && <Tag>{MappingService.map(report.status)}</Tag>}</dd>
                 </dl>
               </section>
 
@@ -73,11 +105,19 @@ class ProjectReportPage extends Component<{
                 {report && (
                   <Collapse>
                     {report.result.map((flowResult: FlowResult, index: number) => (
-                      <Panel header={flowResult.flowName} key={index}>
-                        <div className="flow-result--output-panel" />
-                        {flowResult.result.map((flowOutputUnit: FlowOutputUnit, index: number) => (
-                          <span key={index}>{flowOutputUnit.data}</span>
-                        ))}
+                      <Panel header={<div>{flowResult.flowName}</div>} key={index}>
+                        <div className="flow-result--output-container">
+                          {flowResult.result.map(
+                            (flowOutputUnit: FlowOutputUnit, index: number) => (
+                              <span
+                                className={`flow-output-unit ${flowOutputUnit.type}`}
+                                key={index}
+                              >
+                                {flowOutputUnit.data}
+                              </span>
+                            )
+                          )}
+                        </div>
                       </Panel>
                     ))}
                   </Collapse>

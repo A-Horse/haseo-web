@@ -37,6 +37,7 @@ declare interface FlowResult {
 declare interface ProjectReport {
   id: number;
   commitHash: string;
+  commitMessage?: string;
   projectName: string;
   repoPullOutput: string;
   startDate: Date;
