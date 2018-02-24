@@ -12,7 +12,7 @@ import toJS from '../../util/immutable-to-js';
 import { Map, List } from 'immutable';
 import { ProjectFlows } from '../../component/ProjectFlow/ProjectFlows';
 import { generateFlowLine } from '../../util/flow.util';
-import { List as AntList } from 'antd';
+import { List as AntList, Icon, Button } from 'antd';
 
 import './ProjectDetail.less';
 
@@ -32,6 +32,7 @@ const mapStateToProps = (state, props: { match: { params: { projectName: string 
     : List();
 
   return {
+    project,
     flowLines
   };
 };
@@ -45,8 +46,8 @@ const mapDispatchToProps = dispatch => {
 class ProjectDetail extends Component<{
   actions: { [string]: Function },
   flowLines: FlowLine[],
-  match: any,
-  reportHistoryList: any
+  project: Project,
+  match: any
 }> {
   componentWillMount() {
     const { projectName } = this.props.match.params;
@@ -68,18 +69,39 @@ class ProjectDetail extends Component<{
   }
 
   render() {
-    const { flowLines }: { flowLines: FlowLine[] } = this.props;
+    const { flowLines, project } = this.props;
     return (
       <div>
         <Layout>
-          <Sider>Sider</Sider>
+          <Sider className="project-detail--slider">
+            <ul>
+              <li>
+                <Icon type="right-circle-o" />
+                <Button size="small">Run</Button>
+              </li>
+
+              <li>
+                <Icon type="code-o" />
+                <a href="">Haseo config</a>
+              </li>
+
+              <li>
+                <Icon type="clock-circle" />
+                <a href="">Changes</a>
+              </li>
+            </ul>
+          </Sider>
 
           <Layout>
             <Content>
+              <h3>
+                <span>s</span>
+                <span> {project && project.name}</span>
+              </h3>
               <div className="project-detail--history-list-container">
                 <AntList
                   header={<div>History:</div>}
-                  bordered
+                  itemLayout="horizontal"
                   dataSource={flowLines}
                   renderItem={flowLine => (
                     <AntList.Item>

@@ -17,7 +17,7 @@ export function report(state: Map<string, *> = Map({}), action: FSAction) {
           return List([fromJS(report)]);
         }
         return list.update(
-          list.findKey((report: Map<ProjectReport>) => report.get('id') === action.meta.reportId),
+          list.findKey((report: Map<ProjectReport>) => report.get('id') === action.payload.id),
           () => fromJS(report)
         );
       });
