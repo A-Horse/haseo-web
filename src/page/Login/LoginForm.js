@@ -9,14 +9,14 @@ class LoginForm extends Component<{
   loginFn: Function,
   form: any
 }> {
-  handleSubmit(e) {
+  handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFields(err => {
       if (!err) {
         this.props.loginFn(this.props.form.getFieldsValue());
       }
     });
-  }
+  };
 
   render() {
     const { getFieldDecorator } = this.props.form;
