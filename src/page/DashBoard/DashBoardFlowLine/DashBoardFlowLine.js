@@ -10,15 +10,15 @@ import { ProjectFlows } from '../../../component/ProjectFlow/ProjectFlows';
 import './DashBoardFlowLine.less';
 
 export class DashBoardFlowLine extends Component<{
-  actions: Object,
+  actions: { [string]: Function },
   flowLine: FlowLine
 }> {
   render() {
     const { flowLine } = this.props;
+    console.log(flowLine);
     return (
       <div className="dashboard-project">
-        {/* <Status status={project.status} /> */}
-        {flowLine.report && flowLine.report.id}
+        <DashBoardProjectStatus status={flowLine.report ? flowLine.report.status : 'INITAL'} />
         <Link className="name" to={`/project/${flowLine.project.name}`}>
           {flowLine.project.name}
         </Link>

@@ -3,21 +3,33 @@ import React, { Component } from 'react';
 import { Icon } from 'antd';
 
 export class DashBoardProjectStatus extends Component<{
-  status: any
+  status: string
 }> {
   render() {
     const { status } = this.props;
-    let statusDom;
-    if (status.isWaitting) {
-      statusDom = <Icon type="clock-circle" />;
-    } else if (status.isRunning) {
-      statusDom = <Icon type="loading" />;
-    } else if (status.isSuccess) {
-      statusDom = <Icon type="check-circle" />;
-    } else {
-      statusDom = <Icon type="close-circle" />;
+    let statusElement;
+    switch (status) {
+      case 'WAITTING':
+        statusElement = <Icon type="clock-circle" />;
+        break;
+
+      case 'RUNNING':
+        statusElement = <Icon type="loading" />;
+        break;
+
+      case 'SUCCESS':
+        statusElement = <Icon type="check-circle" />;
+        break;
+
+      case 'FAILURE':
+        statusElement = <Icon type="close-circle" />;
+        break;
+
+      case 'INITAL':
+      default:
+        statusElement = <Icon type="ellipsis" />;
     }
 
-    return <div className="project-status">{statusDom}</div>;
+    return <div className="project-status">{statusElement}</div>;
   }
 }
