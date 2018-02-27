@@ -8,6 +8,7 @@ export class DashBoardProjectStatus extends Component<{
   render() {
     const { status } = this.props;
     let statusElement;
+
     switch (status) {
       case 'WAITTING':
         statusElement = <Icon type="clock-circle" />;

@@ -1,6 +1,7 @@
 // @flow
 
 declare type FlowStatus = 'INITAL' | 'RUNNING' | 'WAITTING' | 'SUCCESS' | 'FAILURE';
+declare type ReportStatus = 'INITAL' | 'RUNNING' | 'WAITTING' | 'SUCCESS' | 'FAILURE';
 
 declare interface FlowDescription {
   [string]: string;
@@ -37,11 +38,11 @@ declare interface FlowResult {
 declare interface ProjectReport {
   id: number;
   commitHash: string;
-  commitMessage?: string;
+  commitMessasge?: string;
   projectName: string;
   repoPullOutput: string;
   startDate: Date;
-  status: string;
+  status: ReportStatus;
   result: FlowResult[];
 }
 

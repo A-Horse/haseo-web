@@ -15,7 +15,6 @@ export class DashBoardFlowLine extends Component<{
 }> {
   render() {
     const { flowLine } = this.props;
-    console.log(flowLine);
     return (
       <div className="dashboard-project">
         <DashBoardProjectStatus status={flowLine.report ? flowLine.report.status : 'INITAL'} />
