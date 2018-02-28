@@ -7,7 +7,7 @@ import R from 'ramda';
 import { withRouter, Link } from 'react-router-dom';
 import { makeActionRequestCollection } from '../../action/actions';
 import { Map, List } from 'immutable';
-import { Collapse, Tag } from 'antd';
+import { Collapse, Tag, Icon } from 'antd';
 import { format } from 'date-fns';
 import toJS from '../../util/immutable-to-js';
 import { MappingService } from '../../service/mapping.service';
@@ -68,35 +68,59 @@ class ProjectReportPage extends Component<{
   render() {
     const { project, report } = this.props;
     return (
-      <div>
+      <div className="proejct-report-page">
         <Layout>
           <Layout>
             <Content>
-              <section>
-                <h3>Report Infomation</h3>
+              <section className="project-report--infomation">
+                <h3>
+                  <Icon type="info-circle" />Report Infomation
+                </h3>
                 <dl>
-                  <dt>Project Name</dt>
+                  <dt>
+                    <Icon type="file" />Project Name
+                  </dt>
                   <dd>{project && project.name}</dd>
                 </dl>
 
                 <dl>
-                  <dt>Run Date</dt>
+                  <dt>
+                    <Icon type="clock-circle-o" />Run Date
+                  </dt>
                   <dd>{report && format(report.startDate, 'YYYY-MM-DD: HH:mm:ss')}</dd>
                 </dl>
 
                 <dl>
-                  <dt>Commit</dt>
+                  <dt>
+                    <Icon type="github" />Commit
+                  </dt>
                   <dd>{report && report.commitHash}</dd>
                 </dl>
 
                 <dl>
-                  <dt>Commit Message</dt>
+                  <dt>
+                    <Icon type="github" />Commit Message
+                  </dt>
                   <dd>{report && report.commitMessage}</dd>
                 </dl>
 
                 <dl>
-                  <dt>Status</dt>
-                  <dd>{report && <Tag>{MappingService.map(report.status)}</Tag>}</dd>
+                  <dt>
+                    <Icon type="profile" />Status
+                  </dt>
+                  <dd>
+                    {report && (
+                      <Tag
+                        color={R.cond([
+                          [R.equals('FAILURE'), R.always('red')],
+                          [R.equals('SUCCESS'), R.always('green')],
+                          [R.T, () => R.always('')]
+                        ])(report.status)}
+                      >
+                        {MappingService.map(report.status)}
+                      </Tag>
+                    )}
+                  </dd>
                 </dl>
               </section>
 
