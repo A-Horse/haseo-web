@@ -30,12 +30,6 @@ module.exports = Merge(BaseConfig, {
     new webpack.optimize.ModuleConcatenationPlugin(),
     new UglifyJSPlugin({
       exclude: [/\.css$/, /\.scss$/, /\.less$/],
-      compress: {
-        warnings: false
-      },
-      output: {
-        comments: false
-      },
       sourceMap: false
     }),
     new webpack.DefinePlugin({
