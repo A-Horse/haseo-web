@@ -77,7 +77,7 @@ class ProjectDetail extends Component<{
             <ul>
               <li>
                 <Icon type="right-circle-o" />
-                <Button size="small">Run</Button>
+                <Button size="small">Run it</Button>
               </li>
 
               <li>
@@ -95,19 +95,26 @@ class ProjectDetail extends Component<{
           <Layout>
             <Content>
               <h3>
-                <span>s</span>
+                <Icon type="link" />
                 <span> {project && project.name}</span>
               </h3>
               <div className="project-detail--history-list-container">
                 <AntList
-                  header={<div>History:</div>}
+                  header={
+                    <div className="project-detail-history--header">
+                      <Icon type="bars" />
+                      <span>History:</span>
+                    </div>
+                  }
                   itemLayout="horizontal"
                   dataSource={flowLines}
                   renderItem={flowLine => (
-                    <AntList.Item>
-                      <div>
+                    <AntList.Item className="project-detail-history--item">
+                      <div className="project-detail-history--item-id">
                         <Link to={`/project/${flowLine.project.name}/${flowLine.report.id}`}>
-                          {flowLine.report.id}
+                          <Button shape="circle" type="primary" size="small">
+                            {flowLine.report.id}
+                          </Button>
                         </Link>
                       </div>
                       <ProjectFlows key={flowLine.report.id} flows={flowLine.flows} />

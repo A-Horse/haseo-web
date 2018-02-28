@@ -8,6 +8,10 @@ export class FlowUnit extends Component<{
 }> {
   render() {
     const { flow } = this.props;
-    return <div className={`flow-unit ${flow.status.toLowerCase()}`}>{flow.name}</div>;
+    return (
+      <div className={`flow-unit ${flow.status.toLowerCase()}`}>
+        <div className="flow-unit--name">{flow.name}</div>
+      </div>
+    );
   }
 }
