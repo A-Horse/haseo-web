@@ -1,5 +1,4 @@
 // @flow
-import R from 'ramda';
 import { Map } from 'immutable';
 import Actions from '../action/actions';
 

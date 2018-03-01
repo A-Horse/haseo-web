@@ -1,5 +1,5 @@
 // @flow
-import R from 'ramda';
+import { map, splitAt, join, split, compose } from 'ramda';
 import Actions from '../action/actions';
 import type { Store } from 'redux';
 import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
@@ -12,11 +12,9 @@ export const createSocketDispatcher = (store: Store<*, *>, socket$: WebSocketSub
 
   socket$.retryWhen(error => error.delay(1000)).subscribe((wsAction: FSAction): void => {
     // $flow-ignore
-    const [actionName, status: ActionType] = R.compose(
-      R.map(R.join('_')),
-      R.splitAt(-1),
-      R.split('_')
-    )(wsAction.type);
+    const [actionName, status: ActionType] = compose(map(join('_')), splitAt(-1), split('_'))(
+      wsAction.type
+    );
 
     const actionAdapter: ActionAdapter = Actions[actionName];
 

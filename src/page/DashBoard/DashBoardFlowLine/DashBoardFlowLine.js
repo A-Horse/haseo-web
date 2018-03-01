@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { Icon } from 'antd';
-import R from 'ramda';
 
 import { DashBoardProjectStatus } from './DashBoardProjectStatus/DashBoardProjectStatus';
 import { ProjectFlows } from '../../../component/ProjectFlow/ProjectFlows';

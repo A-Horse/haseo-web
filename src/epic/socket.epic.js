@@ -1,5 +1,5 @@
 // @flow
-import R from 'ramda';
+import { test, mergeDeepRight } from 'ramda';
 import { WebSocketSubject } from 'rxjs/observable/dom/WebSocketSubject';
 import DI from '../service/di';
 import { AuthService } from '../service/auth.service';
@@ -16,12 +16,12 @@ export const PROXY_ACTION_TO_WS = (
   socket$: WebSocketSubject<FSAction>
 ) =>
   action$
-    .filter(action => R.test(/^WS.+REQUEST$/, action.type))
+    .filter(action => test(/^WS.+REQUEST$/, action.type))
     .do((action: FSAction) => {
       const authService: AuthService = DI.get(AuthService);
       const jwt: string = authService.getJwt();
       // $flow-ignore
-      const actionWithMetaJwt = R.mergeDeepRight(action, { meta: { jwt } });
+      const actionWithMetaJwt = mergeDeepRight(action, { meta: { jwt } });
       socket$.next(JSON.stringify(actionWithMetaJwt));
     })
     .ignoreElements();

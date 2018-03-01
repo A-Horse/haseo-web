@@ -1,6 +1,5 @@
 // @flow
 import { Map, List, fromJS } from 'immutable';
-import R from 'ramda';
 import Actions from '../action/actions';
 import { transformFlowDescriptionMap } from '../util/project-helpers';
 

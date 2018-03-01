@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 import { Layout } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import R from 'ramda';
-import { withRouter, Link } from 'react-router-dom';
+import { path, cond, equals, always, T } from 'ramda';
+import { withRouter } from 'react-router-dom';
 import { makeActionRequestCollection } from '../../action/actions';
 import { Map, List } from 'immutable';
 import { Collapse, Tag, Icon } from 'antd';
-import { format } from 'date-fns';
+import format from 'date-fns/format';
 import toJS from '../../util/immutable-to-js';
 import { MappingService } from '../../service/mapping.service';
 
@@ -16,7 +16,7 @@ const Panel = Collapse.Panel;
 
 import './ProjectReport.less';
 
-const { Header, Content, Sider } = Layout;
+const { Content } = Layout;
 
 const mapStateToProps = (state, props) => {
   const { projectName, reportId } = props.match.params;
@@ -53,10 +53,7 @@ class ProjectReportPage extends Component<{
 
   componentWillReceiveProps(newProps) {
     const { projectName, reportId } = this.props.match.params;
-    if (
-      !R.path(['report', 'commitMessage'], newProps) &&
-      R.path(['report', 'commitHash'], newProps)
-    ) {
+    if (!path(['report', 'commitMessage'], newProps) && path(['report', 'commitHash'], newProps)) {
       this.props.actions.WS_GET_PROEJCT_COMMIT_MESSAGE_REQUEST({
         name: projectName,
         commitHash: newProps.report.commitHash,
@@ -111,10 +108,10 @@ class ProjectReportPage extends Component<{
                   <dd>
                     {report && (
                       <Tag
-                        color={R.cond([
-                          [R.equals('FAILURE'), R.always('red')],
-                          [R.equals('SUCCESS'), R.always('green')],
-                          [R.T, () => R.always('')]
+                        color={cond([
+                          [equals('FAILURE'), always('red')],
+                          [equals('SUCCESS'), always('green')],
+                          [T, () => always('')]
                         ])(report.status)}
                       >
                         {MappingService.map(report.status)}

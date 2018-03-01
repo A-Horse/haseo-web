@@ -1,5 +1,4 @@
 // @flow
-import R from 'ramda';
 import { Map, List, fromJS } from 'immutable';
 import Actions from '../action/actions';
 

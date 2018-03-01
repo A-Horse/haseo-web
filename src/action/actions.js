@@ -1,4 +1,4 @@
-import R from 'ramda';
+import { values } from 'ramda';
 
 const actionNames = [
   'WS_GET_PROJECT',
@@ -59,7 +59,7 @@ export const actions = actionNames.reduce((result, actionName): { [string]: Acti
 }, {});
 
 export function makeActionRequestCollection() {
-  return R.values(actions).reduce((result, actionFactor) => {
+  return values(actions).reduce((result, actionFactor) => {
     result[actionFactor.name + '_REQUEST'] = actionFactor.request;
     result[actionFactor.name + '_FINISH'] = actionFactor.finish;
     return result;

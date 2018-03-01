@@ -1,6 +1,6 @@
 // @flow
 import { combineEpics } from 'redux-observable';
-import R from 'ramda';
+import { values, flatten, map } from 'ramda';
 
 function requireAll(r) {
   return r.keys().map(r);
@@ -8,7 +8,7 @@ function requireAll(r) {
 
 // $flow-ignore
 const epicGroups = requireAll(require.context('./', true, /epic.js$/));
-const epics = R.flatten(R.map(R.values, epicGroups));
+const epics = flatten(map(values, epicGroups));
 
 // $flow-ignore
 const rootEpic = combineEpics(...epics);

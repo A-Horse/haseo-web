@@ -1,6 +1,5 @@
 // @flow
-
-import R from 'ramda';
+import { find } from 'ramda';
 import { AuthService } from './auth.service';
 import { EpicAdapterService } from './epic-adapter.service';
 
@@ -25,7 +24,7 @@ class DIContainer {
   }
 
   get(serviceClass: any): any {
-    return R.find(service => {
+    return find(service => {
       return service instanceof serviceClass;
     })(this.services);
   }

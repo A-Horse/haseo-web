@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -9,18 +8,7 @@ module.exports = {
     modules: [path.resolve('.'), 'node_modules']
   },
   entry: {
-    main: ['./src/index.js'],
-    react: [
-      'react',
-      'react-dom',
-      'react-router',
-      'react-router-dom',
-      'react-redux',
-      'react-router-redux',
-      'redux-observable',
-      'redux'
-    ],
-    miscellaneous: ['isomorphic-fetch', 'ramda', 'immutable']
+    main: ['./src/index.js']
   },
   output: {
     filename: '[name].bundle.js',
@@ -29,7 +17,26 @@ module.exports = {
     chunkFilename: '[name]-[id].bundle.js'
   },
   optimization: {
-    occurrenceOrder: true
+    occurrenceOrder: true,
+    splitChunks: {
+      chunks: 'all',
+      minSize: 30000,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      name: true,
+      cacheGroups: {
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true
+        },
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10
+        }
+      }
+    }
   },
   plugins: [
     new HtmlWebpackPlugin({
