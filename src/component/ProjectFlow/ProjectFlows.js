@@ -4,7 +4,7 @@ import { Row, Col } from 'antd';
 
 import { FlowUnit } from './FlowUnit/FlowUnit';
 
-import './projectFlows.less';
+import './ProjectFlows.less';
 
 export class ProjectFlows extends Component<{
   flows: Array<Flow>
