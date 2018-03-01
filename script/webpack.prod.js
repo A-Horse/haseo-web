@@ -17,7 +17,6 @@ module.exports = Merge(BaseConfig, {
     chunkFilename: '[name]-[id].[chunkhash].js'
   },
   plugins: [
-    new webpack.HashedModuleIdsPlugin(),
     new CopyWebpackPlugin([
       { from: 'favicon.ico', to: 'favicon.ico' },
       { from: 'assets', to: 'assets' }

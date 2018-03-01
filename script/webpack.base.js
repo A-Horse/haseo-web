@@ -33,6 +33,10 @@ module.exports = {
         },
         vendors: {
           test: /[\\/]node_modules[\\/]/,
+          priority: -15
+        },
+        libs: {
+          test: /[\\/]node_modules[\\/](react|redux|antd|rc-\w+)/,
           priority: -10
         }
       }

@@ -1,10 +1,12 @@
 {
-  "presets": [["env", { "modules": false }], "flow", "react"],
+  "presets": ["env", "react"],
   "plugins": [
-    ["import", {
-      "libraryName": "antd"
-    }],
-    "syntax-flow",
+    ["import", [
+      {
+        "libraryName": "antd"
+      }
+    ]],
+    "ramda",
     "transform-flow-strip-types",
     "transform-object-rest-spread",
     "syntax-class-properties",
