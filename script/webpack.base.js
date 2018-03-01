@@ -28,8 +28,10 @@ module.exports = {
     publicPath: '/',
     chunkFilename: '[name]-[id].bundle.js'
   },
+  optimization: {
+    occurrenceOrder: true
+  },
   plugins: [
-    new webpack.optimize.AggressiveMergingPlugin(),
     new HtmlWebpackPlugin({
       title: 'Haseo CI',
       filename: 'index.html',
@@ -44,9 +46,6 @@ module.exports = {
     new ExtractTextPlugin({
       filename: '[name].[contenthash].css',
       disable: process.env.NODE_ENV !== 'production'
-    }),
-    new webpack.optimize.CommonsChunkPlugin({
-      names: ['react', 'miscellaneous']
     })
   ],
   module: {
@@ -73,9 +72,6 @@ module.exports = {
               options: {
                 workerParallelJobs: 2
               }
-            },
-            {
-              loader: 'autoprefixer-loader'
             }
           ]
         })
@@ -90,9 +86,6 @@ module.exports = {
             },
             {
               loader: 'less-loader'
-            },
-            {
-              loader: 'autoprefixer-loader'
             }
           ]
         })

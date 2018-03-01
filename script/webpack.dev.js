@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const BaseConfig = require('./webpack.base.js');
 
 module.exports = Merge(BaseConfig, {
+  mode: 'development',
   devtool: 'source-map',
   devServer: {
     port: 8010,
@@ -20,11 +21,6 @@ module.exports = Merge(BaseConfig, {
   plugins: [
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('development')
-    }),
-    new webpack.NamedModulesPlugin(),
-    new webpack.SourceMapDevToolPlugin({
-      filename: '[name]-[id].bundle.js.map',
-      exclude: ['vendor.miscellaneous.js']
     })
   ]
 });

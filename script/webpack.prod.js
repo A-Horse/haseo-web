@@ -9,6 +9,7 @@ const VisualizerPlugin = require('webpack-visualizer-plugin');
 const BaseConfig = require('./webpack.base.js');
 
 module.exports = Merge(BaseConfig, {
+  mode: 'production',
   performance: {
     hints: 'warning'
   },
@@ -25,12 +26,6 @@ module.exports = Merge(BaseConfig, {
     new CleanWebpackPlugin([path.join(__dirname, '../dist')], {
       root: path.join(__dirname, '..'),
       verbose: true
-    }),
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.optimize.ModuleConcatenationPlugin(),
-    new UglifyJSPlugin({
-      exclude: [/\.css$/, /\.scss$/, /\.less$/],
-      sourceMap: false
     }),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify('production')

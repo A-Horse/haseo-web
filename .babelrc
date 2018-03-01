@@ -1,6 +1,9 @@
 {
-  "presets": ["env", "flow", "react"],
+  "presets": [["env", { "modules": false }], "flow", "react"],
   "plugins": [
+    ["import", {
+      "libraryName": "antd"
+    }],
     "syntax-flow",
     "transform-flow-strip-types",
     "transform-object-rest-spread",
