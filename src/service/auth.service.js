@@ -7,6 +7,10 @@ export class AuthService {
     this.loadJwtFromLocalStorage();
   }
 
+  checkJwt() {
+    return !!this.jwt;
+  }
+
   loadJwtFromLocalStorage(): void {
     this.jwt = window.localStorage.getItem('jwt');
   }
