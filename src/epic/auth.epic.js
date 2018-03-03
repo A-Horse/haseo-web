@@ -40,6 +40,30 @@ export const LOGIN_REQUEST = (action$: ActionsObservable<FSAction>) => {
   });
 };
 
+export const GET_SELF_INFO_REQUEST = (action$: ActionsObservable<FSAction>) => {
+  return action$.ofType(Actions.GET_SELF_INFO.REQUEST).mergeMap(action => {
+    return axios
+      .get('/api/self-info', action.payload)
+      .then(response => {
+        return Actions.GET_SELF_INFO.success(response.data);
+      })
+      .catch(error => {
+        return Actions.GET_SELF_INFO.failure(error);
+      });
+  });
+};
+
+export const LOGOUT_REQUEST = (action$: ActionsObservable<FSAction>) => {
+  return action$
+    .ofType(Actions.LOGOUT.REQUEST)
+    .do(() => {
+      const authService: AuthService = DI.get(AuthService);
+      authService.cleanJwt();
+      window.location.href = '/';
+    })
+    .ignoreElements();
+};
+
 export const LOGIN_SUCCESS = (action$: ActionsObservable<FSAction>) =>
   action$
     .ofType(Actions.LOGIN.SUCCESS)

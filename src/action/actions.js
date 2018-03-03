@@ -1,3 +1,4 @@
+// @flow
 import { values } from 'ramda';
 
 const actionNames = [
@@ -13,14 +14,18 @@ const actionNames = [
   'WS_TASK_PROJECT_FLOW_START',
 
   'WS_AUTH',
+  'GET_SELF_INFO',
 
   // do something in epic
   'TASK_PROJECT_FLOW_UNIT_UPDATE_WITH_PROJECT',
 
-  'LOGIN'
+  'LOGIN',
+  'LOGOUT'
 ];
 
-export const actions = actionNames.reduce((result, actionName): { [string]: ActionAdapter } => {
+export const actions: { [*]: * } = actionNames.reduce((result: Object, actionName: string): {
+  [string]: ActionAdapter
+} => {
   const REQUEST_SYMBOL = actionName + '_REQUEST';
   const SUCCESS_SYMBOL = actionName + '_SUCCESS';
   const FAILURE_SYMBOL = actionName + '_FAILURE';

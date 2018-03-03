@@ -1,11 +1,14 @@
 // @flow
 import React, { Component } from 'react';
 import { Logo } from '../../component/Logo/Logo';
-import { Divider } from 'antd';
+import { Divider, Button } from 'antd';
 
 import './Header.less';
 
-export class AppHeader extends Component<{}> {
+export class AppHeader extends Component<{
+  user: User,
+  logout: Function
+}> {
   render() {
     return (
       <header className="app-header">
@@ -14,11 +17,13 @@ export class AppHeader extends Component<{}> {
           <span>Haseo</span>
         </div>
 
-        <div>
-          <span>name</span>
-          <Divider type="vertical" />
-          <span>logout</span>
-        </div>
+        {this.props.user && (
+          <div className="header-user">
+            <span>{this.props.user.username}</span>
+            <Divider type="vertical" />
+            <Button onClick={this.props.logout}>logout</Button>
+          </div>
+        )}
       </header>
     );
   }

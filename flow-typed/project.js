@@ -3,6 +3,13 @@
 declare type FlowStatus = 'INITAL' | 'RUNNING' | 'WAITTING' | 'SUCCESS' | 'FAILURE';
 declare type ReportStatus = 'INITAL' | 'RUNNING' | 'WAITTING' | 'SUCCESS' | 'FAILURE';
 
+declare interface User {
+  username: string;
+  createdDate: number;
+  id: number;
+  isAdmin: boolean;
+}
+
 declare interface FlowDescription {
   [string]: string;
 }
