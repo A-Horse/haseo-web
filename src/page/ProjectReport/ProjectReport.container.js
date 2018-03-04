@@ -123,26 +123,30 @@ class ProjectReportPage extends Component<{
 
               <section>
                 <h3>Console Output</h3>
-                {report && (
-                  <Collapse>
-                    {report.result.map((flowResult: FlowResult, index: number) => (
-                      <Panel header={<div>{flowResult.flowName}</div>} key={index}>
-                        <div className="flow-result--output-container">
-                          {flowResult.result.map(
-                            (flowOutputUnit: FlowOutputUnit, index: number) => (
-                              <span
-                                className={`flow-output-unit ${flowOutputUnit.type}`}
-                                key={index}
-                              >
-                                {flowOutputUnit.data}
-                              </span>
-                            )
-                          )}
-                        </div>
-                      </Panel>
-                    ))}
-                  </Collapse>
-                )}
+                <div>{report && report.repoPullOutput}</div>
+                <div>
+                  {report &&
+                    report.result && (
+                      <Collapse>
+                        {report.result.map((flowResult: FlowResult, index: number) => (
+                          <Panel header={<div>{flowResult.flowName}</div>} key={index}>
+                            <div className="flow-result--output-container">
+                              {flowResult.result.map(
+                                (flowOutputUnit: FlowOutputUnit, index: number) => (
+                                  <span
+                                    className={`flow-output-unit ${flowOutputUnit.type}`}
+                                    key={index}
+                                  >
+                                    {flowOutputUnit.data}
+                                  </span>
+                                )
+                              )}
+                            </div>
+                          </Panel>
+                        ))}
+                      </Collapse>
+                    )}
+                </div>
               </section>
             </Content>
           </Layout>
