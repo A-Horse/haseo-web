@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { withRouter } from 'react-router-dom';
 import { makeActionRequestCollection } from '../../action/actions';
 import toJS from '../../util/immutable-to-js';
 
