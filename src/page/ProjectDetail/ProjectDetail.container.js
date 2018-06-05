@@ -77,7 +77,16 @@ class ProjectDetail extends Component<{
             <ul>
               <li>
                 <Icon type="right-circle-o" />
-                <Button size="small">Run it</Button>
+                <Button
+                  size="small"
+                  onClick={() =>
+                    this.props.actions.WS_START_PROJECT_FLOW_REQUEST({
+                      name: this.props.match.params.projectName
+                    })
+                  }
+                >
+                  Run it
+                </Button>
               </li>
 
               <li>

@@ -36,7 +36,7 @@ class App extends Component<{
       return <Redirect to={'/login'} />;
     }
     return (
-      <Layout>
+      <Layout className="app">
         <Header>
           <AppHeader user={this.props.user} logout={this.props.actions.LOGOUT_REQUEST} />
         </Header>
