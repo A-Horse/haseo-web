@@ -39,7 +39,8 @@ declare interface FlowResult {
   flowName: string;
   status: FlowStatus;
   result: FlowOutputUnit[];
-  mock?: boolean;
+  finishTime: number;
+  duration: number;
 }
 
 declare interface ProjectReport {

@@ -5,6 +5,6 @@ import './Logo.scss';
 
 export class Logo extends Component<{}> {
   render() {
-    return <img className="logo" alt="logo" src="/assets/haseo-logo.jpg" />;
+    return <img className="logo" alt="logo" src="/assets/logo.png" />;
   }
 }
