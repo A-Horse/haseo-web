@@ -27,7 +27,7 @@ export function project(
       );
     }
 
-    case Actions.WS_GET_PROJECTS.SUCCESS: {
+    case Actions.WS_GET_SIMPLE_PROJECTS.SUCCESS: {
       const projectBases: ProjectBase[] = action.payload;
       const projects: Project[] = projectBases.map((project: ProjectBase): Project => {
         const flows: Flow[] = project.flows.map(transformFlowDescriptionMap);

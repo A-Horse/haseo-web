@@ -54,7 +54,7 @@ class DashBoard extends Component<{
     const epicApterService: EpicAdapterService = DI.get(EpicAdapterService);
 
     epicApterService.input$
-      .ofType(Actions.WS_GET_PROJECTS.SUCCESS)
+      .ofType(Actions.WS_GET_SIMPLE_PROJECTS.SUCCESS)
       .take(1)
       .subscribe((action: FSAction) => {
         const projects: ProjectBase[] = action.payload;
@@ -63,7 +63,7 @@ class DashBoard extends Component<{
         });
       });
 
-    this.props.actions.WS_GET_PROJECTS_REQUEST();
+    this.props.actions.WS_GET_SIMPLE_PROJECTS_REQUEST();
   }
 
   render() {

@@ -35,6 +35,13 @@ declare interface FlowOutputUnit {
   data: string;
 }
 
+declare interface FlowResutWithoutOutput {
+  flowName: string;
+  status: FlowStatus;
+  finishTime: number;
+  duration: number;
+}
+
 declare interface FlowResult {
   flowName: string;
   status: FlowStatus;
