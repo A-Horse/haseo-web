@@ -25,10 +25,7 @@ const mapStateToProps = state => {
   const flowLines = projects.map((project: Map<Project>): Map<FlowLine> => {
     const report: Map<ProjectReport> = state.report
       .get(project.get('name'), List())
-      .sort(
-        (r1: Map<ProjectReport>, r2: Map<ProjectReport>) =>
-          r1.get('startDate') < r2.get('startDate')
-      )
+      .sort((r1: Map<ProjectReport>, r2: Map<ProjectReport>) => r1.get('startDate') < r2.get('startDate'))
       .filter((report: Map<ProjectReport>): boolean => report.get('status') !== 'WAITTING')
       .first();
 
