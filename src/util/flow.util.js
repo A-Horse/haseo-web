@@ -2,7 +2,6 @@
 import { Map } from 'immutable';
 
 export function generateFlowLine(project: Map<Project>, report: Map<ProjectReport>): Map<FlowLine> {
-  console.log(project, report);
   let rawFlows;
   if (report) {
     rawFlows = report.get('flows');
