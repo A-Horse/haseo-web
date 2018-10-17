@@ -1,6 +1,7 @@
 // @flow
 import { Map, List, fromJS } from 'immutable';
 import Actions from '../action/actions';
+import { transformFlowDescriptionMap } from '../util/project-helpers';
 
 export function report(state: Map<string, *> = Map({}), action: FSAction) {
   switch (action.type) {
@@ -10,14 +11,20 @@ export function report(state: Map<string, *> = Map({}), action: FSAction) {
       if (!report) {
         return state;
       }
-
       return state.updateIn([report.projectName], (list: List<ProjectReport>) => {
         if (!list) {
-          return List([fromJS(report)]);
+          return List([
+            fromJS({
+              ...report,
+              flows: report.flows.map(transformFlowDescriptionMap)
+            })
+          ]);
         }
-        return list.update(
-          list.findKey((report: Map<ProjectReport>) => report.get('id') === action.payload.id),
-          () => fromJS(report)
+        return list.update(list.findKey((report: Map<ProjectReport>) => report.get('id') === action.payload.id), () =>
+          fromJS({
+            ...report,
+            flows: report.flows.map(transformFlowDescriptionMap)
+          })
         );
       });
     }
@@ -89,9 +96,7 @@ export function report(state: Map<string, *> = Map({}), action: FSAction) {
               : fromJS({
                   flowName: flow.get('name'),
                   status:
-                    index < recievedFlowIndex
-                      ? 'SUCCESS'
-                      : index === recievedFlowIndex + 1 ? 'RUNNING' : 'WAITTING',
+                    index < recievedFlowIndex ? 'SUCCESS' : index === recievedFlowIndex + 1 ? 'RUNNING' : 'WAITTING',
                   mock: true
                 });
         });

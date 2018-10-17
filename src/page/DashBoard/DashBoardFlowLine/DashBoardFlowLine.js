@@ -23,9 +23,7 @@ export class DashBoardFlowLine extends Component<{
         <ProjectFlows flows={flowLine.flows} />
         <button
           className="project-start-button"
-          onClick={() =>
-            this.props.actions.WS_START_PROJECT_FLOW_REQUEST({ name: flowLine.project.name })
-          }
+          onClick={() => this.props.actions.WS_START_PROJECT_FLOW_REQUEST({ name: flowLine.project.name })}
         >
           <Icon type="right-circle-o" />
         </button>

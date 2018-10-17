@@ -2,8 +2,14 @@
 import { Map } from 'immutable';
 
 export function generateFlowLine(project: Map<Project>, report: Map<ProjectReport>): Map<FlowLine> {
-  console.log(report);
-  const flows: Map<Flow> = report.get('flows').map((flow: Map<Flow>, index: number): Map<Flow> => {
+  console.log(project, report);
+  let rawFlows;
+  if (report) {
+    rawFlows = report.get('flows');
+  } else {
+    rawFlows = project.get('flows');
+  }
+  const flows: Map<Flow> = rawFlows.map((flow: Map<Flow>, index: number): Map<Flow> => {
     if (!report) {
       return flow;
     }

@@ -3,10 +3,7 @@ import { Map, List, fromJS } from 'immutable';
 import Actions from '../action/actions';
 import { transformFlowDescriptionMap } from '../util/project-helpers';
 
-export function project(
-  state: Map<{ projects: Project[] }> = Map({ projects: List() }),
-  action: FSAction
-) {
+export function project(state: Map<{ projects: Project[] }> = Map({ projects: List() }), action: FSAction) {
   switch (action.type) {
     case Actions.WS_GET_PROJECT.SUCCESS: {
       const projectBase: ProjectBase = action.payload;
