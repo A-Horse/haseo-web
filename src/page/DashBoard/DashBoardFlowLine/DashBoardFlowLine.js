@@ -20,7 +20,9 @@ export class DashBoardFlowLine extends Component<{
         <Link className="name" to={`/project/${flowLine.project.name}`}>
           {flowLine.project.name}
         </Link>
+
         <ProjectFlows flows={flowLine.flows} />
+
         <button
           className="project-start-button"
           onClick={() => this.props.actions.WS_START_PROJECT_FLOW_REQUEST({ name: flowLine.project.name })}
