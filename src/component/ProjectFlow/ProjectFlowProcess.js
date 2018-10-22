@@ -24,16 +24,10 @@ export class ProjectFlowProcess extends Component<{
     const length: number = flows.length;
     return (
       <div className="project-flow-process">
-        <div>
-          {flows.map((flow: Flow) => {
-            const percentage = 1 / length;
-            return (
-              <div key={flow.name}>
-                <FlowUnit flow={flow} percentage={percentage} />
-              </div>
-            );
-          })}
-        </div>
+        {flows.map((flow: Flow) => {
+          const percentage = 1 / length;
+          return <FlowUnit key={flow.name} flow={flow} percentage={percentage} />;
+        })}
       </div>
     );
   }
