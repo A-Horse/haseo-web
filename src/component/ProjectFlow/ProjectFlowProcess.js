@@ -2,26 +2,38 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'antd';
 
-import { FlowUnit } from './FlowUnit/FlowUnit';
-
 import './ProjectFlowProcess.less';
 
-export class ProjectFlows extends Component<{
+class FlowUnit extends Component<{ flow: any, percentage: number }> {
+  render() {
+    const { flow } = this.props;
+    const percentageWidth = `${this.props.percentage * 100}%`;
+    return (
+      <div className={`flow-process-unit ${flow.status.toLowerCase()}`} style={{ width: percentageWidth }}>
+        <div className="flow-process-unit--name">{flow.name}</div>
+      </div>
+    );
+  }
+}
+
+export class ProjectFlowProcess extends Component<{
   flows: Array<Flow>
 }> {
   render() {
     const { flows } = this.props;
+    const length: number = flows.length;
     return (
-      <div className="project-flow">
-        <Row type="flex" justify="left" align="top">
+      <div className="project-flow-process">
+        <div>
           {flows.map((flow: Flow) => {
+            const percentage = 1 / length;
             return (
-              <Col key={flow.name}>
-                <FlowUnit flow={flow} />
-              </Col>
+              <div key={flow.name}>
+                <FlowUnit flow={flow} percentage={percentage} />
+              </div>
             );
           })}
-        </Row>
+        </div>
       </div>
     );
   }

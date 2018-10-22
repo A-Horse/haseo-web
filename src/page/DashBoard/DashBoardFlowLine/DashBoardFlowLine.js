@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom';
 import { Icon } from 'antd';
 
 import { DashBoardProjectStatus } from './DashBoardProjectStatus/DashBoardProjectStatus';
-import { ProjectFlows } from '../../../component/ProjectFlow/ProjectFlows';
+/* import { ProjectFlows } from '../../../component/ProjectFlow/ProjectFlows'; */
+import { ProjectFlowProcess } from '../../../component/ProjectFlow/ProjectFlowProcess';
 
 import './DashBoardFlowLine.less';
 
@@ -21,7 +22,7 @@ export class DashBoardFlowLine extends Component<{
           {flowLine.project.name}
         </Link>
 
-        <ProjectFlows flows={flowLine.flows} />
+        <ProjectFlowProcess flows={flowLine.flows} />
 
         <button
           className="project-start-button"
