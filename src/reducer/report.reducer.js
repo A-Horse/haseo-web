@@ -43,7 +43,11 @@ export function report(state: Map<string, *> = Map({}), action: FSAction) {
     }
 
     case Actions.WS_GET_PROJECT_REPORT.SUCCESS: {
-      const report: ProjectReport = action.payload;
+      // TODO transformFlowDescriptionMap 这个到处都是，都要疯了
+      const report: ProjectReport = {
+        ...action.payload,
+        flows: action.payload.flows.map(transformFlowDescriptionMap)
+      };
 
       if (!report) {
         return state;
