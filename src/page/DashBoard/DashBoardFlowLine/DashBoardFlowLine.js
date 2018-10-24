@@ -15,14 +15,15 @@ export class DashBoardFlowLine extends Component<{
 }> {
   render() {
     const { flowLine } = this.props;
+    const status = flowLine.report ? flowLine.report.status : 'INITAL';
     return (
       <div className="dashboard-project">
-        <DashBoardProjectStatus status={flowLine.report ? flowLine.report.status : 'INITAL'} />
+        <DashBoardProjectStatus status={status} />
         <Link className="name" to={`/project/${flowLine.project.name}`}>
           {flowLine.project.name}
         </Link>
 
-        <ProjectFlowProcess flows={flowLine.flows} />
+        <ProjectFlowProcess status={status} flows={flowLine.flows} />
 
         <button
           className="project-start-button"

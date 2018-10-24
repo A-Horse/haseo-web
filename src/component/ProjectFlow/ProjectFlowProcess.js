@@ -17,13 +17,14 @@ class FlowUnit extends Component<{ flow: any, percentage: number }> {
 }
 
 export class ProjectFlowProcess extends Component<{
-  flows: Array<Flow>
+  flows: Array<Flow>,
+  status: FlowStatus
 }> {
   render() {
     const { flows } = this.props;
     const length: number = flows.length;
     return (
-      <div className="project-flow-process">
+      <div className={'project-flow-process ' + this.props.status}>
         {flows.map((flow: Flow) => {
           const percentage = 1 / length;
           return <FlowUnit key={flow.name} flow={flow} percentage={percentage} />;
