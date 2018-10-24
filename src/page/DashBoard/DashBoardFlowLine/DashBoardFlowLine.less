@@ -1,56 +1,56 @@
-  .dashboard-project {
-    position: relative;
-    display: flex;
-    align-items: center;
-    margin-top: 16px;
-    padding-right: 36px;
+.dashboard-project {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+  padding-right: 36px;
 
+  .name {
+    width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &.running {
     .name {
-      width: 180px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    &.running {
-      .name {
-        animation-name: running;
-        animation-duration: 0.8s;
-        animation-iteration-count: infinite;
-        animation-fill-mode: both;
-      }
-    }
-
-    .project-start-button {
-      padding-left: 12px;
-      color: #808080;
-      font-size: 24px;
-    }
-
-    .project-status {
-      width: 30px;
-
-      .anticon {
-        font-size: 21px;
-        vertical-align: middle;
-      }
-
-      .fa-check-square {
-        color: #3bb230;
-      }
-
-      .anticon-close-circle {
-        color: #e63819;
-      }
-
-      .fa-spinner {
-        color: #fecd50;
-        animation-name: rotate;
-        animation-duration: 1.2s;
-        animation-iteration-count: infinite;
-        animation-fill-mode: both;
-        animation-timing-function: ease-in-out;
-      }
+      animation-name: running;
+      animation-duration: 0.8s;
+      animation-iteration-count: infinite;
+      animation-fill-mode: both;
     }
   }
-  
+
+  .project-start-button {
+    padding-left: 12px;
+    color: #808080;
+    font-size: 24px;
+  }
+
+  .project-status {
+    width: 30px;
+
+    .anticon {
+      font-size: 21px;
+      vertical-align: middle;
+    }
+
+    .fa-check-square {
+      color: #3bb230;
+    }
+
+    .anticon-close-circle {
+      color: #e63819;
+    }
+
+    .fa-spinner {
+      color: #fecd50;
+      animation-name: rotate;
+      animation-duration: 1.2s;
+      animation-iteration-count: infinite;
+      animation-fill-mode: both;
+      animation-timing-function: ease-in-out;
+    }
+  }
+}
+
