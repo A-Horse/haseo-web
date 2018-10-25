@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { Icon } from 'antd';
 
 import { DashBoardProjectStatus } from './DashBoardProjectStatus/DashBoardProjectStatus';
-/* import { ProjectFlows } from '../../../component/ProjectFlow/ProjectFlows'; */
 import { ProjectFlowProcess } from '../../../component/ProjectFlow/ProjectFlowProcess';
 
 import './DashBoardFlowLine.less';
