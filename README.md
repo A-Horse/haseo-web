@@ -1,4 +1,5 @@
 # Haseo
+> simple ci/cd system web client
 > backend repo [Haseo-backend](https://github.com/A-Horse/haseo-backend)
 
 ## document
