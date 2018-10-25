@@ -2,6 +2,8 @@
 > simple ci/cd system web client
 > backend repo [Haseo-backend](https://github.com/A-Horse/haseo-backend)
 
+![Haseo](./assets/haseo-small.png)
+
 ## document
 ### build
 just run `yarn build`, the static web fold `dist` will appear
