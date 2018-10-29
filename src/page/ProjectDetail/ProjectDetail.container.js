@@ -52,6 +52,8 @@ class ProjectDetail extends Component<{
 
   render() {
     const { project } = this.props;
+    const { projectName } = this.props.match.params;
+
     return (
       <div>
         <Layout>
@@ -73,17 +75,17 @@ class ProjectDetail extends Component<{
 
               <li>
                 <Icon type="code-o" />
-                <a href="">Status</a>
+                <Link to={`/project/${projectName}/status`}>Status</Link>
               </li>
 
               <li>
                 <Icon type="code-o" />
-                <a href="">Haseo config</a>
+                <Link to={`/project/${projectName}/history`}>Haseo config</Link>
               </li>
 
               <li>
                 <Icon type="clock-circle" />
-                <a href="">history</a>
+                <Link to={`/project/${projectName}/history`}>History</Link>
               </li>
             </ul>
           </Sider>
@@ -107,4 +109,9 @@ class ProjectDetail extends Component<{
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(toJS(ProjectDetail)));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(toJS(ProjectDetail))
+);
