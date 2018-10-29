@@ -56,7 +56,7 @@ class ProjectHistory extends Component<{
   }
 
   render() {
-    const { flowLines } = this.props;
+    const { flowLines, isLoading } = this.props;
 
     return (
       <div>
@@ -68,7 +68,7 @@ class ProjectHistory extends Component<{
                 <span>History:</span>
               </div>
             }
-            loading={this.props.isLoading}
+            loading={isLoading}
             itemLayout="horizontal"
             dataSource={flowLines}
             renderItem={flowLine => {
