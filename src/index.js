@@ -11,6 +11,14 @@ import './style/antd.less';
 setupAxiosInterceptor();
 setupAxiosJwtHeader(window.localStorage.getItem('jwt'));
 
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faHistory, faPlay, faCode, faStarOfDavid } from '@fortawesome/free-solid-svg-icons';
+
+library.add(faHistory);
+library.add(faPlay);
+library.add(faCode);
+library.add(faStarOfDavid);
+
 import Root from './page/Root/Root';
 import store from './store/store';
 

@@ -13,6 +13,7 @@ import toJS from '../../util/immutable-to-js';
 import { Map, List } from 'immutable';
 import { generateFlowLine } from '../../util/flow.util';
 import { List as AntList, Icon, Button } from 'antd';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import './ProjectDetail.less';
 
@@ -63,7 +64,7 @@ class ProjectDetail extends Component<{
           <Sider className="project-detail--slider">
             <ul>
               <li>
-                <Icon type="right-circle-o" />
+                <FontAwesomeIcon icon="play" />
                 <Button
                   size="small"
                   onClick={() =>
@@ -77,17 +78,17 @@ class ProjectDetail extends Component<{
               </li>
 
               <li>
-                <Icon type="code-o" />
+                <FontAwesomeIcon icon="star-of-david" />
                 <Link to={`/project/${projectName}/status`}>Status</Link>
               </li>
 
               <li>
-                <Icon type="code-o" />
-                <Link to={`/project/${projectName}/history`}>Haseo config</Link>
+                <FontAwesomeIcon icon="code" />
+                <Link to={`/project/${projectName}/config`}>Haseo config</Link>
               </li>
 
               <li>
-                <Icon type="clock-circle" />
+                <FontAwesomeIcon icon="history" />
                 <Link to={`/project/${projectName}/history`}>History</Link>
               </li>
             </ul>
