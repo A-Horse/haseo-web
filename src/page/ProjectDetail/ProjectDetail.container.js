@@ -25,11 +25,14 @@ const mapStateToProps = (state, props: { match: { params: { projectName: string 
   const reports: List<ProjectReport> = state.detail.get('reports');
   const project: Map<Project> = state.project.getIn(['projects']).find(project => project.get('name') === projectName);
 
-  const flowLines: List<FlowLine> = project ? reports.map(report => generateFlowLine(project, report)) : List();
+  const isLoading = !reports || !project;
+
+  const flowLines: List<FlowLine> = !isLoading ? reports.map(report => generateFlowLine(project, report)) : List();
 
   return {
     project,
-    flowLines
+    flowLines,
+    isLoading
   };
 };
 

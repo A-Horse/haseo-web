@@ -1,18 +1,17 @@
 // @flow
 import React, { Component } from 'react';
-import { Layout } from 'antd';
-const { Content, Sider } = Layout;
+import { Spin } from 'antd';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { makeActionRequestCollection } from '../../../action/actions';
 import { Link } from 'react-router-dom';
-import Actions from '../../../action/actions';
 import toJS from '../../../util/immutable-to-js';
 import { Map, List } from 'immutable';
 import { ProjectFlowProcess } from '../../../component/ProjectFlow/ProjectFlowProcess';
 import { generateFlowLine } from '../../../util/flow.util';
 import { List as AntList, Icon, Button } from 'antd';
+import type { Match } from 'react-router';
 
 import './ProjectHistory.less';
 
@@ -22,11 +21,14 @@ const mapStateToProps = (state, props: { match: { params: { projectName: string 
   const reports: List<ProjectReport> = state.detail.get('reports');
   const project: Map<Project> = state.project.getIn(['projects']).find(project => project.get('name') === projectName);
 
-  const flowLines: List<FlowLine> = project ? reports.map(report => generateFlowLine(project, report)) : List();
+  const isLoading = !reports || !project;
+
+  const flowLines: List<FlowLine> = !isLoading ? reports.map(report => generateFlowLine(project, report)) : List();
 
   return {
     project,
-    flowLines
+    flowLines,
+    isLoading
   };
 };
 
@@ -40,7 +42,8 @@ class ProjectHistory extends Component<{
   actions: { [string]: Function },
   flowLines: FlowLine[],
   project: Project,
-  match: any
+  match: Match,
+  isLoading: boolean
 }> {
   componentWillMount() {
     const { projectName } = this.props.match.params;
@@ -65,6 +68,7 @@ class ProjectHistory extends Component<{
                 <span>History:</span>
               </div>
             }
+            loading={this.props.isLoading}
             itemLayout="horizontal"
             dataSource={flowLines}
             renderItem={flowLine => {
@@ -90,4 +94,9 @@ class ProjectHistory extends Component<{
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(toJS(ProjectHistory)));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(toJS(ProjectHistory))
+);
