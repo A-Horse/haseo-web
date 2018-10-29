@@ -19,6 +19,7 @@ import './ProjectDetail.less';
 
 import ProjectHistory from './ProjectHistory/ProjctHistory';
 import ProjectStatus from './ProjectStatus/ProjectStatus';
+import ProjectConfig from './ProjectConfig/ProjectConfig';
 
 const mapStateToProps = (state, props: { match: { params: { projectName: string } } }) => {
   const { projectName } = props.match.params;
@@ -103,6 +104,7 @@ class ProjectDetail extends Component<{
 
               <Switch>
                 <Route path="/project/:projectName/status" component={ProjectStatus} />
+                <Route path="/project/:projectName/config" component={ProjectConfig} />
                 <Route path="/project/:projectName/history" component={ProjectHistory} />
               </Switch>
             </Content>

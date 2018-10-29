@@ -3,6 +3,7 @@ import { values } from 'ramda';
 
 const actionNames = [
   'WS_GET_PROJECT',
+  'WS_GET_PROJECT_CONFIG',
   'WS_GET_SIMPLE_PROJECTS',
   'WS_GET_PROJECT_LAST_REPORT',
   'WS_GET_PROJECT_REPORT',
@@ -16,7 +17,6 @@ const actionNames = [
   'WS_AUTH',
   'GET_SELF_INFO',
 
-  // do something in epic
   'TASK_PROJECT_FLOW_UNIT_UPDATE_WITH_PROJECT',
 
   'LOGIN',
