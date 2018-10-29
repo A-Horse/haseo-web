@@ -32,7 +32,7 @@ class Login extends Component<{
     return (
       <div className="login-container">
         <h2 className="login-text">
-          <span style={{ color: '#9b663c' }}>❱❱</span>
+          <span style={{ color: '#7e6c6a' }}>❱❱</span>
           Login:
         </h2>
         <LoginFrom
@@ -45,4 +45,9 @@ class Login extends Component<{
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(toJS(Login)));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(toJS(Login))
+);
