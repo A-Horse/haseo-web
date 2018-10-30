@@ -37,8 +37,27 @@ class ProjectStatus extends Component<{
   }
 
   render() {
-    return <div>Status</div>;
+    return (
+      <div>
+        Status
+        <div>
+          last build:
+          <dl>
+            <dt>
+              <Icon type="file" />
+              build status:
+            </dt>
+            <dd>{'RUNNING'}</dd>
+          </dl>
+        </div>
+      </div>
+    );
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(toJS(ProjectStatus)));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(toJS(ProjectStatus))
+);
