@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "NODE_ENV=production webpack --config ./script/webpack.prod.js --progress --profile --color",
+    "ci-build": "NODE_ENV=production webpack --config ./script/webpack.prod.js",
     "start": "NODE_ENV=development webpack-dev-server --config ./script/webpack.dev.js --history-api-fallback --watch --port 8010 --host 0.0.0.0",
     "test": "echo \"Error: no test specified\" && exit 1",
     "analyze": "webpack --config ./webpack.config.dev.js --json | webpack-bundle-size-analyzer"

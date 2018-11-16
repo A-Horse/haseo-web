@@ -1,0 +1,6 @@
+name: haseo-web-build
+flow:
+  - install: npm install
+  - build: npm run ci-build
+  - clean: rm -rf /var/www/haseo
+  - setup: cp -r ./dist/ /var/www/haseo
