@@ -44,7 +44,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: process.env.TITLE || 'Haseo CI',
+      title: process.env.HASEO_TITLE || 'Haseo CI',
       filename: 'index.html',
       template: 'template/index.template.ejs',
       minify: {
